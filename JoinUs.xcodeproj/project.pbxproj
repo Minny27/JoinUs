@@ -68,6 +68,7 @@
 			children = (
 				5602F061270D76590096B048 /* TeamImage */,
 				5602F060270D762D0096B048 /* PlayerImage */,
+				564EC2082709D63900DCA9E6 /* Assets.xcassets */,
 			);
 			path = Resource;
 			sourceTree = "<group>";
@@ -96,6 +97,17 @@
 			path = TeamImage;
 			sourceTree = "<group>";
 		};
+		564C518627144091001419BE /* SupportingFiles */ = {
+			isa = PBXGroup;
+			children = (
+				564EC1FF2709D63800DCA9E6 /* AppDelegate.swift */,
+				564EC2012709D63800DCA9E6 /* SceneDelegate.swift */,
+				564EC20A2709D63900DCA9E6 /* LaunchScreen.storyboard */,
+				564EC20D2709D63900DCA9E6 /* Info.plist */,
+			);
+			path = SupportingFiles;
+			sourceTree = "<group>";
+		};
 		564EC1F32709D63800DCA9E6 = {
 			isa = PBXGroup;
 			children = (
@@ -120,12 +132,7 @@
 				56FC0C7A270CAB0100E1FE3B /* View */,
 				56FC0C7F270CAB4900E1FE3B /* Controller */,
 				5602F05F270D75FD0096B048 /* Resource */,
-				564EC1FF2709D63800DCA9E6 /* AppDelegate.swift */,
-				564EC2012709D63800DCA9E6 /* SceneDelegate.swift */,
-				564EC2082709D63900DCA9E6 /* Assets.xcassets */,
-				564EC20A2709D63900DCA9E6 /* LaunchScreen.storyboard */,
-				564EC20D2709D63900DCA9E6 /* Info.plist */,
-				564C518127142921001419BE /* Main.storyboard */,
+				564C518627144091001419BE /* SupportingFiles */,
 				564EC1FD2709D63800DCA9E6 /* Products */,
 			);
 			path = JoinUs;
@@ -150,6 +157,7 @@
 		56FC0C7A270CAB0100E1FE3B /* View */ = {
 			isa = PBXGroup;
 			children = (
+				564C518127142921001419BE /* Main.storyboard */,
 				56FC0C7B270CAB1800E1FE3B /* TeamTabbarCollectionViewCell.swift */,
 			);
 			path = View;
