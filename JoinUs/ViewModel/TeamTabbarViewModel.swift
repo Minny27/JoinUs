@@ -10,7 +10,7 @@ import Foundation
 final class TeamTabbarViewModel {
     let team: [TeamModel] = [
         TeamModel(teamName: "담원 기아", teamImageName: "1.jpg"),
-        TeamModel(teamName: "한화 생명", teamImageName: "2.jpg"),
+        TeamModel(teamName: "한화생명", teamImageName: "2.jpg"),
         TeamModel(teamName: "T1", teamImageName: "3.jpg"),
         TeamModel(teamName: "젠지", teamImageName: "4.jpg"),
         TeamModel(teamName: "농심", teamImageName: "5.jpg"),
