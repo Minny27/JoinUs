@@ -42,7 +42,6 @@ class HomeViewController: UIViewController {
     let playerCollectionView: UICollectionView = {
         let flowLayout = UICollectionViewFlowLayout()
         flowLayout.minimumLineSpacing = 10
-        flowLayout.minimumInteritemSpacing = 10
         
         let collectionView = UICollectionView(frame: .zero, collectionViewLayout: flowLayout)
         collectionView.backgroundColor = .white
@@ -92,7 +91,7 @@ class HomeViewController: UIViewController {
             playerCollectionView.topAnchor.constraint(equalTo: teamTabbarCollectionView.bottomAnchor),
             playerCollectionView.leftAnchor.constraint(equalTo: view.leftAnchor, constant: 10),
             playerCollectionView.rightAnchor.constraint(equalTo: view.rightAnchor, constant: -10),
-            playerCollectionView.heightAnchor.constraint(equalToConstant: 328)
+            playerCollectionView.heightAnchor.constraint(equalToConstant: 348)
         ])
         
     }
@@ -172,7 +171,20 @@ extension HomeViewController: UICollectionViewDelegateFlowLayout {
         }
         
         else {
-            return CGSize(width: (playerCollectionView.frame.width - 40) / 3, height: 159)
+            return CGSize(width: (playerCollectionView.frame.width - 40) / 3, height: 169)
+        }
+    }
+}
+
+extension HomeViewController: UICollectionViewDelegate {
+    func collectionView(_ collectionView: UICollectionView, didHighlightItemAt indexPath: IndexPath) {
+        if collectionView == teamTabbarCollectionView {
+            if indexPath.row == teamRow {
+                return
+            }
+            
+            teamRow = indexPath.row
+            playerCollectionView.reloadData()
         }
     }
 }
