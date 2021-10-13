@@ -68,7 +68,7 @@ final class PlayerCollectionViewCell: UICollectionViewCell {
             playerView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -10),
             playerView.rightAnchor.constraint(equalTo: contentView.rightAnchor, constant: -10),
             
-            playerImageView.topAnchor.constraint(equalTo: playerView.topAnchor),
+            playerImageView.topAnchor.constraint(equalTo: playerView.topAnchor, constant: 10),
             playerImageView.centerXAnchor.constraint(equalTo: playerView.centerXAnchor),
             playerImageView.widthAnchor.constraint(equalToConstant: 100),
             playerImageView.heightAnchor.constraint(equalToConstant: 100),
