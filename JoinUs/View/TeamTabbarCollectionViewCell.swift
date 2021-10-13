@@ -8,6 +8,7 @@
 import UIKit
 
 final class TeamTabbarCollectionViewCell: UICollectionViewCell {
+    static let identifier = "TeamTabbarCollectionViewCell"
     let teamLabelWidth: [CGFloat] = [70, 65, 25, 35, 35, 70, 65, 50, 30, 45]
     
     let teamImageView: UIImageView = {
@@ -24,7 +25,6 @@ final class TeamTabbarCollectionViewCell: UICollectionViewCell {
     
     override init(frame: CGRect) {
         super.init(frame: frame)
-        
     }
     
     required init?(coder: NSCoder) {
