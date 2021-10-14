@@ -79,6 +79,7 @@
 		564EC2042709D63800DCA9E6 /* HomeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 564EC2032709D63800DCA9E6 /* HomeViewController.swift */; };
 		564EC2092709D63900DCA9E6 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 564EC2082709D63900DCA9E6 /* Assets.xcassets */; };
 		564EC20C2709D63900DCA9E6 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 564EC20A2709D63900DCA9E6 /* LaunchScreen.storyboard */; };
+		56789D4527170186001B4784 /* TabbarController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 56789D4427170186001B4784 /* TabbarController.swift */; };
 		56FC0C7C270CAB1800E1FE3B /* TeamTabbarCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 56FC0C7B270CAB1800E1FE3B /* TeamTabbarCollectionViewCell.swift */; };
 /* End PBXBuildFile section */
 
@@ -157,6 +158,7 @@
 		564EC2082709D63900DCA9E6 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		564EC20B2709D63900DCA9E6 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		564EC20D2709D63900DCA9E6 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		56789D4427170186001B4784 /* TabbarController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabbarController.swift; sourceTree = "<group>"; };
 		56FC0C7B270CAB1800E1FE3B /* TeamTabbarCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TeamTabbarCollectionViewCell.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -417,6 +419,7 @@
 			isa = PBXGroup;
 			children = (
 				564EC2032709D63800DCA9E6 /* HomeViewController.swift */,
+				56789D4427170186001B4784 /* TabbarController.swift */,
 			);
 			path = Controller;
 			sourceTree = "<group>";
@@ -558,6 +561,7 @@
 				56FC0C7C270CAB1800E1FE3B /* TeamTabbarCollectionViewCell.swift in Sources */,
 				5602F05D270D2E0E0096B048 /* TeamTabbarViewModel.swift in Sources */,
 				5605BB8D271534DE00A9811A /* PlayerModel.swift in Sources */,
+				56789D4527170186001B4784 /* TabbarController.swift in Sources */,
 				5605BB902715351700A9811A /* PlayerCollectionViewModel.swift in Sources */,
 				5605BB952715636500A9811A /* Team.swift in Sources */,
 				5605BB9927157FBF00A9811A /* PlayerCollectionViewCell.swift in Sources */,
