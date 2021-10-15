@@ -57,6 +57,8 @@ class HomeViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        self.view.backgroundColor = .white
+        
         configureUI()
     }
     
@@ -177,7 +179,7 @@ extension HomeViewController: UICollectionViewDelegateFlowLayout {
 }
 
 extension HomeViewController: UICollectionViewDelegate {
-    func collectionView(_ collectionView: UICollectionView, didHighlightItemAt indexPath: IndexPath) {
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         if collectionView == teamTabbarCollectionView {
             if indexPath.row == teamRow {
                 return
