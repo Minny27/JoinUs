@@ -9,20 +9,27 @@ import UIKit
 
 final class TeamTabbarCollectionViewCell: UICollectionViewCell {
     static let identifier = "TeamTabbarCollectionViewCell"
-    let teamLabelWidth: [CGFloat] = [70, 65, 25, 35, 35, 70, 65, 50, 30, 45]
+    
+    let teamView: UIView = {
+        let view = UIView()
+        
+        return view
+    }()
     
     let teamImageView: UIImageView = {
         let imageView = UIImageView()
+        
         return imageView
     }()
     
     let teamLabel: UILabel = {
         let label = UILabel()
-        label.font = .boldSystemFont(ofSize: 18)
+        label.font = .boldSystemFont(ofSize: 12)
         label.textAlignment = .left
+        
         return label
     }()
-    
+        
     override init(frame: CGRect) {
         super.init(frame: frame)
     }
@@ -31,25 +38,32 @@ final class TeamTabbarCollectionViewCell: UICollectionViewCell {
         fatalError("init(coder:) has not been implemented")
     }
     
-    func configureUI(index: Int?, width: CGFloat?) {
-        if index  == nil || width == nil {
+    func configureUI(cellIndex: Int?, cellWidth: CGFloat?) {
+        if cellIndex  == nil || cellWidth == nil {
             return
         }
         
-        contentView.addSubview(teamLabel)
-        contentView.addSubview(teamImageView)
+        contentView.addSubview(teamView)
+        teamView.addSubview(teamLabel)
+        teamView.addSubview(teamImageView)
         
+        teamView.translatesAutoresizingMaskIntoConstraints = false
         teamLabel.translatesAutoresizingMaskIntoConstraints = false
         teamImageView.translatesAutoresizingMaskIntoConstraints = false
         
         NSLayoutConstraint.activate([
-            teamImageView.centerYAnchor.constraint(equalTo: contentView.centerYAnchor),
-            teamImageView.leftAnchor.constraint(equalTo: contentView.leftAnchor, constant: (width! - 20 - 5 - teamLabelWidth[index!])),
+            teamView.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 5),
+            teamView.leftAnchor.constraint(equalTo: contentView.leftAnchor, constant: 5),
+            teamView.rightAnchor.constraint(equalTo: contentView.rightAnchor, constant: -5),
+            teamView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -5),
+            
+            teamImageView.leftAnchor.constraint(equalTo: teamView.leftAnchor),
+            teamImageView.centerYAnchor.constraint(equalTo: teamView.centerYAnchor),
             teamImageView.widthAnchor.constraint(equalToConstant: 20),
             teamImageView.heightAnchor.constraint(equalToConstant: 20),
             
-            teamLabel.centerYAnchor.constraint(equalTo: contentView.centerYAnchor),
             teamLabel.leftAnchor.constraint(equalTo: teamImageView.rightAnchor, constant: 5),
+            teamLabel.centerYAnchor.constraint(equalTo: contentView.centerYAnchor),
             teamLabel.heightAnchor.constraint(equalToConstant: 20)
         ])
     }

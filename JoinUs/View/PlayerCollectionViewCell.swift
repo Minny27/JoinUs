@@ -9,6 +9,16 @@ import UIKit
 
 final class PlayerCollectionViewCell: UICollectionViewCell {
     static let identifier = "PlayerCollectionViewCell"
+    
+    let playerView: UIView = {
+        let view = UIView()
+        view.layer.borderWidth = 2
+        view.layer.cornerRadius = 5
+        view.layer.borderColor = UIColor.systemBlue.cgColor
+        
+        return view
+    }()
+    
     let playerImageView: UIImageView = {
         let imageView = UIImageView()
         
@@ -30,15 +40,6 @@ final class PlayerCollectionViewCell: UICollectionViewCell {
         label.textAlignment = .center
         
         return label
-    }()
-    
-    let playerView: UIView = {
-        let view = UIView()
-        view.layer.borderWidth = 2
-        view.layer.cornerRadius = 5
-        view.layer.borderColor = UIColor.systemBlue.cgColor
-        
-        return view
     }()
     
     override init(frame: CGRect) {
@@ -69,9 +70,9 @@ final class PlayerCollectionViewCell: UICollectionViewCell {
             playerView.rightAnchor.constraint(equalTo: contentView.rightAnchor, constant: -10),
             
             playerImageView.topAnchor.constraint(equalTo: playerView.topAnchor, constant: 10),
-            playerImageView.centerXAnchor.constraint(equalTo: playerView.centerXAnchor),
-            playerImageView.widthAnchor.constraint(equalToConstant: 100),
-            playerImageView.heightAnchor.constraint(equalToConstant: 100),
+            playerImageView.leftAnchor.constraint(equalTo: playerView.leftAnchor, constant: 5),
+            playerImageView.bottomAnchor.constraint(equalTo: playerView.bottomAnchor, constant: -39),
+            playerImageView.rightAnchor.constraint(equalTo: playerView.rightAnchor, constant: -5),
             
             playerLineLabel.topAnchor.constraint(equalTo: playerImageView.bottomAnchor, constant: 2),
             playerLineLabel.centerXAnchor.constraint(equalTo: playerView.centerXAnchor),
@@ -87,5 +88,6 @@ final class PlayerCollectionViewCell: UICollectionViewCell {
         playerImageView.image = UIImage(named: playerInfo.playerImageName)
         playerLineLabel.text = playerInfo.playerLine
         playerNameLabel.text = playerInfo.playerName
+        playerView.layer.borderColor = playerInfo.teamColor.cgColor
     }
 }
