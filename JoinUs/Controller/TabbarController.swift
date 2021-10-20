@@ -16,7 +16,7 @@ class TabbarController: UITabBarController {
     let newsTab = NewsViewController()
     let playerTab = PlayerViewController()
     
-    let homeTabItem = UITabBarItem(title: "Home", image: UIImage(systemName: "homekit"), selectedImage: UIImage(systemName: "homekit"))
+    let homeTabItem = UITabBarItem(title: "Home", image: UIImage(systemName: "house"), selectedImage: UIImage(systemName: "house"))
     let scheduleTabItem = UITabBarItem(title: "Schedule", image: UIImage(systemName: "calendar"), selectedImage: UIImage(systemName: "calendar"))
     let rankingTabItem = UITabBarItem(title: "Rank", image: UIImage(systemName: "crown"), selectedImage: UIImage(systemName: "crown"))
     let newsTabItem = UITabBarItem(title: "News", image: UIImage(systemName: "newspaper"), selectedImage: UIImage(systemName: "newspaper"))
