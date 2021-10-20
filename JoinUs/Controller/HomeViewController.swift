@@ -11,7 +11,7 @@ class HomeViewController: UIViewController {
     
     // MARK: - Properties
     
-    let teamTabbarCellWidth: [Int] = [100, 95, 55, 65, 65, 100, 95, 80, 60, 75]
+    let teamTabbarCellWidth: [Int] = [80, 75, 50, 55, 55, 80, 75, 65, 50, 60]
     var isTeamAssigned: [Bool] = Array(repeating: false, count: 10)
     var teamRow = 0
     
@@ -22,10 +22,16 @@ class HomeViewController: UIViewController {
         let button = UIButton()
         button.setTitle("Join Us", for: .normal)
         button.setTitleColor(.black, for: .normal)
-        button.titleLabel?.font = .boldSystemFont(ofSize: 45)
+        button.titleLabel?.font = .boldSystemFont(ofSize: 30)
         button.titleLabel?.textAlignment = .center
         
         return button
+    }()
+    
+    let scheduleTableView: UITableView = {
+        let tableView = UITableView()
+        
+        return tableView
     }()
     
     let teamTabbarCollectionView: UICollectionView = {
@@ -37,6 +43,14 @@ class HomeViewController: UIViewController {
         collectionView.backgroundColor = .white
         
         return collectionView
+    }()
+    
+    let playerSectionHeaderLabel: UILabel = {
+        let label = UILabel()
+        label.text = "✪ LCK Player"
+        label.font = .boldSystemFont(ofSize: 15)
+        
+        return label
     }()
     
     let playerCollectionView: UICollectionView = {
@@ -64,18 +78,25 @@ class HomeViewController: UIViewController {
     
     func configureUI() {
         view.addSubview(homeButton)
+        view.addSubview(scheduleTableView)
+        view.addSubview(playerSectionHeaderLabel)
         view.addSubview(teamTabbarCollectionView)
         view.addSubview(playerCollectionView)
         
+        scheduleTableView.register(ScheduleTableViewCell.self, forCellReuseIdentifier: ScheduleTableViewCell.identifier)
         teamTabbarCollectionView.register(TeamTabbarCollectionViewCell.self, forCellWithReuseIdentifier: TeamTabbarCollectionViewCell.identifier)
         playerCollectionView.register(PlayerCollectionViewCell.self, forCellWithReuseIdentifier: PlayerCollectionViewCell.identifier)
         
+        scheduleTableView.dataSource = self
+        scheduleTableView.delegate = self
         teamTabbarCollectionView.dataSource = self
         teamTabbarCollectionView.delegate = self
         playerCollectionView.dataSource = self
         playerCollectionView.delegate = self
         
         homeButton.translatesAutoresizingMaskIntoConstraints = false
+        scheduleTableView.translatesAutoresizingMaskIntoConstraints = false
+        playerSectionHeaderLabel.translatesAutoresizingMaskIntoConstraints = false
         teamTabbarCollectionView.translatesAutoresizingMaskIntoConstraints = false
         playerCollectionView.translatesAutoresizingMaskIntoConstraints = false
         
@@ -85,7 +106,17 @@ class HomeViewController: UIViewController {
             homeButton.rightAnchor.constraint(equalTo: view.rightAnchor),
             homeButton.heightAnchor.constraint(equalToConstant: 80),
             
-            teamTabbarCollectionView.topAnchor.constraint(equalTo: homeButton.bottomAnchor),
+            scheduleTableView.topAnchor.constraint(equalTo: homeButton.bottomAnchor, constant: 10),
+            scheduleTableView.leftAnchor.constraint(equalTo: view.leftAnchor, constant: 10),
+            scheduleTableView.rightAnchor.constraint(equalTo: view.rightAnchor, constant: -10),
+            scheduleTableView.heightAnchor.constraint(equalToConstant: 250),
+            
+            playerSectionHeaderLabel.topAnchor.constraint(equalTo: scheduleTableView.bottomAnchor, constant: 30),
+            playerSectionHeaderLabel.leftAnchor.constraint(equalTo: view.leftAnchor, constant: 20),
+            playerSectionHeaderLabel.widthAnchor.constraint(equalToConstant: 100),
+            playerSectionHeaderLabel.heightAnchor.constraint(equalToConstant: 20),
+            
+            teamTabbarCollectionView.topAnchor.constraint(equalTo: playerSectionHeaderLabel.bottomAnchor, constant: 10),
             teamTabbarCollectionView.leftAnchor.constraint(equalTo: view.leftAnchor, constant: 10),
             teamTabbarCollectionView.rightAnchor.constraint(equalTo: view.rightAnchor, constant: -10),
             teamTabbarCollectionView.heightAnchor.constraint(equalToConstant: 50),
@@ -93,11 +124,44 @@ class HomeViewController: UIViewController {
             playerCollectionView.topAnchor.constraint(equalTo: teamTabbarCollectionView.bottomAnchor),
             playerCollectionView.leftAnchor.constraint(equalTo: view.leftAnchor, constant: 10),
             playerCollectionView.rightAnchor.constraint(equalTo: view.rightAnchor, constant: -10),
-            playerCollectionView.heightAnchor.constraint(equalToConstant: 348)
+            playerCollectionView.heightAnchor.constraint(equalToConstant: 250)
         ])
         
     }
 }
+
+// MARK: - UITableViewDataSource
+
+extension HomeViewController: UITableViewDataSource {
+    func numberOfSections(in tableView: UITableView) -> Int {
+        return 1
+    }
+    
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        return 5
+    }
+    
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        guard let cell = tableView.dequeueReusableCell(withIdentifier: ScheduleTableViewCell.identifier, for: indexPath) as? ScheduleTableViewCell else {
+            return UITableViewCell()
+        }
+        
+        return cell
+    }
+    
+    func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
+        let scheduleSectionHeader = ScheduleSectionHeader()
+        return scheduleSectionHeader
+    }
+}
+
+// MARK: - UITableViewDelegate
+
+extension HomeViewController: UITableViewDelegate {
+    
+}
+
+// MARK: - UICollectionViewDataSource
 
 extension HomeViewController: UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
@@ -119,7 +183,7 @@ extension HomeViewController: UICollectionViewDataSource {
             if !isTeamAssigned[indexPath.row] {
                 isTeamAssigned[indexPath.row] = true
                 
-                cell.configureUI(index: indexPath.row, width: CGFloat(teamTabbarCellWidth[indexPath.row]))
+                cell.configureUI(cellIndex: indexPath.row, cellWidth: CGFloat(teamTabbarCellWidth[indexPath.row]))
             }
             
             let teamInfo = teamTabbarViewmodel.teamInfo(at: indexPath.row)
@@ -165,18 +229,7 @@ extension HomeViewController: UICollectionViewDataSource {
     }
 }
 
-extension HomeViewController: UICollectionViewDelegateFlowLayout {
-    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        
-        if collectionView == teamTabbarCollectionView {
-            return CGSize(width: teamTabbarCellWidth[indexPath.row], height: 30)
-        }
-        
-        else {
-            return CGSize(width: (playerCollectionView.frame.width - 40) / 3, height: 169)
-        }
-    }
-}
+// MARK: - UICollectionViewDelegate
 
 extension HomeViewController: UICollectionViewDelegate {
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
@@ -187,6 +240,21 @@ extension HomeViewController: UICollectionViewDelegate {
             
             teamRow = indexPath.row
             playerCollectionView.reloadData()
+        }
+    }
+}
+
+// MARK: - UICollectionViewDelegateFlowLayout
+
+extension HomeViewController: UICollectionViewDelegateFlowLayout {
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
+        
+        if collectionView == teamTabbarCollectionView {
+            return CGSize(width: teamTabbarCellWidth[indexPath.row], height: 30)
+        }
+        
+        else {
+            return CGSize(width: (playerCollectionView.frame.size.width - 40) / 3, height: 120)
         }
     }
 }
