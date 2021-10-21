@@ -81,6 +81,9 @@
 		564EC2092709D63900DCA9E6 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 564EC2082709D63900DCA9E6 /* Assets.xcassets */; };
 		564EC20C2709D63900DCA9E6 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 564EC20A2709D63900DCA9E6 /* LaunchScreen.storyboard */; };
 		56789D4527170186001B4784 /* TabbarController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 56789D4427170186001B4784 /* TabbarController.swift */; };
+		56BFFC112720FDE1007A1826 /* TeamTabbarTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 56BFFC102720FDE1007A1826 /* TeamTabbarTableViewCell.swift */; };
+		56BFFC1527210025007A1826 /* PlayerTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 56BFFC1427210025007A1826 /* PlayerTableViewCell.swift */; };
+		56BFFC19272144A5007A1826 /* PlayerSectionHeader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 56BFFC18272144A5007A1826 /* PlayerSectionHeader.swift */; };
 		56C2CEB4271D63DF005691C6 /* ScheduleTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 56C2CEB3271D63DF005691C6 /* ScheduleTableViewCell.swift */; };
 		56E26B8927193C92007C9EE0 /* ScheduleViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 56E26B8827193C92007C9EE0 /* ScheduleViewController.swift */; };
 		56E26B8C27193CA7007C9EE0 /* RankViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 56E26B8B27193CA7007C9EE0 /* RankViewController.swift */; };
@@ -166,6 +169,9 @@
 		564EC20B2709D63900DCA9E6 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		564EC20D2709D63900DCA9E6 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		56789D4427170186001B4784 /* TabbarController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabbarController.swift; sourceTree = "<group>"; };
+		56BFFC102720FDE1007A1826 /* TeamTabbarTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TeamTabbarTableViewCell.swift; sourceTree = "<group>"; };
+		56BFFC1427210025007A1826 /* PlayerTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlayerTableViewCell.swift; sourceTree = "<group>"; };
+		56BFFC18272144A5007A1826 /* PlayerSectionHeader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlayerSectionHeader.swift; sourceTree = "<group>"; };
 		56C2CEB3271D63DF005691C6 /* ScheduleTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScheduleTableViewCell.swift; sourceTree = "<group>"; };
 		56E26B8827193C92007C9EE0 /* ScheduleViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScheduleViewController.swift; sourceTree = "<group>"; };
 		56E26B8B27193CA7007C9EE0 /* RankViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RankViewController.swift; sourceTree = "<group>"; };
@@ -422,9 +428,12 @@
 			children = (
 				564C518127142921001419BE /* Main.storyboard */,
 				56FC0C7B270CAB1800E1FE3B /* TeamTabbarCollectionViewCell.swift */,
+				56BFFC102720FDE1007A1826 /* TeamTabbarTableViewCell.swift */,
 				5605BB9827157FBF00A9811A /* PlayerCollectionViewCell.swift */,
+				56BFFC1427210025007A1826 /* PlayerTableViewCell.swift */,
 				56C2CEB3271D63DF005691C6 /* ScheduleTableViewCell.swift */,
 				562DB967271E93DF00EC6ABE /* ScheduleSectionHeader.swift */,
+				56BFFC18272144A5007A1826 /* PlayerSectionHeader.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -575,13 +584,16 @@
 				564EC2042709D63800DCA9E6 /* HomeViewController.swift in Sources */,
 				5602F05A270D2DE00096B048 /* TeamModel.swift in Sources */,
 				56C2CEB4271D63DF005691C6 /* ScheduleTableViewCell.swift in Sources */,
+				56BFFC19272144A5007A1826 /* PlayerSectionHeader.swift in Sources */,
 				56E26B8C27193CA7007C9EE0 /* RankViewController.swift in Sources */,
 				564EC2002709D63800DCA9E6 /* AppDelegate.swift in Sources */,
 				562DB968271E93DF00EC6ABE /* ScheduleSectionHeader.swift in Sources */,
 				56E26B8927193C92007C9EE0 /* ScheduleViewController.swift in Sources */,
 				564EC2022709D63800DCA9E6 /* SceneDelegate.swift in Sources */,
+				56BFFC1527210025007A1826 /* PlayerTableViewCell.swift in Sources */,
 				56FC0C7C270CAB1800E1FE3B /* TeamTabbarCollectionViewCell.swift in Sources */,
 				5602F05D270D2E0E0096B048 /* TeamTabbarViewModel.swift in Sources */,
+				56BFFC112720FDE1007A1826 /* TeamTabbarTableViewCell.swift in Sources */,
 				5605BB8D271534DE00A9811A /* PlayerModel.swift in Sources */,
 				56789D4527170186001B4784 /* TabbarController.swift in Sources */,
 				5605BB902715351700A9811A /* PlayerCollectionViewModel.swift in Sources */,
