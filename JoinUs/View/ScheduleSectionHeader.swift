@@ -8,7 +8,6 @@
 import UIKit
 
 class ScheduleSectionHeader: UIView {
-    
     let scheduleTitleLabel: UILabel = {
         let label = UILabel()
         label.text = "✪ Today's Match"
@@ -35,16 +34,8 @@ class ScheduleSectionHeader: UIView {
         NSLayoutConstraint.activate([
             scheduleTitleLabel.topAnchor.constraint(equalTo: topAnchor),
             scheduleTitleLabel.leftAnchor.constraint(equalTo: leftAnchor, constant: 10),
+            scheduleTitleLabel.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -10),
             scheduleTitleLabel.rightAnchor.constraint(equalTo: rightAnchor)
         ])
     }
-    
-    /*
-    // Only override draw() if you perform custom drawing.
-    // An empty implementation adversely affects performance during animation.
-    override func draw(_ rect: CGRect) {
-        // Drawing code
-    }
-    */
-
 }
