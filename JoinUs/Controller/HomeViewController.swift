@@ -11,6 +11,8 @@ class HomeViewController: UIViewController {
     
     // MARK: - Properties
     
+    let scheduleTableViewModel = ScheduleTableViewModel()
+    
     let homeButton: UIButton = {
         let button = UIButton()
         button.setTitle("Join Us", for: .normal)
@@ -35,6 +37,7 @@ class HomeViewController: UIViewController {
         self.view.backgroundColor = .white
         
         configureUI()
+        scheduleTableViewModel.fetchHTMLData()
     }
     
     func configureUI() {
