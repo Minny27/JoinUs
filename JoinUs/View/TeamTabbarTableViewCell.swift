@@ -11,8 +11,7 @@ class TeamTabbarTableViewCell: UITableViewCell {
     static let identifier = "teamTabbarTableViewCell"
     
     let teamTabbarCellWidth: [Int] = [80, 75, 50, 55, 55, 80, 75, 65, 50, 60]
-    var isTeamAssigned: [Bool] = Array(repeating: false, count: 10)
-    static var teamRow = 0
+    static var teamType = TeamType.DK
 
     let teamTabbarViewmodel = TeamTabbarViewModel()
     
@@ -66,14 +65,10 @@ extension TeamTabbarTableViewCell: UICollectionViewDataSource {
         guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: TeamTabbarCollectionViewCell.identifier, for: indexPath) as? TeamTabbarCollectionViewCell else {
             return UICollectionViewCell()
         }
-        
-        if !isTeamAssigned[indexPath.row] {
-            isTeamAssigned[indexPath.row] = true
-            
-            cell.configureUI(cellIndex: indexPath.row, cellWidth: CGFloat(teamTabbarCellWidth[indexPath.row]))
-        }
-        
+
         let teamInfo = teamTabbarViewmodel.teamInfo(at: indexPath.row)
+        
+        cell.configureUI(cellIndex: indexPath.row, cellWidth: CGFloat(teamTabbarCellWidth[indexPath.row]))
         cell.update(teamInfo: teamInfo)
         cell.layer.borderWidth = 0.3
         cell.layer.cornerRadius = 10
@@ -84,11 +79,7 @@ extension TeamTabbarTableViewCell: UICollectionViewDataSource {
 
 extension TeamTabbarTableViewCell: UICollectionViewDelegate {
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        if indexPath.row == TeamTabbarTableViewCell.teamRow {
-            return
-        }
-        
-        TeamTabbarTableViewCell.teamRow = indexPath.row
+        TeamTabbarTableViewCell.teamType = TeamType(rawValue: indexPath.row)!
         PlayerTableViewCell.playerCollectionView.reloadData()
     }
 }
