@@ -11,6 +11,14 @@ class HomeViewController: UIViewController {
     
     // MARK: - Properties
     
+    let worldsPastViewModel = ScheduleTableViewModel(dataType: .past(league: "worlds"))
+    let worldsRunningViewModel = ScheduleTableViewModel(dataType: .running(league: "worlds"))
+    let worldsUpcomingViewModel = ScheduleTableViewModel(dataType: .upcoming(league: "worlds"))
+    
+    let lckPastViewModel = ScheduleTableViewModel(dataType: .past(league: "lck"))
+    let lckRunningViewModel = ScheduleTableViewModel(dataType: .running(league: "lck"))
+    let lckUpcomingViewModel = ScheduleTableViewModel(dataType: .upcoming(league: "lck"))
+    
     let homeButton: UIButton = {
         let button = UIButton()
         button.setTitle("Join Us", for: .normal)
@@ -34,7 +42,14 @@ class HomeViewController: UIViewController {
         
         self.view.backgroundColor = .white
         
-        configureUI()
+        configureUI() 
+
+//        worldsRunningViewModel.fetchData()
+        worldsUpcomingViewModel.fetchData()
+//        worldsPastViewModel.fetchData()
+//        lckPastViewModel.fetchData()
+        
+        
     }
     
     func configureUI() {

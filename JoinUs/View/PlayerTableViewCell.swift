@@ -56,7 +56,7 @@ class PlayerTableViewCell: UITableViewCell {
 
 extension PlayerTableViewCell: UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return playerCollectionViewModel.teamPlayerList[TeamTabbarTableViewCell.teamRow].count
+        return playerCollectionViewModel.teamPlayerList[TeamTabbarTableViewCell.teamType.rawValue].count
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
@@ -64,30 +64,7 @@ extension PlayerTableViewCell: UICollectionViewDataSource {
             return UICollectionViewCell()
         }
         
-        switch indexPath.row {
-        case 0:
-            cell.update(playerInfo: playerCollectionViewModel.teamPlayerList[TeamTabbarTableViewCell.teamRow][indexPath.row])
-        case 1:
-            cell.update(playerInfo: playerCollectionViewModel.teamPlayerList[TeamTabbarTableViewCell.teamRow][indexPath.row])
-        case 2:
-            cell.update(playerInfo: playerCollectionViewModel.teamPlayerList[TeamTabbarTableViewCell.teamRow][indexPath.row])
-        case 3:
-            cell.update(playerInfo: playerCollectionViewModel.teamPlayerList[TeamTabbarTableViewCell.teamRow][indexPath.row])
-        case 4:
-            cell.update(playerInfo: playerCollectionViewModel.teamPlayerList[TeamTabbarTableViewCell.teamRow][indexPath.row])
-        case 5:
-            cell.update(playerInfo: playerCollectionViewModel.teamPlayerList[TeamTabbarTableViewCell.teamRow][indexPath.row])
-        case 6:
-            cell.update(playerInfo: playerCollectionViewModel.teamPlayerList[TeamTabbarTableViewCell.teamRow][indexPath.row])
-        case 7:
-            cell.update(playerInfo: playerCollectionViewModel.teamPlayerList[TeamTabbarTableViewCell.teamRow][indexPath.row])
-        case 8:
-            cell.update(playerInfo: playerCollectionViewModel.teamPlayerList[TeamTabbarTableViewCell.teamRow][indexPath.row])
-        case 9:
-            cell.update(playerInfo: playerCollectionViewModel.teamPlayerList[TeamTabbarTableViewCell.teamRow][indexPath.row])
-        default:
-            cell.update(playerInfo: playerCollectionViewModel.teamPlayerList[TeamTabbarTableViewCell.teamRow][indexPath.row])
-        }
+        cell.update(playerInfo: playerCollectionViewModel.teamPlayerList[TeamTabbarTableViewCell.teamType.rawValue][indexPath.row])
         
         return cell
     }
