@@ -8,14 +8,15 @@
 import Foundation
 
 final class NetworkManger {
-    func getScheduleData(dataType: GetDataType) {
+    func getScheduleData(dataType: RequestScheduleType, completion: @escaping (([ReceivedScheduleModel]) -> Void)) {
         guard let requestUrl = dataType.url else {
             print(NetworkError.invalidUrl)
             return
         }
         
         let headers = [
-            "x-api-key": "0TvQnueqKa5mxJntVWt0w4LpLfEkrV1Ta8rQBb9Z"
+            "Accept": "application/json",
+            "Authorization": "Bearer TEojr_--xhR5EpW-izivsh40DJK5yYWC9ubuzF_SzuQlYwPy7Eg"
         ]
         
         let request = NSMutableURLRequest(url: requestUrl,
@@ -38,12 +39,13 @@ final class NetworkManger {
                 return
             }
             
-            var scheduleData: ScheduleData?
+            var scheduleData: [ReceivedScheduleModel]
             do {
                 let decoder = JSONDecoder()
                 decoder.dateDecodingStrategy = .iso8601
-                scheduleData = try! decoder.decode(ScheduleData.self, from: data)
-//                print(scheduleData?.data)
+                decoder.keyDecodingStrategy = .convertFromSnakeCase
+                scheduleData = try! decoder.decode([ReceivedScheduleModel].self, from: data)
+                completion(scheduleData)
             } catch {
                 print(NetworkError.decodingError)
             }

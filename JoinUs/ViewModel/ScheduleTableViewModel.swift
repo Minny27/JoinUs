@@ -5,52 +5,71 @@
 //  Created by SeungMin on 2021/10/22.
 //
 
-import UIKit
+import Foundation
 
 final class ScheduleTableViewModel {
-    var scheduleList: [ScheduleData] = []
+    private let dateFormatter = DateFormatter()
+    var scheduleList: [ScheduleTableViewCellModel] = []
+    var dataType: RequestScheduleType
     
-    let headers = [
-        "x-api-key": "0TvQnueqKa5mxJntVWt0w4LpLfEkrV1Ta8rQBb9Z"
-    ]
+    init(dataType: RequestScheduleType) {
+        self.dataType = dataType
+    }
     
     func update(scheduleInfo: ScheduleTableViewModel) {
         
     }
     
-    func fetchHTMLData() {
-        let request = NSMutableURLRequest(url: NSURL(string: "https://esports-api.lolesports.com/persisted/gw/getSchedule?hl=en-US")! as URL,
-                                          cachePolicy: .useProtocolCachePolicy,
-                                          timeoutInterval: 10.0)
+    func fetchData() {
+        NetworkManger().getScheduleData(dataType: dataType) { receivedScheduleModel in
+            receivedScheduleModel.compactMap({ schedule in
+                self.scheduleList.append(self.extractScehduleData(schedule: schedule))
+            })
+            print(self.scheduleList)
+        }
+    }
+    
+    func extractScehduleData(schedule: ReceivedScheduleModel) -> ScheduleTableViewCellModel {
+        let leagueLogo: String = schedule.league.imageUrl
+        let league: String = schedule.league.name
+        let date: String = self.dateFormatter.dateToString(date: schedule.beginAt, dateFormat: .date)
+        let time: String = self.dateFormatter.dateToString(date: schedule.beginAt, dateFormat: .time)
+        let status: String = schedule.status
+        let tournamentName: String = schedule.name.components(separatedBy: ":")[0]
+        let homeTeam: String = schedule.name.components(separatedBy: " ")[1]
+        let homeTeamLogo: String = schedule.opponents[0].opponent.imageUrl
+        let awayTeam: String = schedule.name.components(separatedBy: " ")[3]
+        let awayTeamLogo: String =  schedule.opponents[1].opponent.imageUrl
+        var homeTeamWinCount: Int = 0
+        var awayTeamWinCount: Int = 0
         
-        request.httpMethod = "GET"
-        request.allHTTPHeaderFields = headers
+        if status != "not_started" {
+            for index in 0..<schedule.games.count {
+                if schedule.opponents[0].opponent.id == schedule.games[index].winner.id {
+                    homeTeamWinCount += 1
+                }
+                
+                else {
+                    awayTeamWinCount += 1
+                }
+            }
+        }
         
-        URLSession.shared.dataTask(with: request as URLRequest, completionHandler: { (data, response, error) -> Void in
-            guard let responseStatus = response as? HTTPURLResponse, responseStatus.statusCode == 200 else {
-                print(NetworkError.invalidResponse)
-                
-                return
-            }
-            
-            guard let data = data, error == nil else {
-                print(NetworkError.invalidData)
-                
-                return
-            }
-            
-            var scheduleData: ScheduleData?
-            do {
-                let decoder = JSONDecoder()
-                decoder.dateDecodingStrategy = .iso8601
-                scheduleData = try decoder.decode(ScheduleData.self, from: data)
-            } catch {
-                print(NetworkError.decodingError)
-            }
-            
-            if scheduleData != nil {
-                self.scheduleList.append(scheduleData!)
-            }
-        }).resume()
+        let scheduleTableViewCellModel = ScheduleTableViewCellModel(
+            leagueLogo: leagueLogo,
+            league: league,
+            date: date,
+            time: time,
+            status: status,
+            tournamentName: tournamentName,
+            homeTeam: homeTeam,
+            homeTeamLogo: homeTeamLogo,
+            awayTeam: awayTeam,
+            awayTeamLogo: awayTeamLogo,
+            homeTeamWinCount: homeTeamWinCount,
+            awayTeamWinCount: awayTeamWinCount
+        )
+        
+        return scheduleTableViewCellModel
     }
 }
