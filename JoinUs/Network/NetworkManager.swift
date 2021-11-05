@@ -16,7 +16,7 @@ final class NetworkManger {
         
         let headers = [
             "Accept": "application/json",
-            "Authorization": "Bearer TEojr_--xhR5EpW-izivsh40DJK5yYWC9ubuzF_SzuQlYwPy7Eg"
+            "Authorization": Storage().apiKey
         ]
         
         let request = NSMutableURLRequest(url: requestUrl,

@@ -98,6 +98,7 @@
 		56DE7C7B2734BAFD0093C9AE /* Opponent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 56DE7C7A2734BAFD0093C9AE /* Opponent.swift */; };
 		56DE7C832734BE110093C9AE /* DateFotmat.swift in Sources */ = {isa = PBXBuildFile; fileRef = 56DE7C822734BE110093C9AE /* DateFotmat.swift */; };
 		56DE7C882734E68D0093C9AE /* DateFormatter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 56DE7C872734E68D0093C9AE /* DateFormatter.swift */; };
+		56DE7C90273545310093C9AE /* Storage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 56DE7C8F273545310093C9AE /* Storage.swift */; };
 		56E26B8927193C92007C9EE0 /* ScheduleViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 56E26B8827193C92007C9EE0 /* ScheduleViewController.swift */; };
 		56E26B8C27193CA7007C9EE0 /* RankViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 56E26B8B27193CA7007C9EE0 /* RankViewController.swift */; };
 		56E26B8F27193CB8007C9EE0 /* NewsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 56E26B8E27193CB8007C9EE0 /* NewsViewController.swift */; };
@@ -199,6 +200,7 @@
 		56DE7C7A2734BAFD0093C9AE /* Opponent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Opponent.swift; sourceTree = "<group>"; };
 		56DE7C822734BE110093C9AE /* DateFotmat.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DateFotmat.swift; sourceTree = "<group>"; };
 		56DE7C872734E68D0093C9AE /* DateFormatter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DateFormatter.swift; sourceTree = "<group>"; };
+		56DE7C8F273545310093C9AE /* Storage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Storage.swift; sourceTree = "<group>"; };
 		56E26B8827193C92007C9EE0 /* ScheduleViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScheduleViewController.swift; sourceTree = "<group>"; };
 		56E26B8B27193CA7007C9EE0 /* RankViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RankViewController.swift; sourceTree = "<group>"; };
 		56E26B8E27193CB8007C9EE0 /* NewsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewsViewController.swift; sourceTree = "<group>"; };
@@ -455,6 +457,7 @@
 				5602F05F270D75FD0096B048 /* Resource */,
 				564C518627144091001419BE /* SupportingFiles */,
 				564EC1FD2709D63800DCA9E6 /* Products */,
+				56DE7C8F273545310093C9AE /* Storage.swift */,
 			);
 			path = JoinUs;
 			sourceTree = "<group>";
@@ -717,6 +720,7 @@
 				56DE7C782734BAF60093C9AE /* Opponents.swift in Sources */,
 				56DE7C6F2734BAC60093C9AE /* Game.swift in Sources */,
 				564EC2022709D63800DCA9E6 /* SceneDelegate.swift in Sources */,
+				56DE7C90273545310093C9AE /* Storage.swift in Sources */,
 				56BFFC1527210025007A1826 /* PlayerTableViewCell.swift in Sources */,
 				56DE7C832734BE110093C9AE /* DateFotmat.swift in Sources */,
 				56E8E63227322F15003A0EDA /* ReceivedScheduleModel.swift in Sources */,
