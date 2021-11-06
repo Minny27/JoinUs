@@ -16,8 +16,12 @@ final class ScheduleTableViewModel {
         self.dataType = dataType
     }
     
-    func update(scheduleInfo: ScheduleTableViewModel) {
-        
+    var countScheduleList: Int {
+        return scheduleList.count
+    }
+    
+    func scheduleInfo(at index: Int) -> ScheduleTableViewCellModel {
+        return scheduleList[index]
     }
     
     func fetchData() {
@@ -30,16 +34,17 @@ final class ScheduleTableViewModel {
     }
     
     func extractScehduleData(schedule: ReceivedScheduleModel) -> ScheduleTableViewCellModel {
-        let leagueLogo: String = schedule.league.imageUrl
+        let leagueImage: String = schedule.league.imageUrl
         let league: String = schedule.league.name
         let date: String = self.dateFormatter.dateToString(date: schedule.beginAt, dateFormat: .date)
         let time: String = self.dateFormatter.dateToString(date: schedule.beginAt, dateFormat: .time)
         let status: String = schedule.status
         let tournamentName: String = schedule.name.components(separatedBy: ":")[0]
+        let versus = schedule.status == "not_started" ? "VS" : ":"
         let homeTeam: String = schedule.name.components(separatedBy: " ")[1]
-        let homeTeamLogo: String = schedule.opponents[0].opponent.imageUrl
+        let homeTeamImage: String = schedule.opponents[0].opponent.imageUrl
         let awayTeam: String = schedule.name.components(separatedBy: " ")[3]
-        let awayTeamLogo: String =  schedule.opponents[1].opponent.imageUrl
+        let awayTeamImage: String =  schedule.opponents[1].opponent.imageUrl
         var homeTeamWinCount: Int = 0
         var awayTeamWinCount: Int = 0
         
@@ -56,16 +61,17 @@ final class ScheduleTableViewModel {
         }
         
         let scheduleTableViewCellModel = ScheduleTableViewCellModel(
-            leagueLogo: leagueLogo,
+            leagueImage: leagueImage,
             league: league,
             date: date,
             time: time,
             status: status,
             tournamentName: tournamentName,
+            versus: versus,
             homeTeam: homeTeam,
-            homeTeamLogo: homeTeamLogo,
+            homeTeamImage: homeTeamImage,
             awayTeam: awayTeam,
-            awayTeamLogo: awayTeamLogo,
+            awayTeamImage: awayTeamImage,
             homeTeamWinCount: homeTeamWinCount,
             awayTeamWinCount: awayTeamWinCount
         )

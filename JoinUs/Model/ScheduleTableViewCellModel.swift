@@ -8,30 +8,32 @@
 import Foundation
 
 struct ScheduleTableViewCellModel {
-    let leagueLogo: String
+    let leagueImage: String
     let league: String
     let date: String
     let time: String
     let status: String
     let tournamentName: String
+    let versus: String
     let homeTeam: String
-    let homeTeamLogo: String
+    let homeTeamImage: String
     let awayTeam: String
-    let awayTeamLogo: String
+    let awayTeamImage: String
     let homeTeamWinCount: Int
     let awayTeamWinCount: Int
     
-    init(leagueLogo: String, league: String, date: String, time: String, status: String, tournamentName: String, homeTeam: String, homeTeamLogo: String, awayTeam: String, awayTeamLogo: String, homeTeamWinCount: Int, awayTeamWinCount: Int) {
-        self.leagueLogo = leagueLogo
+    init(leagueImage: String, league: String, date: String, time: String, status: String, tournamentName: String, versus: String, homeTeam: String, homeTeamImage: String, awayTeam: String, awayTeamImage: String, homeTeamWinCount: Int, awayTeamWinCount: Int) {
+        self.leagueImage = leagueImage
         self.league = league
         self.date = date
         self.time = time
         self.status = status
         self.tournamentName = tournamentName
+        self.versus = versus
         self.homeTeam = homeTeam
-        self.homeTeamLogo = homeTeamLogo
+        self.homeTeamImage = homeTeamImage
         self.awayTeam = awayTeam
-        self.awayTeamLogo = awayTeamLogo
+        self.awayTeamImage = awayTeamImage
         self.homeTeamWinCount = homeTeamWinCount
         self.awayTeamWinCount = awayTeamWinCount
     }

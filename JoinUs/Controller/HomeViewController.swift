@@ -31,6 +31,7 @@ class HomeViewController: UIViewController {
     
     let homeTableView: UITableView = {
         let tableView = UITableView()
+        tableView.separatorStyle = .none
         
         return tableView
     }()

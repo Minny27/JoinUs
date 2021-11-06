@@ -10,7 +10,7 @@ import UIKit
 class ScheduleSectionHeader: UIView {
     let scheduleTitleLabel: UILabel = {
         let label = UILabel()
-        label.text = "✪ Today's Match"
+        label.text = "✪ Match Schedule"
         label.font = .boldSystemFont(ofSize: 15)
        
         return label

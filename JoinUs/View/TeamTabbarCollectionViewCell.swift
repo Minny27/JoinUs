@@ -8,7 +8,7 @@
 import UIKit
 
 final class TeamTabbarCollectionViewCell: UICollectionViewCell {
-    static let identifier = "TeamTabbarCollectionViewCell"
+    static let identifier = "teamTabbarCollectionViewCell"
     
     let teamView: UIView = {
         let view = UIView()
