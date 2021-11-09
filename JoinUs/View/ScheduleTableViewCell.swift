@@ -18,11 +18,18 @@ class ScheduleTableViewCell: UITableViewCell {
     let lckRunningViewModel = ScheduleTableViewModel(dataType: .running(league: "lck"))
     let lckUpcomingViewModel = ScheduleTableViewModel(dataType: .upcoming(league: "lck"))
     
-    let leagueTableView: UITableView = {
+    let leagueScheduleTableView: UITableView = {
         let tableView = UITableView()
         tableView.separatorStyle = .none
         
         return tableView
+    }()
+    
+    let testView: UIView = {
+        let view = UIView()
+        view.layer.borderWidth = 1
+        
+        return view
     }()
     
     override func awakeFromNib() {
@@ -33,28 +40,54 @@ class ScheduleTableViewCell: UITableViewCell {
         super.setSelected(selected, animated: animated)
     }
     
-    func configureUI() {
-        contentView.addSubview(leagueTableView)
+    func configureCell() {
+        contentView.addSubview(leagueScheduleTableView)
+        leagueScheduleTableView.addSubview(testView)
         
-        leagueTableView.register(LeagueScheduleTableViewCell.self, forCellReuseIdentifier: LeagueScheduleTableViewCell.identifier)
+        leagueScheduleTableView.register(LeagueScheduleTableViewCell.self, forCellReuseIdentifier: LeagueScheduleTableViewCell.identifier)
         
-        leagueTableView.dataSource = self
-        leagueTableView.delegate = self
+        leagueScheduleTableView.dataSource = self
+        leagueScheduleTableView.delegate = self
         
-        leagueTableView.translatesAutoresizingMaskIntoConstraints = false
+        leagueScheduleTableView.translatesAutoresizingMaskIntoConstraints = false
+        testView.translatesAutoresizingMaskIntoConstraints = false
         
         NSLayoutConstraint.activate([
-            leagueTableView.topAnchor.constraint(equalTo: contentView.topAnchor),
-            leagueTableView.leftAnchor.constraint(equalTo: contentView.leftAnchor),
-            leagueTableView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor),
-            leagueTableView.rightAnchor.constraint(equalTo: contentView.rightAnchor)
+            leagueScheduleTableView.topAnchor.constraint(equalTo: contentView.topAnchor),
+            leagueScheduleTableView.leftAnchor.constraint(equalTo: contentView.leftAnchor),
+            leagueScheduleTableView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor),
+            leagueScheduleTableView.rightAnchor.constraint(equalTo: contentView.rightAnchor),
+            
+            testView.topAnchor.constraint(equalTo: leagueScheduleTableView.topAnchor),
+            testView.leftAnchor.constraint(equalTo: leagueScheduleTableView.leftAnchor),
+            testView.bottomAnchor.constraint(equalTo: leagueScheduleTableView.bottomAnchor),
+            testView.widthAnchor.constraint(equalToConstant: leagueScheduleTableView.frame.width),
         ])
+ 
+//        worldsRunningViewModel.scheduleList.bind { _ in
+//            DispatchQueue.main.async {
+//                self.leagueScheduleTableView.reloadData()
+//            }
+//        }
+        
+        lckRunningViewModel.scheduleList.bind { _ in
+            DispatchQueue.main.async {
+                self.leagueScheduleTableView.reloadData()
+            }
+        }
+
+//        self.worldsRunningViewModel.fetchData()
+        self.lckRunningViewModel.fetchData()
     }
 }
 
 extension ScheduleTableViewCell: UITableViewDataSource {
     func numberOfSections(in tableView: UITableView) -> Int {
-        if worldsRunningViewModel.scheduleList.count > 0 || lckRunningViewModel.scheduleList.count > 0 {
+        if worldsRunningViewModel.scheduleList.value!.count > 0 {
+            return 1
+        }
+        
+        else if lckRunningViewModel.scheduleList.value!.count > 0 {
             return 1
         }
         
@@ -64,12 +97,12 @@ extension ScheduleTableViewCell: UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        if worldsRunningViewModel.scheduleList.count > 0 {
-            return worldsRunningViewModel.scheduleList.count
+        if worldsRunningViewModel.scheduleList.value!.count > 0 {
+            return worldsRunningViewModel.scheduleList.value!.count
         }
         
-        else if lckRunningViewModel.scheduleList.count > 0 {
-            return lckRunningViewModel.scheduleList.count
+        else if lckRunningViewModel.scheduleList.value!.count > 0 {
+            return lckRunningViewModel.scheduleList.value!.count
         }
         
         else {
@@ -78,7 +111,7 @@ extension ScheduleTableViewCell: UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        if worldsRunningViewModel.scheduleList.count > 0 {
+        if worldsRunningViewModel.scheduleList.value!.count > 0 {
             guard let cell = tableView.dequeueReusableCell(withIdentifier: LeagueScheduleTableViewCell.identifier, for: indexPath) as? LeagueScheduleTableViewCell else {
                 return UITableViewCell()
             }
@@ -86,12 +119,12 @@ extension ScheduleTableViewCell: UITableViewDataSource {
             let leagueScheduleInfo = worldsRunningViewModel.scheduleInfo(at: indexPath.row)
             
             cell.configureUI()
-            cell.update(scheduleTableViewCellModel: leagueScheduleInfo)
+            cell.update(scheduleTableViewCellModel: leagueScheduleInfo!)
             
             return cell
         }
         
-        else if lckRunningViewModel.scheduleList.count > 0 {
+        else if lckRunningViewModel.scheduleList.value!.count > 0 {
             guard let cell = tableView.dequeueReusableCell(withIdentifier: LeagueScheduleTableViewCell.identifier, for: indexPath) as? LeagueScheduleTableViewCell else {
                 return UITableViewCell()
             }
@@ -99,13 +132,33 @@ extension ScheduleTableViewCell: UITableViewDataSource {
             let leagueScheduleInfo = lckRunningViewModel.scheduleInfo(at: indexPath.row)
             
             cell.configureUI()
-            cell.update(scheduleTableViewCellModel: leagueScheduleInfo)
+            cell.update(scheduleTableViewCellModel: leagueScheduleInfo!)
             
             return cell
         }
         
         else {
             return UITableViewCell()
+        }
+    }
+    
+    func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
+        if worldsRunningViewModel.scheduleList.value!.count > 0 {
+            let worldsSectionHeader = LeagueScheduleSectionHeader()
+            worldsSectionHeader.configureUI(sectionHeaderType: .worlds)
+            
+            return worldsSectionHeader
+        }
+        
+        else if lckRunningViewModel.scheduleList.value!.count > 0 {
+            let lckSectionHeader = LeagueScheduleSectionHeader()
+            lckSectionHeader.configureUI(sectionHeaderType: .lck)
+            
+            return lckSectionHeader
+        }
+        
+        else {
+            return UIView()
         }
     }
 }

@@ -91,6 +91,7 @@
 		56BFFC112720FDE1007A1826 /* TeamTabbarTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 56BFFC102720FDE1007A1826 /* TeamTabbarTableViewCell.swift */; };
 		56BFFC1527210025007A1826 /* PlayerTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 56BFFC1427210025007A1826 /* PlayerTableViewCell.swift */; };
 		56C2CEB4271D63DF005691C6 /* ScheduleTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 56C2CEB3271D63DF005691C6 /* ScheduleTableViewCell.swift */; };
+		56C71EE5273AB41E0017EE77 /* NetworkManger.swift in Sources */ = {isa = PBXBuildFile; fileRef = 56C71EE4273AB41E0017EE77 /* NetworkManger.swift */; };
 		56DE7C6F2734BAC60093C9AE /* Game.swift in Sources */ = {isa = PBXBuildFile; fileRef = 56DE7C6E2734BAC60093C9AE /* Game.swift */; };
 		56DE7C722734BADC0093C9AE /* Winner.swift in Sources */ = {isa = PBXBuildFile; fileRef = 56DE7C712734BADC0093C9AE /* Winner.swift */; };
 		56DE7C752734BAEA0093C9AE /* League.swift in Sources */ = {isa = PBXBuildFile; fileRef = 56DE7C742734BAEA0093C9AE /* League.swift */; };
@@ -196,6 +197,7 @@
 		56BFFC102720FDE1007A1826 /* TeamTabbarTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TeamTabbarTableViewCell.swift; sourceTree = "<group>"; };
 		56BFFC1427210025007A1826 /* PlayerTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlayerTableViewCell.swift; sourceTree = "<group>"; };
 		56C2CEB3271D63DF005691C6 /* ScheduleTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScheduleTableViewCell.swift; sourceTree = "<group>"; };
+		56C71EE4273AB41E0017EE77 /* NetworkManger.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkManger.swift; sourceTree = "<group>"; };
 		56DE7C6E2734BAC60093C9AE /* Game.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Game.swift; sourceTree = "<group>"; };
 		56DE7C712734BADC0093C9AE /* Winner.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Winner.swift; sourceTree = "<group>"; };
 		56DE7C742734BAEA0093C9AE /* League.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = League.swift; sourceTree = "<group>"; };
@@ -418,6 +420,7 @@
 			isa = PBXGroup;
 			children = (
 				56DE7C6B2734B9D80093C9AE /* Enum */,
+				56C71EE4273AB41E0017EE77 /* NetworkManger.swift */,
 			);
 			path = Network;
 			sourceTree = "<group>";
@@ -736,6 +739,7 @@
 				56E8E63227322F15003A0EDA /* ReceivedScheduleModel.swift in Sources */,
 				56FC0C7C270CAB1800E1FE3B /* TeamTabbarCollectionViewCell.swift in Sources */,
 				5602F05D270D2E0E0096B048 /* TeamTabbarViewModel.swift in Sources */,
+				56C71EE5273AB41E0017EE77 /* NetworkManger.swift in Sources */,
 				56BFFC112720FDE1007A1826 /* TeamTabbarTableViewCell.swift in Sources */,
 				5605BB8D271534DE00A9811A /* PlayerModel.swift in Sources */,
 				56789D4527170186001B4784 /* TabbarController.swift in Sources */,
