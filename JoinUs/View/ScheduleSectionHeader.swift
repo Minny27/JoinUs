@@ -7,10 +7,9 @@
 
 import UIKit
 
-class ScheduleSectionHeader: UIView {
+final class ScheduleSectionHeader: UIView {
     let scheduleTitleLabel: UILabel = {
         let label = UILabel()
-        label.text = "✪ Match Schedule"
         label.font = .boldSystemFont(ofSize: 15)
        
         return label
@@ -18,15 +17,13 @@ class ScheduleSectionHeader: UIView {
 
     override init(frame: CGRect) {
         super .init(frame: frame)
-        
-        configureUI()
     }
     
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
     
-    func configureUI() {
+    func configureUI(sectionHeaderType: SectionHeaderType) {
         addSubview(scheduleTitleLabel)
         
         scheduleTitleLabel.translatesAutoresizingMaskIntoConstraints = false
@@ -37,5 +34,7 @@ class ScheduleSectionHeader: UIView {
             scheduleTitleLabel.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -10),
             scheduleTitleLabel.rightAnchor.constraint(equalTo: rightAnchor)
         ])
+        
+        scheduleTitleLabel.text = sectionHeaderType.title()
     }
 }
