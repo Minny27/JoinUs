@@ -9,7 +9,7 @@ import Foundation
 
 extension DateFormatter {
     func dateToString(date: Date, dateFormat: DateFormat) -> String {
-        self.locale = Locale(identifier: Locale.current.identifier)
+        self.locale = Locale(identifier: "ko_KR")
         self.dateFormat = dateFormat.type
         
         return self.string(from: date)

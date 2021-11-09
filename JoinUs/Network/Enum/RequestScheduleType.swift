@@ -20,27 +20,27 @@ enum RequestScheduleType {
         case .past(let league):
             switch league {
             case "worlds":
-                return "/past?filter[league_id]=297&filter[begin_at]=2021-10-31"
+                return "/past?filter[league_id]=297"
             case "lck":
-                return "/past?filter[league_id]=293&filter[begin_at]=2021-09-02"
+                return "/past?filter[league_id]=293"
             default:
                 return ""
             }
         case .running(let league):
             switch league {
             case "worlds":
-                return "/running?filter%5Bleague_id%5D=297&%5Bbegin_at%5D=2021-01-01T00:00:00Z"
+                return "/past?filter[league_id]=297&filter[begin_at]=2021-11-06"
             case "lck":
-                return "/running?filter%5Bleague_id%5D=293&%5Bbegin_at%5D=2021-01-01T00:00:00Z"
+                return "/past?filter[league_id]=293&filter[begin_at]=2021-09-02"
             default:
                 return ""
             }
         case .upcoming(let league):
             switch league {
             case "worlds":
-                return "/upcoming?filter[league_id]=297&filter[begin_at]=2021-11-06"
+                return "/upcoming?filter[league_id]=297"
             case "lck":
-                return "/upcoming?filter%5Bleague_id%5D=293&%5Bbegin_at%5D=2021-01-01T00:00:00Z"
+                return "/upcoming?filter[league_id]=293"
             default:
                 return ""
             }

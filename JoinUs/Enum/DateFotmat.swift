@@ -16,7 +16,7 @@ enum DateFormat {
         case .date:
             return "MM-dd"
         case .time:
-            return "hh-mm"
+            return "HH-mm"
         }
     }
 }
