@@ -76,7 +76,6 @@
 		5605BB9927157FBF00A9811A /* PlayerCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5605BB9827157FBF00A9811A /* PlayerCollectionViewCell.swift */; };
 		561EDFB02723FE3F00D31E7F /* NetworkError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 561EDFAF2723FE3F00D31E7F /* NetworkError.swift */; };
 		562DB968271E93DF00EC6ABE /* ScheduleSectionHeader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 562DB967271E93DF00EC6ABE /* ScheduleSectionHeader.swift */; };
-		5643453E2730FD0600E7994B /* NetworkManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5643453D2730FD0600E7994B /* NetworkManager.swift */; };
 		564345422730FDAC00E7994B /* RequestScheduleType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 564345412730FDAC00E7994B /* RequestScheduleType.swift */; };
 		564345482731301F00E7994B /* ScheduleTableViewCellModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 564345472731301F00E7994B /* ScheduleTableViewCellModel.swift */; };
 		564C518227142921001419BE /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 564C518127142921001419BE /* Main.storyboard */; };
@@ -180,7 +179,6 @@
 		5605BB9827157FBF00A9811A /* PlayerCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlayerCollectionViewCell.swift; sourceTree = "<group>"; };
 		561EDFAF2723FE3F00D31E7F /* NetworkError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkError.swift; sourceTree = "<group>"; };
 		562DB967271E93DF00EC6ABE /* ScheduleSectionHeader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScheduleSectionHeader.swift; sourceTree = "<group>"; };
-		5643453D2730FD0600E7994B /* NetworkManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkManager.swift; sourceTree = "<group>"; };
 		564345412730FDAC00E7994B /* RequestScheduleType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RequestScheduleType.swift; sourceTree = "<group>"; };
 		564345472731301F00E7994B /* ScheduleTableViewCellModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScheduleTableViewCellModel.swift; sourceTree = "<group>"; };
 		564C518127142921001419BE /* Main.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = Main.storyboard; sourceTree = "<group>"; };
@@ -420,7 +418,6 @@
 			isa = PBXGroup;
 			children = (
 				56DE7C6B2734B9D80093C9AE /* Enum */,
-				5643453D2730FD0600E7994B /* NetworkManager.swift */,
 			);
 			path = Network;
 			sourceTree = "<group>";
@@ -737,7 +734,6 @@
 				56BFFC1527210025007A1826 /* PlayerTableViewCell.swift in Sources */,
 				56DE7C832734BE110093C9AE /* DateFotmat.swift in Sources */,
 				56E8E63227322F15003A0EDA /* ReceivedScheduleModel.swift in Sources */,
-				5643453E2730FD0600E7994B /* NetworkManager.swift in Sources */,
 				56FC0C7C270CAB1800E1FE3B /* TeamTabbarCollectionViewCell.swift in Sources */,
 				5602F05D270D2E0E0096B048 /* TeamTabbarViewModel.swift in Sources */,
 				56BFFC112720FDE1007A1826 /* TeamTabbarTableViewCell.swift in Sources */,
