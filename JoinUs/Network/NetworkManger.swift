@@ -26,7 +26,8 @@ final class NetworkManger {
         request.httpMethod = "GET"
         request.allHTTPHeaderFields = headers
         
-        URLSession.shared.dataTask(with: request as URLRequest, completionHandler: { (data, response, error) -> Void in
+        let urlSession = URLSession.shared
+        urlSession.dataTask(with: request as URLRequest, completionHandler: { (data, response, error) -> Void in
             guard let responseStatus = response as? HTTPURLResponse, responseStatus.statusCode == 200 else {
                 print(NetworkError.invalidResponse)
                 
@@ -44,7 +45,7 @@ final class NetworkManger {
                 let decoder = JSONDecoder()
                 decoder.dateDecodingStrategy = .iso8601
                 decoder.keyDecodingStrategy = .convertFromSnakeCase
-                scheduleData = try! decoder.decode([ReceivedScheduleModel].self, from: data)
+                scheduleData = try decoder.decode([ReceivedScheduleModel].self, from: data)
                 completion(scheduleData)
             } catch {
                 print(NetworkError.decodingError)

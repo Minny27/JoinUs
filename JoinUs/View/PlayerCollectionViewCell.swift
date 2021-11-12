@@ -8,7 +8,7 @@
 import UIKit
 
 final class PlayerCollectionViewCell: UICollectionViewCell {
-    static let identifier = "PlayerCollectionViewCell"
+    static let identifier = "playerCollectionViewCell"
     
     let playerView: UIView = {
         let view = UIView()

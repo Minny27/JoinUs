@@ -28,13 +28,10 @@ class TeamTabbarTableViewCell: UITableViewCell {
     
     override func awakeFromNib() {
         super.awakeFromNib()
-        
     }
 
     override func setSelected(_ selected: Bool, animated: Bool) {
         super.setSelected(selected, animated: animated)
-
-        // Configure the view for the selected state
     }
     
     func configureCell() {
@@ -49,9 +46,9 @@ class TeamTabbarTableViewCell: UITableViewCell {
         
         NSLayoutConstraint.activate([
             teamTabbarCollectionView.topAnchor.constraint(equalTo: contentView.topAnchor),
-            teamTabbarCollectionView.leftAnchor.constraint(equalTo: contentView.leftAnchor),
+            teamTabbarCollectionView.leftAnchor.constraint(equalTo: contentView.leftAnchor, constant: 10),
             teamTabbarCollectionView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor),
-            teamTabbarCollectionView.rightAnchor.constraint(equalTo: contentView.rightAnchor)
+            teamTabbarCollectionView.rightAnchor.constraint(equalTo: contentView.rightAnchor, constant: -10)
         ])
     }
 }

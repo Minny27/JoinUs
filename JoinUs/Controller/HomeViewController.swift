@@ -11,13 +11,7 @@ class HomeViewController: UIViewController {
     
     // MARK: - Properties
     
-    let worldsPastViewModel = ScheduleTableViewModel(dataType: .past(league: "worlds"))
-    let worldsRunningViewModel = ScheduleTableViewModel(dataType: .running(league: "worlds"))
-    let worldsUpcomingViewModel = ScheduleTableViewModel(dataType: .upcoming(league: "worlds"))
-    
-    let lckPastViewModel = ScheduleTableViewModel(dataType: .past(league: "lck"))
-    let lckRunningViewModel = ScheduleTableViewModel(dataType: .running(league: "lck"))
-    let lckUpcomingViewModel = ScheduleTableViewModel(dataType: .upcoming(league: "lck"))
+    static var viewFrameWidth: CGFloat = 0
     
     let homeButton: UIButton = {
         let button = UIButton()
@@ -29,7 +23,7 @@ class HomeViewController: UIViewController {
         return button
     }()
     
-    let homeTableView: UITableView = {
+    var homeTableView: UITableView = {
         let tableView = UITableView()
         
         return tableView
@@ -42,17 +36,12 @@ class HomeViewController: UIViewController {
         
         self.view.backgroundColor = .white
         
-        configureUI() 
-
-//        worldsRunningViewModel.fetchData()
-        worldsUpcomingViewModel.fetchData()
-//        worldsPastViewModel.fetchData()
-//        lckPastViewModel.fetchData()
-        
-        
+        configureUI()
     }
     
     func configureUI() {
+        HomeViewController.viewFrameWidth = view.frame.width
+        
         view.addSubview(homeButton)
         view.addSubview(homeTableView)
         
@@ -72,10 +61,10 @@ class HomeViewController: UIViewController {
             homeButton.rightAnchor.constraint(equalTo: view.rightAnchor),
             homeButton.heightAnchor.constraint(equalToConstant: 80),
             
-            homeTableView.topAnchor.constraint(equalTo: homeButton.bottomAnchor, constant: 10),
-            homeTableView.leftAnchor.constraint(equalTo: view.leftAnchor, constant: 10),
-            homeTableView.rightAnchor.constraint(equalTo: view.rightAnchor, constant: -10),
-            homeTableView.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: -10)
+            homeTableView.topAnchor.constraint(equalTo: homeButton.bottomAnchor),
+            homeTableView.leftAnchor.constraint(equalTo: view.leftAnchor),
+            homeTableView.bottomAnchor.constraint(equalTo: view.bottomAnchor),
+            homeTableView.rightAnchor.constraint(equalTo: view.rightAnchor)
         ])
     }
 }
@@ -87,9 +76,13 @@ extension HomeViewController: UITableViewDataSource {
         return 2
     }
     
+    func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
+        return 70
+    }
+    
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         if section == 0 {
-            return 5
+            return 1
         }
         
         else {
@@ -102,6 +95,8 @@ extension HomeViewController: UITableViewDataSource {
             guard let cell = tableView.dequeueReusableCell(withIdentifier: ScheduleTableViewCell.identifier, for: indexPath) as? ScheduleTableViewCell else {
                 return UITableViewCell()
             }
+            
+            cell.configureCell()
             
             return cell
         }
@@ -132,12 +127,14 @@ extension HomeViewController: UITableViewDataSource {
     func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
         if section == 0 {
             let scheduleSectionHeader = ScheduleSectionHeader()
+            scheduleSectionHeader.configureUI(sectionHeaderType: .schedule)
             
             return scheduleSectionHeader
         }
         
         else {
-            let playerSectionHeader = PlayerSectionHeader()
+            let playerSectionHeader = ScheduleSectionHeader()
+            playerSectionHeader.configureUI(sectionHeaderType: .player)
             
             return playerSectionHeader
         }
@@ -148,10 +145,15 @@ extension HomeViewController: UITableViewDataSource {
 
 extension HomeViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        if indexPath.section == 1 && indexPath.row == 1 {
-            return 250
+        if indexPath.section == 1 {
+            if indexPath.row == 0 {
+                return 50
+            }
+//            else {
+//                return 250
+//            }
         }
-        
-        return 50
+
+        return 250
     }
 }

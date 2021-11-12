@@ -27,12 +27,10 @@ class PlayerTableViewCell: UITableViewCell {
 
     override func awakeFromNib() {
         super.awakeFromNib()
-        // Initialization code
     }
 
     override func setSelected(_ selected: Bool, animated: Bool) {
         super.setSelected(selected, animated: animated)
-        // Configure the view for the selected state
     }
     
     func configureCell() {
@@ -47,9 +45,9 @@ class PlayerTableViewCell: UITableViewCell {
         
         NSLayoutConstraint.activate([
             PlayerTableViewCell.playerCollectionView.topAnchor.constraint(equalTo: contentView.topAnchor),
-            PlayerTableViewCell.playerCollectionView.leftAnchor.constraint(equalTo: contentView.leftAnchor),
+            PlayerTableViewCell.playerCollectionView.leftAnchor.constraint(equalTo: contentView.leftAnchor, constant: 10),
             PlayerTableViewCell.playerCollectionView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor),
-            PlayerTableViewCell.playerCollectionView.rightAnchor.constraint(equalTo: contentView.rightAnchor)
+            PlayerTableViewCell.playerCollectionView.rightAnchor.constraint(equalTo: contentView.rightAnchor,constant: -10)
         ])
     }
 }
