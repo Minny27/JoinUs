@@ -13,7 +13,6 @@ struct ScheduleTableViewCellModel {
     let date: String
     let time: String
     let status: String
-    let tournamentName: String
     let versus: String
     let homeTeamId: Int
     let homeTeam: String
@@ -25,13 +24,12 @@ struct ScheduleTableViewCellModel {
     let awayTeamWinCount: Int
     let winnerId: Int?
     
-    init(leagueImage: String, league: String, date: String, time: String, status: String, tournamentName: String, versus: String, homeTeamId: Int, homeTeam: String, homeTeamImage: Data, awayTeamId: Int, awayTeam: String, awayTeamImage: Data, homeTeamWinCount: Int, awayTeamWinCount: Int, winnerId: Int?) {
+    init(leagueImage: String, league: String, date: String, time: String, status: String, versus: String, homeTeamId: Int, homeTeam: String, homeTeamImage: Data, awayTeamId: Int, awayTeam: String, awayTeamImage: Data, homeTeamWinCount: Int, awayTeamWinCount: Int, winnerId: Int?) {
         self.leagueImage = leagueImage
         self.league = league
         self.date = date
         self.time = time
         self.status = status
-        self.tournamentName = tournamentName
         self.versus = versus
         self.homeTeamId = homeTeamId
         self.homeTeam = homeTeam

@@ -10,6 +10,13 @@ import UIKit
 final class LeagueScheduleSectionHeader: UIView {
     let leagueView: UIView = {
         let view = UIView()
+        view.backgroundColor = .white
+        
+        return view
+    }()
+    
+    let leagueDataView: UIView = {
+        let view = UIView()
         
         return view
     }()
@@ -22,7 +29,8 @@ final class LeagueScheduleSectionHeader: UIView {
     
     let leagueTitleLabel: UILabel = {
         let label = UILabel()
-        label.font = .boldSystemFont(ofSize: 12)
+        label.font = .boldSystemFont(ofSize: 15)
+        label.textAlignment = .left
         
         return label
     }()
@@ -35,30 +43,37 @@ final class LeagueScheduleSectionHeader: UIView {
         fatalError("init(coder:) has not been implemented")
     }
     
-    func configureUI(sectionHeaderType: SectionHeaderType) {
+    func configureUI(sectionHeaderType: LeagueSectionHeaderType) {
         addSubview(leagueView)
-        leagueView.addSubview(leagueImage)
-        leagueView.addSubview(leagueTitleLabel)
+        leagueView.addSubview(leagueDataView)
+        leagueDataView.addSubview(leagueImage)
+        leagueDataView.addSubview(leagueTitleLabel)
         
         leagueView.translatesAutoresizingMaskIntoConstraints = false
+        leagueDataView.translatesAutoresizingMaskIntoConstraints = false
         leagueImage.translatesAutoresizingMaskIntoConstraints = false
         leagueTitleLabel.translatesAutoresizingMaskIntoConstraints = false
         
         NSLayoutConstraint.activate([
-            leagueView.topAnchor.constraint(equalTo: topAnchor),
-            leagueView.leftAnchor.constraint(equalTo: leftAnchor, constant: 10),
+            leagueView.topAnchor.constraint(equalTo: topAnchor, constant: 10),
+            leagueView.leftAnchor.constraint(equalTo: leftAnchor),
             leagueView.bottomAnchor.constraint(equalTo: bottomAnchor),
             leagueView.rightAnchor.constraint(equalTo: rightAnchor),
             
-            leagueImage.topAnchor.constraint(equalTo: leagueView.topAnchor),
-            leagueImage.leftAnchor.constraint(equalTo: leagueView.leftAnchor, constant: 10),
-            leagueImage.heightAnchor.constraint(equalToConstant: 20),
+            leagueDataView.leftAnchor.constraint(equalTo: leftAnchor, constant: 20),
+            leagueDataView.rightAnchor.constraint(equalTo: rightAnchor, constant: -10),
+            leagueDataView.centerYAnchor.constraint(equalTo: leagueView.centerYAnchor),
+            leagueDataView.heightAnchor.constraint(equalToConstant: 20),
+            
+            leagueImage.topAnchor.constraint(equalTo: leagueDataView.topAnchor),
+            leagueImage.leftAnchor.constraint(equalTo: leagueDataView.leftAnchor),
+            leagueImage.bottomAnchor.constraint(equalTo: leagueDataView.bottomAnchor),
             leagueImage.widthAnchor.constraint(equalToConstant: 20),
             
-            leagueTitleLabel.topAnchor.constraint(equalTo: leagueView.topAnchor),
-            leagueTitleLabel.leftAnchor.constraint(equalTo: leagueImage.rightAnchor, constant: 10),
-            leagueTitleLabel.heightAnchor.constraint(equalToConstant: 20),
-            leagueTitleLabel.widthAnchor.constraint(equalToConstant: 70),
+            leagueTitleLabel.topAnchor.constraint(equalTo: leagueDataView.topAnchor),
+            leagueTitleLabel.leftAnchor.constraint(equalTo: leagueImage.rightAnchor, constant: 5),
+            leagueTitleLabel.bottomAnchor.constraint(equalTo: leagueDataView.bottomAnchor),
+            leagueTitleLabel.widthAnchor.constraint(equalToConstant: 100),
         ])
         
         leagueImage.image = UIImage(data: sectionHeaderType.image())

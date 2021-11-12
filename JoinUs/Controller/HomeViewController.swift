@@ -11,6 +11,8 @@ class HomeViewController: UIViewController {
     
     // MARK: - Properties
     
+    static var viewFrameWidth: CGFloat = 0
+    
     let homeButton: UIButton = {
         let button = UIButton()
         button.setTitle("Join Us", for: .normal)
@@ -21,10 +23,8 @@ class HomeViewController: UIViewController {
         return button
     }()
     
-    let homeTableView: UITableView = {
+    var homeTableView: UITableView = {
         let tableView = UITableView()
-        tableView.separatorStyle = .none
-        tableView.frame = tableView.frame.inset(by: UIEdgeInsets(top: 50, left: 0, bottom: 0, right: 0))
         
         return tableView
     }()
@@ -40,6 +40,8 @@ class HomeViewController: UIViewController {
     }
     
     func configureUI() {
+        HomeViewController.viewFrameWidth = view.frame.width
+        
         view.addSubview(homeButton)
         view.addSubview(homeTableView)
         
@@ -59,13 +61,11 @@ class HomeViewController: UIViewController {
             homeButton.rightAnchor.constraint(equalTo: view.rightAnchor),
             homeButton.heightAnchor.constraint(equalToConstant: 80),
             
-            homeTableView.topAnchor.constraint(equalTo: homeButton.bottomAnchor, constant: 10),
+            homeTableView.topAnchor.constraint(equalTo: homeButton.bottomAnchor),
             homeTableView.leftAnchor.constraint(equalTo: view.leftAnchor),
             homeTableView.bottomAnchor.constraint(equalTo: view.bottomAnchor),
             homeTableView.rightAnchor.constraint(equalTo: view.rightAnchor)
         ])
-        
-        
     }
 }
 
@@ -74,6 +74,10 @@ class HomeViewController: UIViewController {
 extension HomeViewController: UITableViewDataSource {
     func numberOfSections(in tableView: UITableView) -> Int {
         return 2
+    }
+    
+    func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
+        return 70
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -145,11 +149,11 @@ extension HomeViewController: UITableViewDelegate {
             if indexPath.row == 0 {
                 return 50
             }
-            else {
-                return 250
-            }
+//            else {
+//                return 250
+//            }
         }
-        
-        return 200
+
+        return 250
     }
 }

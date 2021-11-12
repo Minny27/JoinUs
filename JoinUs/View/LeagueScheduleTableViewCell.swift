@@ -18,26 +18,19 @@ class LeagueScheduleTableViewCell: UITableViewCell {
     
     let timeLabel: UILabel = {
         let label = UILabel()
-        label.font = .boldSystemFont(ofSize: 10)
+        label.font = .boldSystemFont(ofSize: 12)
         label.textColor = .darkGray
+        label.textAlignment = .center
         
         return label
     }()
     
     let statusLabel: UILabel = {
         let label = UILabel()
-        label.font = .boldSystemFont(ofSize: 10)
+        label.font = .boldSystemFont(ofSize: 12)
         label.textAlignment = .center
         label.layer.borderWidth = 0.3
         label.layer.cornerRadius = 5
-        
-        return label
-    }()
-    
-    let tournamentNameLabel: UILabel = {
-        let label = UILabel()
-        label.font = .boldSystemFont(ofSize: 10)
-        label.textAlignment = .left
         
         return label
     }()
@@ -50,7 +43,7 @@ class LeagueScheduleTableViewCell: UITableViewCell {
     
     let homeTeam: UILabel = {
         let label = UILabel()
-        label.font = .boldSystemFont(ofSize: 10)
+        label.font = .boldSystemFont(ofSize: 12)
         label.textAlignment = .right
         
         return label
@@ -64,7 +57,7 @@ class LeagueScheduleTableViewCell: UITableViewCell {
     
     let homeTeamWins: UILabel = {
         let label = UILabel()
-        label.font = .boldSystemFont(ofSize: 10)
+        label.font = .boldSystemFont(ofSize: 12)
         label.textAlignment = .right
         
         return label
@@ -78,7 +71,7 @@ class LeagueScheduleTableViewCell: UITableViewCell {
     
     let versusLabel: UILabel = {
         let label = UILabel()
-        label.font = .boldSystemFont(ofSize: 10)
+        label.font = .boldSystemFont(ofSize: 12)
         label.textAlignment = .center
         
         return label
@@ -92,7 +85,7 @@ class LeagueScheduleTableViewCell: UITableViewCell {
     
     let awayTeam: UILabel = {
         let label = UILabel()
-        label.font = .boldSystemFont(ofSize: 10)
+        label.font = .boldSystemFont(ofSize: 12)
         label.textAlignment = .left
         
         return label
@@ -106,12 +99,12 @@ class LeagueScheduleTableViewCell: UITableViewCell {
     
     let awayTeamWins: UILabel = {
         let label = UILabel()
-        label.font = .boldSystemFont(ofSize: 10)
+        label.font = .boldSystemFont(ofSize: 12)
         label.textAlignment = .left
         
         return label
     }()
-    
+        
     override func awakeFromNib() {
         super.awakeFromNib()
     }
@@ -127,7 +120,6 @@ class LeagueScheduleTableViewCell: UITableViewCell {
         contentView.addSubview(awayTeamView)
         leftDataView.addSubview(timeLabel)
         leftDataView.addSubview(statusLabel)
-        leftDataView.addSubview(tournamentNameLabel)
         homeTeamView.addSubview(homeTeam)
         homeTeamView.addSubview(homeTeamImage)
         homeTeamView.addSubview(homeTeamWins)
@@ -141,7 +133,6 @@ class LeagueScheduleTableViewCell: UITableViewCell {
         awayTeamView.translatesAutoresizingMaskIntoConstraints = false
         timeLabel.translatesAutoresizingMaskIntoConstraints = false
         statusLabel.translatesAutoresizingMaskIntoConstraints = false
-        tournamentNameLabel.translatesAutoresizingMaskIntoConstraints = false
         homeTeam.translatesAutoresizingMaskIntoConstraints = false
         homeTeamImage.translatesAutoresizingMaskIntoConstraints = false
         homeTeamWins.translatesAutoresizingMaskIntoConstraints = false
@@ -152,77 +143,70 @@ class LeagueScheduleTableViewCell: UITableViewCell {
         awayTeamWins.translatesAutoresizingMaskIntoConstraints = false
         
         NSLayoutConstraint.activate([
-            leftDataView.topAnchor.constraint(equalTo: contentView .topAnchor, constant: 10),
-            leftDataView.leftAnchor.constraint(equalTo: contentView.leftAnchor),
-            leftDataView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor),
-            leftDataView.widthAnchor.constraint(equalToConstant: 175),
+            leftDataView.leftAnchor.constraint(equalTo: contentView.leftAnchor, constant: 20),
+            leftDataView.widthAnchor.constraint(equalToConstant: 80),
+            leftDataView.heightAnchor.constraint(equalToConstant: 20),
+            leftDataView.centerYAnchor.constraint(equalTo: contentView.centerYAnchor),
             
-            timeLabel.topAnchor.constraint(equalTo: contentView.topAnchor),
-            timeLabel.leftAnchor.constraint(equalTo: leftDataView.leftAnchor, constant: 20),
-            timeLabel.bottomAnchor.constraint(equalTo: contentView.bottomAnchor),
-            timeLabel.widthAnchor.constraint(equalToConstant: 30),
+            timeLabel.topAnchor.constraint(equalTo: leftDataView.topAnchor),
+            timeLabel.leftAnchor.constraint(equalTo: leftDataView.leftAnchor),
+            timeLabel.bottomAnchor.constraint(equalTo: leftDataView.bottomAnchor),
+            timeLabel.widthAnchor.constraint(equalToConstant: 40),
             
-            statusLabel.topAnchor.constraint(equalTo: contentView.topAnchor),
-            statusLabel.leftAnchor.constraint(equalTo: timeLabel.rightAnchor, constant: 2),
-            statusLabel.bottomAnchor.constraint(equalTo: contentView.bottomAnchor),
-            statusLabel.widthAnchor.constraint(equalToConstant: 30),
+            statusLabel.topAnchor.constraint(equalTo: leftDataView.topAnchor),
+            statusLabel.leftAnchor.constraint(equalTo: timeLabel.rightAnchor, constant: 5),
+            statusLabel.bottomAnchor.constraint(equalTo: leftDataView.bottomAnchor),
+            statusLabel.widthAnchor.constraint(equalToConstant: 40),
             
-            tournamentNameLabel.topAnchor.constraint(equalTo: contentView.topAnchor),
-            tournamentNameLabel.leftAnchor.constraint(equalTo: statusLabel.rightAnchor, constant: 13),
-            tournamentNameLabel.bottomAnchor.constraint(equalTo: contentView.bottomAnchor),
-            tournamentNameLabel.widthAnchor.constraint(equalToConstant: 80),
-            
-            homeTeamView.topAnchor.constraint(equalTo: contentView.topAnchor),
             homeTeamView.leftAnchor.constraint(equalTo: leftDataView.rightAnchor),
-            homeTeamView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor),
-            homeTeamView.widthAnchor.constraint(equalToConstant: 90),
+            homeTeamView.widthAnchor.constraint(equalToConstant: (HomeViewController.viewFrameWidth - 145) / 2),
+            homeTeamView.heightAnchor.constraint(equalToConstant: 20),
+            homeTeamView.centerYAnchor.constraint(equalTo: contentView.centerYAnchor),
             
-            homeTeamWins.topAnchor.constraint(equalTo: contentView.topAnchor),
-            homeTeamWins.bottomAnchor.constraint(equalTo: contentView.bottomAnchor),
+            homeTeamWins.topAnchor.constraint(equalTo: homeTeamView.topAnchor),
+            homeTeamWins.bottomAnchor.constraint(equalTo: homeTeamView.bottomAnchor),
             homeTeamWins.rightAnchor.constraint(equalTo: homeTeamView.rightAnchor),
             homeTeamWins.widthAnchor.constraint(equalToConstant: 10),
             
-            homeTeamImage.topAnchor.constraint(equalTo: contentView.topAnchor),
-            homeTeamImage.bottomAnchor.constraint(equalTo: contentView.bottomAnchor),
+            homeTeamImage.topAnchor.constraint(equalTo: homeTeamView.topAnchor),
+            homeTeamImage.bottomAnchor.constraint(equalTo: homeTeamView.bottomAnchor),
             homeTeamImage.rightAnchor.constraint(equalTo: homeTeamWins.leftAnchor, constant: -8),
-            homeTeamImage.widthAnchor.constraint(equalToConstant: 15),
-            homeTeamImage.heightAnchor.constraint(equalToConstant: 15),
+            homeTeamImage.widthAnchor.constraint(equalToConstant: 20),
             
-            homeTeam.topAnchor.constraint(equalTo: contentView.topAnchor),
-            homeTeam.bottomAnchor.constraint(equalTo: contentView.bottomAnchor),
-            homeTeam.rightAnchor.constraint(equalTo: homeTeamImage.leftAnchor, constant: -2),
-            homeTeam.widthAnchor.constraint(equalToConstant: 55),
+            homeTeam.topAnchor.constraint(equalTo: homeTeamView.topAnchor),
+            homeTeam.leftAnchor.constraint(equalTo: homeTeamView.leftAnchor),
+            homeTeam.bottomAnchor.constraint(equalTo: homeTeamView.bottomAnchor),
+            homeTeam.rightAnchor.constraint(equalTo: homeTeamImage.leftAnchor, constant: -5),
             
-            versusView.topAnchor.constraint(equalTo: contentView.topAnchor),
             versusView.leftAnchor.constraint(equalTo: homeTeamView.rightAnchor),
-            versusView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor),
             versusView.widthAnchor.constraint(equalToConstant: 20),
+            versusView.heightAnchor.constraint(equalToConstant: 20),
+            versusView.centerYAnchor.constraint(equalTo: contentView.centerYAnchor),
             
             versusLabel.topAnchor.constraint(equalTo: versusView.topAnchor),
             versusLabel.leftAnchor.constraint(equalTo: versusView.leftAnchor),
             versusLabel.bottomAnchor.constraint(equalTo: versusView.bottomAnchor),
             versusLabel.rightAnchor.constraint(equalTo: versusView.rightAnchor),
             
-            awayTeamView.topAnchor.constraint(equalTo: contentView.topAnchor),
             awayTeamView.leftAnchor.constraint(equalTo: versusView.rightAnchor),
-            awayTeamView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor),
-            awayTeamView.widthAnchor.constraint(equalToConstant: 90),
+            awayTeamView.widthAnchor.constraint(equalToConstant: (HomeViewController.viewFrameWidth - 145) / 2),
+            awayTeamView.heightAnchor.constraint(equalToConstant: 20),
+            awayTeamView.centerYAnchor.constraint(equalTo: contentView.centerYAnchor),
             
-            awayTeamWins.topAnchor.constraint(equalTo: contentView.topAnchor),
+            awayTeamWins.topAnchor.constraint(equalTo: awayTeamView.topAnchor),
             awayTeamWins.leftAnchor.constraint(equalTo: awayTeamView.leftAnchor),
-            awayTeamWins.bottomAnchor.constraint(equalTo: contentView.bottomAnchor),
+            awayTeamWins.bottomAnchor.constraint(equalTo: awayTeamView.bottomAnchor),
             awayTeamWins.widthAnchor.constraint(equalToConstant: 10),
             
-            awayTeamImage.topAnchor.constraint(equalTo: contentView.topAnchor),
+            awayTeamImage.topAnchor.constraint(equalTo: awayTeamView.topAnchor),
             awayTeamImage.leftAnchor.constraint(equalTo: awayTeamWins.rightAnchor, constant: 8),
-            awayTeamImage.bottomAnchor.constraint(equalTo: contentView.bottomAnchor),
-            awayTeamImage.widthAnchor.constraint(equalToConstant: 15),
-            awayTeamImage.heightAnchor.constraint(equalToConstant: 15),
+            awayTeamImage.bottomAnchor.constraint(equalTo: awayTeamView.bottomAnchor),
+            awayTeamImage.widthAnchor.constraint(equalToConstant: 20),
             
-            awayTeam.topAnchor.constraint(equalTo: contentView.topAnchor),
-            awayTeam.leftAnchor.constraint(equalTo: awayTeamImage.rightAnchor, constant: 2),
-            awayTeam.bottomAnchor.constraint(equalTo: contentView.bottomAnchor),
-            awayTeam.widthAnchor.constraint(equalToConstant: 55),
+            awayTeam.topAnchor.constraint(equalTo: awayTeamView.topAnchor),
+            awayTeam.leftAnchor.constraint(equalTo: awayTeamImage.rightAnchor, constant: 5),
+            awayTeam.bottomAnchor.constraint(equalTo: awayTeamView.bottomAnchor),
+            awayTeam.rightAnchor.constraint(equalTo: awayTeamView.rightAnchor),
         ])
     }   
     
@@ -231,7 +215,6 @@ class LeagueScheduleTableViewCell: UITableViewCell {
         statusLabel.text = MatchStatusType(rawValue: scheduleTableViewCellModel.status)!.convertKorean()
         statusLabel.textColor = MatchStatusType(rawValue: scheduleTableViewCellModel.status)!.statusColor()
         statusLabel.layer.borderColor = MatchStatusType(rawValue: scheduleTableViewCellModel.status)!.statusColor().cgColor
-        tournamentNameLabel.text = scheduleTableViewCellModel.tournamentName
         versusLabel.text = scheduleTableViewCellModel.versus
         homeTeam.text = scheduleTableViewCellModel.homeTeam
         homeTeamImage.image = UIImage(data: scheduleTableViewCellModel.homeTeamImage)
@@ -242,12 +225,12 @@ class LeagueScheduleTableViewCell: UITableViewCell {
         
         if let winnerId = scheduleTableViewCellModel.winnerId {
             if winnerId == scheduleTableViewCellModel.homeTeamId {
-                homeTeamWins.font = .boldSystemFont(ofSize: 10)
+                homeTeamWins.font = .boldSystemFont(ofSize: 12)
                 awayTeamWins.textColor = .darkGray
             }
             
             else {
-                awayTeamWins.font = .boldSystemFont(ofSize: 10)
+                awayTeamWins.font = .boldSystemFont(ofSize: 12)
                 homeTeamWins.textColor = .darkGray
             }
         }

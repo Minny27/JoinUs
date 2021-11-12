@@ -38,7 +38,6 @@ final class ScheduleTableViewModel {
         let date: String = self.dateFormatter.dateToString(date: schedule.originalScheduledAt, dateFormat: .date)
         let time: String = self.dateFormatter.dateToString(date: schedule.originalScheduledAt, dateFormat: .time).replacingOccurrences(of: "-", with: ":")
         let status: String = schedule.status
-        let tournamentName: String = schedule.name.components(separatedBy: ":")[0]
         let versus = schedule.status == "not_started" ? "vs" : ":"
         let homeTeamId:Int = schedule.opponents[0].opponent.id
         let homeTeam: String = getTeam(totalName: schedule.name).homeTeam
@@ -69,7 +68,6 @@ final class ScheduleTableViewModel {
             date: date,
             time: time,
             status: status,
-            tournamentName: tournamentName,
             versus: versus,
             homeTeamId: homeTeamId,
             homeTeam: homeTeam,

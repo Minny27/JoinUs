@@ -45,9 +45,9 @@ class PlayerTableViewCell: UITableViewCell {
         
         NSLayoutConstraint.activate([
             PlayerTableViewCell.playerCollectionView.topAnchor.constraint(equalTo: contentView.topAnchor),
-            PlayerTableViewCell.playerCollectionView.leftAnchor.constraint(equalTo: contentView.leftAnchor),
+            PlayerTableViewCell.playerCollectionView.leftAnchor.constraint(equalTo: contentView.leftAnchor, constant: 10),
             PlayerTableViewCell.playerCollectionView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor),
-            PlayerTableViewCell.playerCollectionView.rightAnchor.constraint(equalTo: contentView.rightAnchor)
+            PlayerTableViewCell.playerCollectionView.rightAnchor.constraint(equalTo: contentView.rightAnchor,constant: -10)
         ])
     }
 }
