@@ -25,6 +25,7 @@ final class TeamTabbarCollectionViewCell: UICollectionViewCell {
     let teamLabel: UILabel = {
         let label = UILabel()
         label.font = .boldSystemFont(ofSize: 12)
+        label.textColor = .black
         label.textAlignment = .left
         
         return label

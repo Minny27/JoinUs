@@ -19,7 +19,7 @@ class LeagueScheduleTableViewCell: UITableViewCell {
     let timeLabel: UILabel = {
         let label = UILabel()
         label.font = .boldSystemFont(ofSize: 12)
-        label.textColor = .darkGray
+        label.textColor = .lightGray
         label.textAlignment = .center
         
         return label
@@ -44,6 +44,7 @@ class LeagueScheduleTableViewCell: UITableViewCell {
     let homeTeam: UILabel = {
         let label = UILabel()
         label.font = .boldSystemFont(ofSize: 12)
+        label.textColor = .black
         label.textAlignment = .right
         
         return label
@@ -58,6 +59,7 @@ class LeagueScheduleTableViewCell: UITableViewCell {
     let homeTeamWins: UILabel = {
         let label = UILabel()
         label.font = .boldSystemFont(ofSize: 12)
+        label.textColor = .black
         label.textAlignment = .right
         
         return label
@@ -72,6 +74,7 @@ class LeagueScheduleTableViewCell: UITableViewCell {
     let versusLabel: UILabel = {
         let label = UILabel()
         label.font = .boldSystemFont(ofSize: 12)
+        label.textColor = .black
         label.textAlignment = .center
         
         return label
@@ -86,6 +89,7 @@ class LeagueScheduleTableViewCell: UITableViewCell {
     let awayTeam: UILabel = {
         let label = UILabel()
         label.font = .boldSystemFont(ofSize: 12)
+        label.textColor = .black
         label.textAlignment = .left
         
         return label
@@ -100,6 +104,7 @@ class LeagueScheduleTableViewCell: UITableViewCell {
     let awayTeamWins: UILabel = {
         let label = UILabel()
         label.font = .boldSystemFont(ofSize: 12)
+        label.textColor = .black
         label.textAlignment = .left
         
         return label
@@ -114,6 +119,8 @@ class LeagueScheduleTableViewCell: UITableViewCell {
     }
     
     func configureUI() {
+        contentView.backgroundColor = .white
+        
         contentView.addSubview(leftDataView)
         contentView.addSubview(homeTeamView)
         contentView.addSubview(versusView)
@@ -225,12 +232,12 @@ class LeagueScheduleTableViewCell: UITableViewCell {
         
         if let winnerId = scheduleTableViewCellModel.winnerId {
             if winnerId == scheduleTableViewCellModel.homeTeamId {
-                homeTeamWins.font = .boldSystemFont(ofSize: 12)
+                homeTeamWins.textColor = .black
                 awayTeamWins.textColor = .darkGray
             }
             
             else {
-                awayTeamWins.font = .boldSystemFont(ofSize: 12)
+                awayTeamWins.textColor = .black
                 homeTeamWins.textColor = .darkGray
             }
         }

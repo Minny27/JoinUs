@@ -34,6 +34,8 @@ class PlayerTableViewCell: UITableViewCell {
     }
     
     func configureCell() {
+        contentView.backgroundColor = .white
+        
         contentView.addSubview(PlayerTableViewCell.playerCollectionView)
         
         PlayerTableViewCell.playerCollectionView.register(PlayerCollectionViewCell.self, forCellWithReuseIdentifier: PlayerCollectionViewCell.identifier)

@@ -18,6 +18,7 @@ final class ScheduleSectionHeader: UIView {
     let scheduleTitleLabel: UILabel = {
         let label = UILabel()
         label.font = .boldSystemFont(ofSize: 18)
+        label.textColor = .black
         label.textAlignment = .left
        
         return label
@@ -32,6 +33,8 @@ final class ScheduleSectionHeader: UIView {
     }
     
     func configureUI(sectionHeaderType: ScheduleSectionHeaderType) {
+        backgroundColor = .systemGray6
+        
         addSubview(scheduleTitleView)
         scheduleTitleView.addSubview(scheduleTitleLabel)
         

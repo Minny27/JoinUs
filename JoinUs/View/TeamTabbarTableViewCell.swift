@@ -18,7 +18,6 @@ class TeamTabbarTableViewCell: UITableViewCell {
     let teamTabbarCollectionView: UICollectionView = {
         let flowLayout = UICollectionViewFlowLayout()
         flowLayout.scrollDirection = .horizontal
-        flowLayout.estimatedItemSize = UICollectionViewFlowLayout.automaticSize
         
         let collectionView = UICollectionView(frame: .zero, collectionViewLayout: flowLayout)
         collectionView.backgroundColor = .white
@@ -35,6 +34,8 @@ class TeamTabbarTableViewCell: UITableViewCell {
     }
     
     func configureCell() {
+        contentView.backgroundColor = .white
+        
         contentView.addSubview(teamTabbarCollectionView)
         
         teamTabbarCollectionView.register(TeamTabbarCollectionViewCell.self, forCellWithReuseIdentifier: TeamTabbarCollectionViewCell.identifier)

@@ -30,6 +30,7 @@ final class LeagueScheduleSectionHeader: UIView {
     let leagueTitleLabel: UILabel = {
         let label = UILabel()
         label.font = .boldSystemFont(ofSize: 15)
+        label.textColor = .black
         label.textAlignment = .left
         
         return label
@@ -44,6 +45,8 @@ final class LeagueScheduleSectionHeader: UIView {
     }
     
     func configureUI(sectionHeaderType: LeagueSectionHeaderType) {
+        backgroundColor = .systemGray6
+        
         addSubview(leagueView)
         leagueView.addSubview(leagueDataView)
         leagueDataView.addSubview(leagueImage)

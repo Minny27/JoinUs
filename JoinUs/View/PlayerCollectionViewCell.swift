@@ -37,6 +37,7 @@ final class PlayerCollectionViewCell: UICollectionViewCell {
     let playerNameLabel: UILabel = {
         let label = UILabel()
         label.font = .boldSystemFont(ofSize: 15)
+        label.textColor = .black
         label.textAlignment = .center
         
         return label

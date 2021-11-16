@@ -19,8 +19,13 @@ class ScheduleTableViewCell: UITableViewCell {
     
     var leagueScheduleTableView: UITableView = {
         let tableView = UITableView()
-        tableView.backgroundColor = .systemGray6
         tableView.separatorInset = UIEdgeInsets(top: 0, left: 10, bottom: 0, right: 10)
+        
+        if #available(iOS 15.0, *) {
+            tableView.sectionHeaderTopPadding = .zero
+        } else {
+            // Fallback on earlier versions
+        }
         
         return tableView
     }()
@@ -33,7 +38,7 @@ class ScheduleTableViewCell: UITableViewCell {
         super.setSelected(selected, animated: animated)
     }
     
-    func configureCell() {
+    func configureCell() {        
         contentView.addSubview(leagueScheduleTableView)
         
         leagueScheduleTableView.register(LeagueScheduleTableViewCell.self, forCellReuseIdentifier: LeagueScheduleTableViewCell.identifier)
@@ -49,21 +54,25 @@ class ScheduleTableViewCell: UITableViewCell {
             leagueScheduleTableView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor),
             leagueScheduleTableView.rightAnchor.constraint(equalTo: contentView.rightAnchor),
         ])
- 
-        worldsRunningViewModel.scheduleList.bind { _ in
-            DispatchQueue.main.async {
-                self.leagueScheduleTableView.reloadData()
-            }
-        }
         
-        lckRunningViewModel.scheduleList.bind { _ in
-            DispatchQueue.main.async {
-                self.leagueScheduleTableView.reloadData()
+        DispatchQueue.global(qos: .userInteractive).async {
+            
+        
+            self.worldsRunningViewModel.fetchData()
+            self.lckRunningViewModel.fetchData()
+            
+            self.worldsRunningViewModel.scheduleList.bind { _ in
+                DispatchQueue.main.async {
+                    self.leagueScheduleTableView.reloadData()
+                }
+            }
+            
+            self.lckRunningViewModel.scheduleList.bind { _ in
+                DispatchQueue.main.async {
+                    self.leagueScheduleTableView.reloadData()
+                }
             }
         }
-
-        self.worldsRunningViewModel.fetchData()
-        self.lckRunningViewModel.fetchData()
     }
 }
 
