@@ -7,8 +7,9 @@
 
 import Foundation
 
-enum LeagueSectionHeaderType: Int {
-    case worlds, lck
+enum LeagueScheduleTableViewSectionType: String {
+    case worlds = "worlds"
+    case lck = "lck"
     
     func title() -> String {
         switch self {

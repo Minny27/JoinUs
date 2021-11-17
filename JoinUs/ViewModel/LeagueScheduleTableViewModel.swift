@@ -7,9 +7,9 @@
 
 import Foundation
 
-final class ScheduleTableViewModel {
+final class LeagueScheduleTableViewModel {
     private let dateFormatter = DateFormatter()
-    var scheduleList: Observable<[ScheduleTableViewCellModel]> = Observable([])
+    var scheduleList: Observable<[LeagueScheduleTableViewCellModel]> = Observable([])
     var dataType: RequestScheduleType
     
     var countScheduleList: Int {
@@ -20,7 +20,7 @@ final class ScheduleTableViewModel {
         self.dataType = dataType
     }
     
-    func scheduleInfo(at index: Int) -> ScheduleTableViewCellModel? {
+    func scheduleInfo(at index: Int) -> LeagueScheduleTableViewCellModel? {
         return scheduleList.value?[index]
     }
     
@@ -32,7 +32,7 @@ final class ScheduleTableViewModel {
         }
     }
     
-    func extractScehduleData(schedule: ReceivedScheduleModel) -> ScheduleTableViewCellModel {
+    func extractScehduleData(schedule: ReceivedScheduleModel) -> LeagueScheduleTableViewCellModel {
         let leagueImage: String = schedule.league.imageUrl
         let league: String = schedule.league.name
         let date: String = self.dateFormatter.dateToString(date: schedule.originalScheduledAt, dateFormat: .date)
@@ -62,7 +62,7 @@ final class ScheduleTableViewModel {
             }
         }
         
-        let scheduleTableViewCellModel = ScheduleTableViewCellModel(
+        let scheduleTableViewCellModel = LeagueScheduleTableViewCellModel(
             leagueImage: leagueImage,
             league: league,
             date: date,

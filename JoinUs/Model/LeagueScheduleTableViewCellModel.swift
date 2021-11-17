@@ -7,7 +7,7 @@
 
 import Foundation
 
-struct ScheduleTableViewCellModel {
+struct LeagueScheduleTableViewCellModel {
     let leagueImage: String
     let league: String
     let date: String
