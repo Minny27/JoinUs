@@ -25,29 +25,36 @@ final class LeagueScheduleTableViewModel {
     }
     
     func fetchData() {
-        NetworkManger().getScheduleData(dataType: dataType) { receivedScheduleModel in
-            self.scheduleList.value = receivedScheduleModel.compactMap({ schedule in
-                self.extractScehduleData(schedule: schedule)
-            })
+        DispatchQueue.main.async {
+            NetworkManger().getScheduleData(dataType: self.dataType) { [self] receivedScheduleModel in
+                self.scheduleList.value = receivedScheduleModel.compactMap({ schedule in
+                    self.extractScehduleData(schedule: schedule)
+                })
+            }
         }
     }
     
     func extractScehduleData(schedule: ReceivedScheduleModel) -> LeagueScheduleTableViewCellModel {
         let leagueImage: String = schedule.league.imageUrl
         let league: String = schedule.league.name
-        let date: String = self.dateFormatter.dateToString(date: schedule.originalScheduledAt, dateFormat: .date)
-        let time: String = self.dateFormatter.dateToString(date: schedule.originalScheduledAt, dateFormat: .time).replacingOccurrences(of: "-", with: ":")
+        let date: String = self.dateFormatter.dateToString(date: schedule.scheduledAt, dateFormat: .date)
+        let time: String = self.dateFormatter.dateToString(date: schedule.scheduledAt, dateFormat: .time).replacingOccurrences(of: "-", with: ":")
         let status: String = schedule.status
         let versus = schedule.status == "not_started" ? "vs" : ":"
         let homeTeamId:Int = schedule.opponents[0].opponent.id
         let homeTeam: String = getTeam(totalName: schedule.name).homeTeam
-        let homeTeamImage: Data = try! Data(contentsOf: URL(string: schedule.opponents[0].opponent.imageUrl)!)
+        var homeTeamImage: Data = Data()
         let awayTeamId:Int = schedule.opponents[1].opponent.id
         let awayTeam: String = getTeam(totalName: schedule.name).awayTeam
-        let awayTeamImage: Data = try! Data(contentsOf: URL(string: schedule.opponents[1].opponent.imageUrl)!)
+        var awayTeamImage: Data = Data()
         var homeTeamWinCount: Int = 0
         var awayTeamWinCount: Int = 0
         let winnerId = schedule.winnerId
+        
+        
+        homeTeamImage = try! Data(contentsOf: URL(string: schedule.opponents[0].opponent.imageUrl)!)
+        awayTeamImage = try! Data(contentsOf: URL(string: schedule.opponents[1].opponent.imageUrl)!)
+            
         
         // status: - finished, running, not_started
         if status != "not_started" {

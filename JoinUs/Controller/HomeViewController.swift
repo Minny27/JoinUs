@@ -44,7 +44,7 @@ class HomeViewController: UIViewController {
         
         configureUI()
     }
-    
+     
     func configureUI() {
         HomeViewController.viewFrameWidth = view.frame.width
         

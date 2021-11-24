@@ -22,6 +22,7 @@ final class NetworkManger {
         let request = NSMutableURLRequest(url: requestUrl,
                                           cachePolicy: .useProtocolCachePolicy,
                                           timeoutInterval: 10.0)
+        
 //        var request = URLRequest(url: requestUrl)
         
         request.httpMethod = "GET"

@@ -9,7 +9,7 @@ import UIKit
 
 class ScheduleTableViewCell: UITableViewCell {
     static let identifier = "scheduleTableViewCell"
-
+    
     let worldsPastViewModel = LeagueScheduleTableViewModel(dataType: .past(league: "worlds"))
     let worldsRunningViewModel = LeagueScheduleTableViewModel(dataType: .running(league: "worlds"))
     let worldsUpcomingViewModel = LeagueScheduleTableViewModel(dataType: .upcoming(league: "worlds"))
@@ -34,12 +34,12 @@ class ScheduleTableViewCell: UITableViewCell {
     override func awakeFromNib() {
         super.awakeFromNib()
     }
-
+    
     override func setSelected(_ selected: Bool, animated: Bool) {
         super.setSelected(selected, animated: animated)
     }
     
-    func configureCell() {        
+    func configureCell() {
         contentView.addSubview(leagueScheduleTableView)
         
         leagueScheduleTableView.register(LeagueScheduleTableViewCell.self, forCellReuseIdentifier: LeagueScheduleTableViewCell.identifier)
@@ -56,20 +56,18 @@ class ScheduleTableViewCell: UITableViewCell {
             leagueScheduleTableView.rightAnchor.constraint(equalTo: contentView.rightAnchor),
         ])
         
-        DispatchQueue.global(qos: .userInteractive).async {
-            self.worldsRunningViewModel.fetchData()
-            self.lckRunningViewModel.fetchData()
+        self.worldsRunningViewModel.fetchData()
+        self.lckRunningViewModel.fetchData()
             
-            self.worldsRunningViewModel.scheduleList.bind { _ in
-                DispatchQueue.main.async {
-                    self.leagueScheduleTableView.reloadData()
-                }
+        self.worldsRunningViewModel.scheduleList.bind { _ in
+            DispatchQueue.main.async {
+                self.leagueScheduleTableView.reloadData()
             }
-            
-            self.lckRunningViewModel.scheduleList.bind { _ in
-                DispatchQueue.main.async {
-                    self.leagueScheduleTableView.reloadData()
-                }
+        }
+        
+        self.lckRunningViewModel.scheduleList.bind { _ in
+            DispatchQueue.main.async {
+                self.leagueScheduleTableView.reloadData()
             }
         }
     }
