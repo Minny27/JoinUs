@@ -8,9 +8,14 @@
 import Foundation
 import UIKit
 
-enum ScheduleSectionHeaderType {
+enum HomeTableViewSectionType: Int {
     case schedule
     case player
+    
+    enum cellType: Int {
+        case team
+        case players
+    }
     
     func title() -> String {
         switch self { 

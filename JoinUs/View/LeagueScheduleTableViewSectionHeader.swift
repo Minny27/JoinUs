@@ -7,7 +7,7 @@
 
 import UIKit
 
-final class LeagueScheduleSectionHeader: UIView {
+final class LeagueScheduleTableViewSectionHeader: UIView {
     let leagueView: UIView = {
         let view = UIView()
         view.backgroundColor = .white
@@ -30,6 +30,7 @@ final class LeagueScheduleSectionHeader: UIView {
     let leagueTitleLabel: UILabel = {
         let label = UILabel()
         label.font = .boldSystemFont(ofSize: 15)
+        label.textColor = .black
         label.textAlignment = .left
         
         return label
@@ -43,7 +44,9 @@ final class LeagueScheduleSectionHeader: UIView {
         fatalError("init(coder:) has not been implemented")
     }
     
-    func configureUI(sectionHeaderType: LeagueSectionHeaderType) {
+    func configureUI(leagueScheduleTableViewSectionType: LeagueScheduleTableViewSectionType) {
+        backgroundColor = .systemGray6
+        
         addSubview(leagueView)
         leagueView.addSubview(leagueDataView)
         leagueDataView.addSubview(leagueImage)
@@ -76,7 +79,7 @@ final class LeagueScheduleSectionHeader: UIView {
             leagueTitleLabel.widthAnchor.constraint(equalToConstant: 100),
         ])
         
-        leagueImage.image = UIImage(data: sectionHeaderType.image())
-        leagueTitleLabel.text = sectionHeaderType.title()
+        leagueImage.image = UIImage(data: leagueScheduleTableViewSectionType.image())
+        leagueTitleLabel.text = leagueScheduleTableViewSectionType.title()
     }
 }

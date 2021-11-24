@@ -9,18 +9,24 @@ import UIKit
 
 class ScheduleTableViewCell: UITableViewCell {
     static let identifier = "scheduleTableViewCell"
-
-    let worldsPastViewModel = ScheduleTableViewModel(dataType: .past(league: "worlds"))
-    let worldsRunningViewModel = ScheduleTableViewModel(dataType: .running(league: "worlds"))
-    let worldsUpcomingViewModel = ScheduleTableViewModel(dataType: .upcoming(league: "worlds"))
-    let lckPastViewModel = ScheduleTableViewModel(dataType: .past(league: "lck"))
-    let lckRunningViewModel = ScheduleTableViewModel(dataType: .running(league: "lck"))
-    let lckUpcomingViewModel = ScheduleTableViewModel(dataType: .upcoming(league: "lck"))
+    
+    let worldsPastViewModel = LeagueScheduleTableViewModel(dataType: .past(league: "worlds"))
+    let worldsRunningViewModel = LeagueScheduleTableViewModel(dataType: .running(league: "worlds"))
+    let worldsUpcomingViewModel = LeagueScheduleTableViewModel(dataType: .upcoming(league: "worlds"))
+    let lckPastViewModel = LeagueScheduleTableViewModel(dataType: .past(league: "lck"))
+    let lckRunningViewModel = LeagueScheduleTableViewModel(dataType: .running(league: "lck"))
+    let lckUpcomingViewModel = LeagueScheduleTableViewModel(dataType: .upcoming(league: "lck"))
+    var sectionType: [Int: String] = [:]
     
     var leagueScheduleTableView: UITableView = {
         let tableView = UITableView()
-        tableView.backgroundColor = .systemGray6
         tableView.separatorInset = UIEdgeInsets(top: 0, left: 10, bottom: 0, right: 10)
+        
+        if #available(iOS 15.0, *) {
+            tableView.sectionHeaderTopPadding = .zero
+        } else {
+            // Fallback on earlier versions
+        }
         
         return tableView
     }()
@@ -28,7 +34,7 @@ class ScheduleTableViewCell: UITableViewCell {
     override func awakeFromNib() {
         super.awakeFromNib()
     }
-
+    
     override func setSelected(_ selected: Bool, animated: Bool) {
         super.setSelected(selected, animated: animated)
     }
@@ -49,21 +55,21 @@ class ScheduleTableViewCell: UITableViewCell {
             leagueScheduleTableView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor),
             leagueScheduleTableView.rightAnchor.constraint(equalTo: contentView.rightAnchor),
         ])
- 
-        worldsRunningViewModel.scheduleList.bind { _ in
+        
+        self.worldsRunningViewModel.fetchData()
+        self.lckRunningViewModel.fetchData()
+            
+        self.worldsRunningViewModel.scheduleList.bind { _ in
             DispatchQueue.main.async {
                 self.leagueScheduleTableView.reloadData()
             }
         }
         
-        lckRunningViewModel.scheduleList.bind { _ in
+        self.lckRunningViewModel.scheduleList.bind { _ in
             DispatchQueue.main.async {
                 self.leagueScheduleTableView.reloadData()
             }
         }
-
-        self.worldsRunningViewModel.fetchData()
-        self.lckRunningViewModel.fetchData()
     }
 }
 
@@ -72,10 +78,12 @@ extension ScheduleTableViewCell: UITableViewDataSource {
         var countSection: Int = 0
         
         if worldsRunningViewModel.scheduleList.value!.count > 0 {
+            sectionType[countSection] = "worlds"
             countSection += 1
         }
         
         if lckRunningViewModel.scheduleList.value!.count > 0 {
+            sectionType[countSection] = "lck"
             countSection += 1
         }
         
@@ -87,62 +95,76 @@ extension ScheduleTableViewCell: UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        let tableViewSectionType = LeagueSectionHeaderType(rawValue: section)!
-        
-        switch tableViewSectionType {
-        case .worlds:
-            return worldsRunningViewModel.scheduleList.value!.count
-        case .lck:
-            return lckRunningViewModel.scheduleList.value!.count
+        if let sectionType = sectionType[section] {
+            let leagueScheduleTableViewSectionType = LeagueScheduleTableViewSectionType(rawValue: sectionType)!
+            
+            switch leagueScheduleTableViewSectionType {
+            case .worlds:
+                return worldsRunningViewModel.scheduleList.value!.count
+            case .lck:
+                return lckRunningViewModel.scheduleList.value!.count
+            }
         }
+        
+        return 0
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let tableViewSectionType = LeagueSectionHeaderType(rawValue: indexPath.section)!
+        if let sectionType = sectionType[indexPath.section] {
+            let leagueScheduleTableViewSectionType = LeagueScheduleTableViewSectionType(rawValue: sectionType)!
+            
+            switch leagueScheduleTableViewSectionType {
+            case .worlds:
+                guard let cell = tableView.dequeueReusableCell(withIdentifier: LeagueScheduleTableViewCell.identifier, for: indexPath) as? LeagueScheduleTableViewCell else {
+                    return UITableViewCell()
+                }
+                
+                let leagueScheduleInfo = worldsRunningViewModel.scheduleInfo(at: indexPath.row)
+                
+                cell.configureUI()
+                cell.update(leagueScheduleTableViewCellModel: leagueScheduleInfo!)
+                
+                return cell
+                
+            case .lck:
+                guard let cell = tableView.dequeueReusableCell(withIdentifier: LeagueScheduleTableViewCell.identifier, for: indexPath) as? LeagueScheduleTableViewCell else {
+                    return UITableViewCell()
+                }
+                
+                let leagueScheduleInfo = lckRunningViewModel.scheduleInfo(at: indexPath.row)
+                
+                cell.configureUI()
+                cell.update(leagueScheduleTableViewCellModel: leagueScheduleInfo!)
+                
+                return cell
+            }
+        }
         
-        switch tableViewSectionType {
-        case .worlds:
-            guard let cell = tableView.dequeueReusableCell(withIdentifier: LeagueScheduleTableViewCell.identifier, for: indexPath) as? LeagueScheduleTableViewCell else {
-                return UITableViewCell()
-            }
-            
-            let leagueScheduleInfo = worldsRunningViewModel.scheduleInfo(at: indexPath.row)
-            
-            cell.configureUI()
-            cell.update(scheduleTableViewCellModel: leagueScheduleInfo!)
-            
-            return cell
-            
-        case .lck:
-            guard let cell = tableView.dequeueReusableCell(withIdentifier: LeagueScheduleTableViewCell.identifier, for: indexPath) as? LeagueScheduleTableViewCell else {
-                return UITableViewCell()
-            }
-            
-            let leagueScheduleInfo = lckRunningViewModel.scheduleInfo(at: indexPath.row)
-            
-            cell.configureUI()
-            cell.update(scheduleTableViewCellModel: leagueScheduleInfo!)
-            
-            return cell
+        else {
+            return UITableViewCell()
         }
     }
     
     func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
-        let tableViewSectionType = LeagueSectionHeaderType(rawValue: section)!
-        
-        switch tableViewSectionType {
-        case .worlds:
-            let worldsSectionHeader = LeagueScheduleSectionHeader()
-            worldsSectionHeader.configureUI(sectionHeaderType: .worlds)
+        if let sectionType = sectionType[section] {
+            let leagueScheduleTableViewSectionType = LeagueScheduleTableViewSectionType(rawValue: sectionType)!
             
-            return worldsSectionHeader
-            
-        case .lck:
-            let lckSectionHeader = LeagueScheduleSectionHeader()
-            lckSectionHeader.configureUI(sectionHeaderType: .lck)
-            
-            return lckSectionHeader
+            switch leagueScheduleTableViewSectionType {
+            case .worlds:
+                let worldsSectionHeader = LeagueScheduleTableViewSectionHeader()
+                worldsSectionHeader.configureUI(leagueScheduleTableViewSectionType: .worlds)
+                
+                return worldsSectionHeader
+                
+            case .lck:
+                let lckSectionHeader = LeagueScheduleTableViewSectionHeader()
+                lckSectionHeader.configureUI(leagueScheduleTableViewSectionType: .lck)
+                
+                return lckSectionHeader
+            }
         }
+        
+        return UIView()
     }
 }
 

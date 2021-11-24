@@ -23,6 +23,8 @@ final class NetworkManger {
                                           cachePolicy: .useProtocolCachePolicy,
                                           timeoutInterval: 10.0)
         
+//        var request = URLRequest(url: requestUrl)
+        
         request.httpMethod = "GET"
         request.allHTTPHeaderFields = headers
         
@@ -41,6 +43,7 @@ final class NetworkManger {
             }
             
             var scheduleData: [ReceivedScheduleModel]
+            
             do {
                 let decoder = JSONDecoder()
                 decoder.dateDecodingStrategy = .iso8601

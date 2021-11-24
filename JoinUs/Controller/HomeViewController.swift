@@ -13,18 +13,24 @@ class HomeViewController: UIViewController {
     
     static var viewFrameWidth: CGFloat = 0
     
-    let homeButton: UIButton = {
-        let button = UIButton()
-        button.setTitle("Join Us", for: .normal)
-        button.setTitleColor(.black, for: .normal)
-        button.titleLabel?.font = .boldSystemFont(ofSize: 30)
-        button.titleLabel?.textAlignment = .center
+    let homeLabel: UILabel = {
+        let label = UILabel()
+        label.text = "Join Us"
+        label.font = .boldSystemFont(ofSize: 30)
+        label.textColor = .black
+        label.textAlignment = .center
         
-        return button
+        return label
     }()
     
     var homeTableView: UITableView = {
         let tableView = UITableView()
+        
+        if #available(iOS 15.0, *) {
+            tableView.sectionHeaderTopPadding = .zero
+        } else {
+            // Fallback on earlier versions
+        }
         
         return tableView
     }()
@@ -33,16 +39,16 @@ class HomeViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-        self.view.backgroundColor = .white
+                        
+        view.backgroundColor = .white
         
         configureUI()
     }
-    
+     
     func configureUI() {
         HomeViewController.viewFrameWidth = view.frame.width
         
-        view.addSubview(homeButton)
+        view.addSubview(homeLabel)
         view.addSubview(homeTableView)
         
         homeTableView.register(ScheduleTableViewCell.self, forCellReuseIdentifier: ScheduleTableViewCell.identifier)
@@ -52,16 +58,16 @@ class HomeViewController: UIViewController {
         homeTableView.dataSource = self
         homeTableView.delegate = self
         
-        homeButton.translatesAutoresizingMaskIntoConstraints = false
+        homeLabel.translatesAutoresizingMaskIntoConstraints = false
         homeTableView.translatesAutoresizingMaskIntoConstraints = false
         
         NSLayoutConstraint.activate([
-            homeButton.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
-            homeButton.leftAnchor.constraint(equalTo: view.leftAnchor),
-            homeButton.rightAnchor.constraint(equalTo: view.rightAnchor),
-            homeButton.heightAnchor.constraint(equalToConstant: 80),
+            homeLabel.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
+            homeLabel.leftAnchor.constraint(equalTo: view.leftAnchor),
+            homeLabel.rightAnchor.constraint(equalTo: view.rightAnchor),
+            homeLabel.heightAnchor.constraint(equalToConstant: 80),
             
-            homeTableView.topAnchor.constraint(equalTo: homeButton.bottomAnchor),
+            homeTableView.topAnchor.constraint(equalTo: homeLabel.bottomAnchor),
             homeTableView.leftAnchor.constraint(equalTo: view.leftAnchor),
             homeTableView.bottomAnchor.constraint(equalTo: view.bottomAnchor),
             homeTableView.rightAnchor.constraint(equalTo: view.rightAnchor)
@@ -91,7 +97,10 @@ extension HomeViewController: UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        if indexPath.section == 0 {
+        let homeTableViewSectionType = HomeTableViewSectionType(rawValue: indexPath.section)!
+        
+        switch homeTableViewSectionType {
+        case .schedule:
             guard let cell = tableView.dequeueReusableCell(withIdentifier: ScheduleTableViewCell.identifier, for: indexPath) as? ScheduleTableViewCell else {
                 return UITableViewCell()
             }
@@ -99,10 +108,12 @@ extension HomeViewController: UITableViewDataSource {
             cell.configureCell()
             
             return cell
-        }
-        
-        else {
-            if indexPath.row == 0 {
+            
+        case .player:
+            let cellType = HomeTableViewSectionType.cellType(rawValue: indexPath.row)!
+            
+            switch cellType {
+            case .team:
                 guard let cell = tableView.dequeueReusableCell(withIdentifier: TeamTabbarTableViewCell.identifier, for: indexPath) as? TeamTabbarTableViewCell else {
                     return UITableViewCell()
                 }
@@ -110,9 +121,8 @@ extension HomeViewController: UITableViewDataSource {
                 cell.configureCell()
                 
                 return cell
-            }
-            
-            else {
+                
+            case .players:
                 guard let cell = tableView.dequeueReusableCell(withIdentifier: PlayerTableViewCell.identifier, for: indexPath) as? PlayerTableViewCell else {
                     return UITableViewCell()
                 }
@@ -125,16 +135,17 @@ extension HomeViewController: UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
-        if section == 0 {
-            let scheduleSectionHeader = ScheduleSectionHeader()
-            scheduleSectionHeader.configureUI(sectionHeaderType: .schedule)
+        let homeTableViewSectionType = HomeTableViewSectionType(rawValue: section)!
+        
+        switch homeTableViewSectionType {
+        case .schedule:
+            let scheduleSectionHeader = HomeTableViewSectionHeader()
+            scheduleSectionHeader.configureUI(homeTableViewSectionType: .schedule)
             
             return scheduleSectionHeader
-        }
-        
-        else {
-            let playerSectionHeader = ScheduleSectionHeader()
-            playerSectionHeader.configureUI(sectionHeaderType: .player)
+        case .player:
+            let playerSectionHeader = HomeTableViewSectionHeader()
+            playerSectionHeader.configureUI(homeTableViewSectionType: .player)
             
             return playerSectionHeader
         }
