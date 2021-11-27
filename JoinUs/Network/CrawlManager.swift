@@ -14,6 +14,16 @@ struct CrawlManager {
         let urlString = "https://lol.fandom.com/wiki/LCK/2021_Season/Summer_Season"
         
         AF.request(urlString).responseString { response in
+            if response.response?.url == nil {
+                print(NetworkError.invalidUrl)
+                return
+            }
+            
+            if response.error != nil {
+                print(NetworkError.invalidResponse)
+                return
+            }
+            
             guard let html = response.value else {
                 print(NetworkError.invalidHTML)
                 return
@@ -43,6 +53,54 @@ struct CrawlManager {
                 }
                 
                 completion(standingsList)
+                
+            } catch {
+                print(NetworkError.parsingError)
+            }
+        }
+    }
+    
+    func crawlNews(completion: @escaping(([News])-> Void)) {
+        var newsList: [News] = []
+        let baseUrl = "https://www.fomos.kr"
+        let newsUrlString = baseUrl + "/esports/news_list?news_cate_id=13"
+        
+        AF.request(newsUrlString).responseString { response in
+            if response.response?.url == nil {
+                print(NetworkError.invalidUrl)
+                return
+            }
+            
+            if response.error != nil {
+                print(NetworkError.invalidResponse)
+                return
+            }
+            
+            guard let html = response.value else {
+                print(NetworkError.invalidHTML)
+                return
+            }
+            
+            do {
+                let document: Document = try SwiftSoup.parse(html)
+                let elements: Elements = try document.select("body > div.wrap > div.page.page_sub > div.two_content > div.left_side > div > div > ul > li")
+                
+                for element in elements {
+                    let imageRelativePath = try element.select("img").attr("src")
+                    let imageUrl = baseUrl + imageRelativePath
+                    let photo = try Data(contentsOf: URL(string: imageUrl)!)
+                    let title = try element.select("p.tit").text()
+                    let etc = try element.select("p.etc").text()
+                                        
+                    newsList.append(
+                        News(photo: photo,
+                             title: title,
+                             etc: etc
+                        )
+                    )
+                }
+                
+                completion(newsList)
                 
             } catch {
                 print(NetworkError.parsingError)
