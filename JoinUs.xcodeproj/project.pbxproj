@@ -82,8 +82,11 @@
 		56418AA0273CF0A5005BEF2E /* LeagueScheduleTableViewSectionType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 56418A9F273CF0A5005BEF2E /* LeagueScheduleTableViewSectionType.swift */; };
 		564345422730FDAC00E7994B /* RequestScheduleType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 564345412730FDAC00E7994B /* RequestScheduleType.swift */; };
 		564345482731301F00E7994B /* LeagueScheduleTableViewCellModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 564345472731301F00E7994B /* LeagueScheduleTableViewCellModel.swift */; };
+		5646AC282750D47D009F295A /* NewsTableViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5646AC272750D47D009F295A /* NewsTableViewModel.swift */; };
+		5646AC2A2750D4BD009F295A /* NewsTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5646AC292750D4BD009F295A /* NewsTableViewCell.swift */; };
 		564B3D9227506C3000A62E4C /* CategoryTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 564B3D9127506C3000A62E4C /* CategoryTableViewCell.swift */; };
 		564B3D942750770300A62E4C /* StandingsType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 564B3D932750770300A62E4C /* StandingsType.swift */; };
+		564B3D962750D0DE00A62E4C /* News.swift in Sources */ = {isa = PBXBuildFile; fileRef = 564B3D952750D0DE00A62E4C /* News.swift */; };
 		564C518227142921001419BE /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 564C518127142921001419BE /* Main.storyboard */; };
 		564EC2002709D63800DCA9E6 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 564EC1FF2709D63800DCA9E6 /* AppDelegate.swift */; };
 		564EC2022709D63800DCA9E6 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 564EC2012709D63800DCA9E6 /* SceneDelegate.swift */; };
@@ -196,8 +199,11 @@
 		56418A9F273CF0A5005BEF2E /* LeagueScheduleTableViewSectionType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LeagueScheduleTableViewSectionType.swift; sourceTree = "<group>"; };
 		564345412730FDAC00E7994B /* RequestScheduleType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RequestScheduleType.swift; sourceTree = "<group>"; };
 		564345472731301F00E7994B /* LeagueScheduleTableViewCellModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LeagueScheduleTableViewCellModel.swift; sourceTree = "<group>"; };
+		5646AC272750D47D009F295A /* NewsTableViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewsTableViewModel.swift; sourceTree = "<group>"; };
+		5646AC292750D4BD009F295A /* NewsTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewsTableViewCell.swift; sourceTree = "<group>"; };
 		564B3D9127506C3000A62E4C /* CategoryTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoryTableViewCell.swift; sourceTree = "<group>"; };
 		564B3D932750770300A62E4C /* StandingsType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StandingsType.swift; sourceTree = "<group>"; };
+		564B3D952750D0DE00A62E4C /* News.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = News.swift; sourceTree = "<group>"; };
 		564C518127142921001419BE /* Main.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = Main.storyboard; sourceTree = "<group>"; };
 		564EC1FC2709D63800DCA9E6 /* JoinUs.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = JoinUs.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		564EC1FF2709D63800DCA9E6 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -533,6 +539,7 @@
 				565CA24327229FC500669E8F /* LeagueScheduleTableViewModel.swift */,
 				5622EF9027412D60001E1C35 /* MonthCollectionViewModel.swift */,
 				56B1A721274F409C00C91BB8 /* StandingsVIewModel.swift */,
+				5646AC272750D47D009F295A /* NewsTableViewModel.swift */,
 			);
 			path = ViewModel;
 			sourceTree = "<group>";
@@ -547,6 +554,7 @@
 				56555F6D273670AA00A8A53D /* Observable.swift */,
 				5622EF8E27412CD1001E1C35 /* Month.swift.swift */,
 				56B1A71F274F1F7D00C91BB8 /* Standings.swift */,
+				564B3D952750D0DE00A62E4C /* News.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -566,6 +574,7 @@
 				5622EF9227412E40001E1C35 /* MonthCollectionViewCell.swift */,
 				56B1A723274F421E00C91BB8 /* StandingsTableViewCell.swift */,
 				564B3D9127506C3000A62E4C /* CategoryTableViewCell.swift */,
+				5646AC292750D4BD009F295A /* NewsTableViewCell.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -751,6 +760,7 @@
 				564345482731301F00E7994B /* LeagueScheduleTableViewCellModel.swift in Sources */,
 				5602F05A270D2DE00096B048 /* TeamModel.swift in Sources */,
 				56C2CEB4271D63DF005691C6 /* ScheduleTableViewCell.swift in Sources */,
+				5646AC282750D47D009F295A /* NewsTableViewModel.swift in Sources */,
 				56555F6E273670AA00A8A53D /* Observable.swift in Sources */,
 				56B1A720274F1F7D00C91BB8 /* Standings.swift in Sources */,
 				56DE7C752734BAEA0093C9AE /* League.swift in Sources */,
@@ -765,6 +775,7 @@
 				5622EF8F27412CD1001E1C35 /* Month.swift.swift in Sources */,
 				56DE7C722734BADC0093C9AE /* Winner.swift in Sources */,
 				56B1A722274F409C00C91BB8 /* StandingsVIewModel.swift in Sources */,
+				564B3D962750D0DE00A62E4C /* News.swift in Sources */,
 				56DE7C782734BAF60093C9AE /* Opponents.swift in Sources */,
 				56DE7C6F2734BAC60093C9AE /* Game.swift in Sources */,
 				564EC2022709D63800DCA9E6 /* SceneDelegate.swift in Sources */,
@@ -787,6 +798,7 @@
 				56E26B8F27193CB8007C9EE0 /* NewsViewController.swift in Sources */,
 				56DE7C882734E68D0093C9AE /* DateFormatter.swift in Sources */,
 				5605BB952715636500A9811A /* TeamType.swift in Sources */,
+				5646AC2A2750D4BD009F295A /* NewsTableViewCell.swift in Sources */,
 				5605BB9927157FBF00A9811A /* PlayerCollectionViewCell.swift in Sources */,
 				56E9F0C22739600500E7A901 /* LeagueScheduleTableViewSectionHeader.swift in Sources */,
 				564345422730FDAC00E7994B /* RequestScheduleType.swift in Sources */,

@@ -15,4 +15,14 @@ struct Standings {
     let loses: String
     let winRate: String
     let point: String
+    
+    init(ranking: String, teamImage: Data, team: String, wins: String, loses: String, winRate: String, point: String) {
+        self.ranking = ranking
+        self.teamImage = teamImage
+        self.team = team
+        self.wins = wins
+        self.loses = loses
+        self.winRate = winRate
+        self.point = point
+    }
 }

@@ -65,7 +65,7 @@ class StandingsViewController: UIViewController {
         
         NSLayoutConstraint.activate([
             titleLabel.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 80),
-            titleLabel.leftAnchor.constraint(equalTo: view.leftAnchor, constant: 20),
+            titleLabel.leftAnchor.constraint(equalTo: view.leftAnchor, constant: 10),
             titleLabel.widthAnchor.constraint(equalToConstant: 100),
             titleLabel.heightAnchor.constraint(equalToConstant: 40),
             
