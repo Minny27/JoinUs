@@ -39,8 +39,6 @@ class HomeViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-                        
-        view.backgroundColor = .white
         
         configureUI()
     }
@@ -48,6 +46,7 @@ class HomeViewController: UIViewController {
     func configureUI() {
         HomeViewController.viewFrameWidth = view.frame.width
         
+        view.backgroundColor = .white
         view.addSubview(homeLabel)
         view.addSubview(homeTableView)
         
