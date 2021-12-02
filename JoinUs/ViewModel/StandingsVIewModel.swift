@@ -11,12 +11,12 @@ import SwiftSoup
 final class StandingsViewModel {
     var standingsList: Observable<[Standings]> = Observable([])
     
-    var countStandingsInfoList: Int {
+    var countStandingsList: Int {
         return standingsList.value?.count ?? 0
     }
     
-    func fetchStandingsData() {
-        CrawlManager().crawlLeagueStandings() { standingsList in
+    func fetchStandingsData(urlString: String) {
+        CrawlManager().crawlLeagueStandings(urlString: urlString) { standingsList in
             self.standingsList.value = standingsList.compactMap({
                 Standings(ranking: $0.ranking,
                           teamImage: $0.teamImage,

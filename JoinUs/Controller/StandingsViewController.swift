@@ -10,7 +10,39 @@ import Alamofire
 import SwiftSoup
 
 class StandingsViewController: UIViewController {
+    
+    // MARK: - Properties
+    static var selectedSeasonIndex = 0
+    
     let standingsViewModel = StandingsViewModel()
+    
+    let containerView: UIView = {
+        let view = UIView()
+        
+        return view
+    }()
+    
+    let seasonSelectionButton: UIButton = {
+        let button = UIButton()
+        button.setTitle(
+            "시즌 선택",
+            for: .normal
+        )
+        button.setTitleColor(
+            .lightGray,
+            for: .normal
+        )
+        button.titleLabel?.font = .boldSystemFont(ofSize: 12)
+        button.titleLabel?.textAlignment = .center
+        
+        button.addTarget(
+            self,
+            action: #selector(clickSeasonSelectionButton),
+            for: .touchUpInside
+        )
+        
+        return button
+    }()
     
     let titleLabel: UILabel = {
         let label = UILabel()
@@ -23,7 +55,12 @@ class StandingsViewController: UIViewController {
     
     let standingsTableView: UITableView = {
         let tableView = UITableView()
-        tableView.separatorInset = UIEdgeInsets(top: 0, left: 10, bottom: 0, right: 10)
+        tableView.separatorInset = UIEdgeInsets(
+            top: 0,
+            left: 10,
+            bottom: 0,
+            right: 10
+        )
 
         if #available(iOS 15.0, *) {
             tableView.sectionHeaderTopPadding = .zero
@@ -34,11 +71,18 @@ class StandingsViewController: UIViewController {
         return tableView
     }()
     
-    
+    // MARK: - LifeCycle
     override func viewDidLoad() {
         super.viewDidLoad()
         
         configureUI()
+        
+        NotificationCenter.default.addObserver(
+            self,
+            selector: #selector(didDismissPopUpViewNotification(_:)),
+            name: Notification.Name(Strings.didDismissPopUpViewNotification),
+            object: nil
+        )
         
         standingsViewModel.standingsList.bind { _ in
             DispatchQueue.main.async {
@@ -46,50 +90,90 @@ class StandingsViewController: UIViewController {
             }
         }
         
-        standingsViewModel.fetchStandingsData()
+        standingsViewModel.fetchStandingsData(urlString: RequestSeason.urlPath)
     }
     
     func configureUI() {
         view.backgroundColor = .white
+        view.addSubview(containerView)
         view.addSubview(titleLabel)
         view.addSubview(standingsTableView)
+        containerView.addSubview(seasonSelectionButton)
         
-        standingsTableView.register(CategoryTableViewCell.self, forCellReuseIdentifier: CategoryTableViewCell.identifier)
-        standingsTableView.register(StandingsTableViewCell.self, forCellReuseIdentifier: StandingsTableViewCell.identifier)
+        standingsTableView.register(
+            CategoryTableViewCell.self,
+            forCellReuseIdentifier: CategoryTableViewCell.identifier
+        )
+        standingsTableView.register(
+            StandingsTableViewCell.self,
+            forCellReuseIdentifier: StandingsTableViewCell.identifier)
         
         standingsTableView.dataSource = self
         standingsTableView.delegate = self
         
+        containerView.translatesAutoresizingMaskIntoConstraints = false
+        seasonSelectionButton.translatesAutoresizingMaskIntoConstraints = false
         titleLabel.translatesAutoresizingMaskIntoConstraints = false
         standingsTableView.translatesAutoresizingMaskIntoConstraints = false
         
         NSLayoutConstraint.activate([
-            titleLabel.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 80),
+            containerView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
+            containerView.leftAnchor.constraint(equalTo: view.leftAnchor),
+            containerView.rightAnchor.constraint(equalTo: view.rightAnchor),
+            containerView.heightAnchor.constraint(equalToConstant: 60),
+            
+            seasonSelectionButton.topAnchor.constraint(equalTo: containerView.topAnchor, constant: 15),
+            seasonSelectionButton.rightAnchor.constraint(equalTo: containerView.rightAnchor, constant: -10),
+            seasonSelectionButton.widthAnchor.constraint(equalToConstant: 50),
+            seasonSelectionButton.heightAnchor.constraint(equalToConstant: 25),
+            
+            titleLabel.topAnchor.constraint(equalTo: containerView.bottomAnchor),
             titleLabel.leftAnchor.constraint(equalTo: view.leftAnchor, constant: 10),
             titleLabel.widthAnchor.constraint(equalToConstant: 100),
-            titleLabel.heightAnchor.constraint(equalToConstant: 40),
+            titleLabel.heightAnchor.constraint(equalToConstant: 25),
             
             standingsTableView.topAnchor.constraint(equalTo: titleLabel.bottomAnchor),
             standingsTableView.leftAnchor.constraint(equalTo: view.leftAnchor),
             standingsTableView.bottomAnchor.constraint(equalTo: view.bottomAnchor),
             standingsTableView.rightAnchor.constraint(equalTo: view.rightAnchor)
         ])
-        
     }
-
+    
+    @objc func clickSeasonSelectionButton() {
+        let popUpViewController = PopUpViewController()
+        popUpViewController.modalPresentationStyle = .overFullScreen
+        
+        present(
+            popUpViewController,
+            animated: false,
+            completion: nil
+        )
+    }
+    
+    @objc func didDismissPopUpViewNotification(_ notification: NSNotification) {
+        standingsViewModel.fetchStandingsData(urlString: notification.userInfo!["urlString"]! as! String)
+    }
 }
 
 extension StandingsViewController: UITableViewDataSource {
-    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return standingsViewModel.countStandingsInfoList + 1
+    func tableView(
+        _ tableView: UITableView,
+        numberOfRowsInSection section: Int
+    ) -> Int {
+        return standingsViewModel.countStandingsList + 1
     }
     
-    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+    func tableView(
+        _ tableView: UITableView,
+        cellForRowAt indexPath: IndexPath
+    ) -> UITableViewCell {
         let standingsType = StandingsType(rawValue: indexPath.row)
         
         switch standingsType {
         case .category:
-            guard let cell = tableView.dequeueReusableCell(withIdentifier: CategoryTableViewCell.identifier, for: indexPath) as? CategoryTableViewCell else {
+            guard let cell = tableView.dequeueReusableCell(
+                withIdentifier: CategoryTableViewCell.identifier,
+                for: indexPath) as? CategoryTableViewCell else {
                 return UITableViewCell()
             }
             
@@ -98,7 +182,9 @@ extension StandingsViewController: UITableViewDataSource {
             return cell
             
         case .none:
-            guard let cell = tableView.dequeueReusableCell(withIdentifier: StandingsTableViewCell.identifier, for: indexPath) as? StandingsTableViewCell else {
+            guard let cell = tableView.dequeueReusableCell(
+                withIdentifier: StandingsTableViewCell.identifier,
+                for: indexPath) as? StandingsTableViewCell else {
                 return UITableViewCell()
             }
             
@@ -113,7 +199,10 @@ extension StandingsViewController: UITableViewDataSource {
 }
 
 extension StandingsViewController: UITableViewDelegate {
-    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+    func tableView(
+        _ tableView: UITableView,
+        heightForRowAt indexPath: IndexPath
+    ) -> CGFloat {
         return 50
     }
 }
