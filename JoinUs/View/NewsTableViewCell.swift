@@ -31,18 +31,18 @@ final class NewsTableViewCell: UITableViewCell {
     
     let newsTitleLabel: UILabel = {
         let label = UILabel()
-        label.font = .boldSystemFont(ofSize: 12)
-        label.numberOfLines = 2
+        label.font = .boldSystemFont(ofSize: 15)
         label.textAlignment = .left
+        label.numberOfLines = 2
         
         return label
     }()
     
     let newsEtcLabel: UILabel = {
         let label = UILabel()
-        label.font = .boldSystemFont(ofSize: 8)
-        label.textColor = .lightGray
+        label.font = .boldSystemFont(ofSize: 12)
         label.textAlignment = .left
+        label.textColor = .lightGray
         
         return label
     }()
@@ -79,12 +79,12 @@ final class NewsTableViewCell: UITableViewCell {
             newsTitleLabel.topAnchor.constraint(equalTo: newsDataView.topAnchor),
             newsTitleLabel.leftAnchor.constraint(equalTo: newsDataView.leftAnchor),
             newsTitleLabel.rightAnchor.constraint(equalTo: newsDataView.rightAnchor),
-            newsTitleLabel.heightAnchor.constraint(equalToConstant: 30),
+            newsTitleLabel.heightAnchor.constraint(equalToConstant: 36),
             
             newsEtcLabel.leftAnchor.constraint(equalTo: newsDataView.leftAnchor),
             newsEtcLabel.bottomAnchor.constraint(equalTo: newsDataView.bottomAnchor),
             newsEtcLabel.rightAnchor.constraint(equalTo: newsDataView.rightAnchor),
-            newsEtcLabel.heightAnchor.constraint(equalToConstant: 10),
+            newsEtcLabel.heightAnchor.constraint(equalToConstant: 12),
         ])
     }
     

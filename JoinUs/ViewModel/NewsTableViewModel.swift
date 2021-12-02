@@ -25,7 +25,7 @@ final class NewsTableViewModel {
         }
     }
     
-    func newInfo(at index: Int) -> News? {
+    func newsInfo(at index: Int) -> News? {
         return newsList.value?[index]
     }
 }

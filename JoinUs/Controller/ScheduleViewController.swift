@@ -93,14 +93,14 @@ class ScheduleViewController: UIViewController {
         scheduleTableView.translatesAutoresizingMaskIntoConstraints = false
         
         NSLayoutConstraint.activate([
-            titleLabel.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 80),
-            titleLabel.leftAnchor.constraint(equalTo: view.leftAnchor, constant: 20),
+            titleLabel.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 60),
+            titleLabel.leftAnchor.constraint(equalTo: view.leftAnchor, constant: 10),
             titleLabel.widthAnchor.constraint(equalToConstant: 100),
-            titleLabel.heightAnchor.constraint(equalToConstant: 40),
+            titleLabel.heightAnchor.constraint(equalToConstant: 25),
             
             monthCollectionView.topAnchor.constraint(equalTo: titleLabel.bottomAnchor),
-            monthCollectionView.leftAnchor.constraint(equalTo: view.leftAnchor, constant: 20),
-            monthCollectionView.rightAnchor.constraint(equalTo: view.rightAnchor, constant: -20),
+            monthCollectionView.leftAnchor.constraint(equalTo: view.leftAnchor, constant: 10),
+            monthCollectionView.rightAnchor.constraint(equalTo: view.rightAnchor, constant: -10),
             monthCollectionView.heightAnchor.constraint(equalToConstant: 50),
             
             scheduleTableView.topAnchor.constraint(equalTo: monthCollectionView.bottomAnchor, constant: 10),
