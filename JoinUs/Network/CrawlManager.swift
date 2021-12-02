@@ -9,9 +9,8 @@ import Alamofire
 import SwiftSoup
 
 struct CrawlManager {
-    func crawlLeagueStandings(completion: @escaping (([Standings]) -> Void)) {
+    func crawlLeagueStandings(urlString: String, completion: @escaping (([Standings]) -> Void)) {
         var standingsList: [Standings] = []
-        let urlString = "https://lol.fandom.com/wiki/LCK/2021_Season/Summer_Season"
         
         AF.request(urlString).responseString { response in
             if response.response?.url == nil {
