@@ -7,10 +7,10 @@
 
 import UIKit
 
-final class PlayerCollectionViewCell: UICollectionViewCell {
+final class TeamPlayerCollectionViewCell: UICollectionViewCell {
     static let identifier = "playerCollectionViewCell"
     
-    let playerView: UIView = {
+    let containerView: UIView = {
         let view = UIView()
         view.layer.borderWidth = 2
         view.layer.cornerRadius = 5
@@ -54,33 +54,33 @@ final class PlayerCollectionViewCell: UICollectionViewCell {
     }
     
     func configureUI() {
-        contentView.addSubview(playerView)
-        playerView.addSubview(playerImageView)
-        playerView.addSubview(playerLineLabel)
-        playerView.addSubview(playerNameLabel)
+        contentView.addSubview(containerView)
+        containerView.addSubview(playerImageView)
+        containerView.addSubview(playerLineLabel)
+        containerView.addSubview(playerNameLabel)
         
-        playerView.translatesAutoresizingMaskIntoConstraints = false
+        containerView.translatesAutoresizingMaskIntoConstraints = false
         playerImageView.translatesAutoresizingMaskIntoConstraints = false
         playerLineLabel.translatesAutoresizingMaskIntoConstraints = false
         playerNameLabel.translatesAutoresizingMaskIntoConstraints = false
         
         NSLayoutConstraint.activate([
-            playerView.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 10),
-            playerView.leftAnchor.constraint(equalTo: contentView.leftAnchor, constant: 10),
-            playerView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -10),
-            playerView.rightAnchor.constraint(equalTo: contentView.rightAnchor, constant: -10),
+            containerView.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 10),
+            containerView.leftAnchor.constraint(equalTo: contentView.leftAnchor, constant: 10),
+            containerView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -10),
+            containerView.rightAnchor.constraint(equalTo: contentView.rightAnchor, constant: -10),
             
-            playerImageView.topAnchor.constraint(equalTo: playerView.topAnchor, constant: 10),
-            playerImageView.leftAnchor.constraint(equalTo: playerView.leftAnchor, constant: 5),
-            playerImageView.bottomAnchor.constraint(equalTo: playerView.bottomAnchor, constant: -39),
-            playerImageView.rightAnchor.constraint(equalTo: playerView.rightAnchor, constant: -5),
+            playerImageView.topAnchor.constraint(equalTo: containerView.topAnchor, constant: 10),
+            playerImageView.leftAnchor.constraint(equalTo: containerView.leftAnchor, constant: 5),
+            playerImageView.bottomAnchor.constraint(equalTo: containerView.bottomAnchor, constant: -40),
+            playerImageView.rightAnchor.constraint(equalTo: containerView.rightAnchor, constant: -5),
             
-            playerLineLabel.topAnchor.constraint(equalTo: playerImageView.bottomAnchor, constant: 2),
-            playerLineLabel.centerXAnchor.constraint(equalTo: playerView.centerXAnchor),
+            playerLineLabel.topAnchor.constraint(equalTo: playerImageView.bottomAnchor, constant: 3),
+            playerLineLabel.centerXAnchor.constraint(equalTo: containerView.centerXAnchor),
             playerLineLabel.heightAnchor.constraint(equalToConstant: 10),
             
             playerNameLabel.topAnchor.constraint(equalTo: playerLineLabel.bottomAnchor, constant: 2),
-            playerNameLabel.centerXAnchor.constraint(equalTo: playerView.centerXAnchor),
+            playerNameLabel.centerXAnchor.constraint(equalTo: containerView.centerXAnchor),
             playerNameLabel.heightAnchor.constraint(equalToConstant: 15)
         ])
     }
@@ -89,6 +89,6 @@ final class PlayerCollectionViewCell: UICollectionViewCell {
         playerImageView.image = UIImage(named: playerInfo.playerImageName)
         playerLineLabel.text = playerInfo.playerLine
         playerNameLabel.text = playerInfo.playerName
-        playerView.layer.borderColor = playerInfo.teamColor.cgColor
+        containerView.layer.borderColor = playerInfo.teamColor.cgColor
     }
 }

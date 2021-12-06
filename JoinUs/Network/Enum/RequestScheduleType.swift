@@ -30,7 +30,7 @@ enum RequestScheduleType {
         case .running(let league):
             switch league {
             case "worlds":
-                return "/past?filter[league_id]=297&filter[begin_at]=2021-11-06&sort=begin_at"
+                return "/past?filter[league_id]=297&filter[begin_at]=2021-10-05&sort=begin_at"
             case "lck":
                 return "/past?filter[league_id]=293&filter[begin_at]=2021-09-02"
             default:

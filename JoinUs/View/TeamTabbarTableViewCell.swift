@@ -68,8 +68,6 @@ extension TeamTabbarTableViewCell: UICollectionViewDataSource {
         
         cell.configureUI(cellIndex: indexPath.row, cellWidth: CGFloat(teamTabbarCellWidth[indexPath.row]))
         cell.update(teamInfo: teamInfo)
-        cell.layer.borderWidth = 0.3
-        cell.layer.cornerRadius = 10
         
         return cell
     }
@@ -78,13 +76,13 @@ extension TeamTabbarTableViewCell: UICollectionViewDataSource {
 extension TeamTabbarTableViewCell: UICollectionViewDelegate {
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         TeamTabbarTableViewCell.teamType = TeamType(rawValue: indexPath.row)!
-        PlayerTableViewCell.playerCollectionView.reloadData()
+        TeamPlayerTableViewCell.teamPlayerCollectionView.reloadData()
     }
 }
 
 extension TeamTabbarTableViewCell: UICollectionViewDelegateFlowLayout {
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
         
-        return CGSize(width: teamTabbarCellWidth[indexPath.row], height: 30)
+        return CGSize(width: teamTabbarCellWidth[indexPath.row], height: 40)
     }
 }

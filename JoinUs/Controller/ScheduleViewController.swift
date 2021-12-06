@@ -14,11 +14,18 @@ class ScheduleViewController: UIViewController {
     let monthCollectionViewModel = MonthCollectionViewModel()
     let lckRunningViewModel = LeagueScheduleTableViewModel(dataType: .running(league: "worlds"))
     
+    let containerView: UIView = {
+        let view = UIView()
+        
+        return view
+    }()
+    
     let titleLabel: UILabel = {
         let label = UILabel()
-        label.font = .boldSystemFont(ofSize: 20)
+        label.text = "✪ LCK 일정"
+        label.font = .boldSystemFont(ofSize: 25)
         label.textAlignment = .left
-        label.text = "LCK 일정"
+        label.textColor = .black
         
         return label
     }()
@@ -76,9 +83,10 @@ class ScheduleViewController: UIViewController {
     
     func configureUI() {
         view.backgroundColor = .white
-        view.addSubview(titleLabel)
+        view.addSubview(containerView)
         view.addSubview(monthCollectionView)
         view.addSubview(scheduleTableView)
+        containerView.addSubview(titleLabel)
         
         monthCollectionView.register(MonthCollectionViewCell.self, forCellWithReuseIdentifier: MonthCollectionViewCell.identifier)
         scheduleTableView.register(LeagueScheduleTableViewCell.self, forCellReuseIdentifier: LeagueScheduleTableViewCell.identifier)
@@ -88,17 +96,23 @@ class ScheduleViewController: UIViewController {
         scheduleTableView.dataSource = self
         scheduleTableView.delegate = self
         
+        containerView.translatesAutoresizingMaskIntoConstraints = false
         titleLabel.translatesAutoresizingMaskIntoConstraints = false
         monthCollectionView.translatesAutoresizingMaskIntoConstraints = false
         scheduleTableView.translatesAutoresizingMaskIntoConstraints = false
         
         NSLayoutConstraint.activate([
-            titleLabel.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 60),
-            titleLabel.leftAnchor.constraint(equalTo: view.leftAnchor, constant: 10),
-            titleLabel.widthAnchor.constraint(equalToConstant: 100),
+            containerView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
+            containerView.leftAnchor.constraint(equalTo: view.leftAnchor),
+            containerView.rightAnchor.constraint(equalTo: view.rightAnchor),
+            containerView.heightAnchor.constraint(equalToConstant: 100),
+            
+            titleLabel.leftAnchor.constraint(equalTo: containerView.leftAnchor, constant: 10),
+            titleLabel.bottomAnchor.constraint(equalTo: containerView.bottomAnchor),
+            titleLabel.rightAnchor.constraint(equalTo: containerView.rightAnchor, constant: -10),
             titleLabel.heightAnchor.constraint(equalToConstant: 25),
             
-            monthCollectionView.topAnchor.constraint(equalTo: titleLabel.bottomAnchor),
+            monthCollectionView.topAnchor.constraint(equalTo: titleLabel.bottomAnchor, constant: 10),
             monthCollectionView.leftAnchor.constraint(equalTo: view.leftAnchor, constant: 10),
             monthCollectionView.rightAnchor.constraint(equalTo: view.rightAnchor, constant: -10),
             monthCollectionView.heightAnchor.constraint(equalToConstant: 50),
