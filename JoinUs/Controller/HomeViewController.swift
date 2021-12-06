@@ -25,8 +25,7 @@ class HomeViewController: UIViewController {
     
     var homeTableView: UITableView = {
         let tableView = UITableView()
-        tableView.separatorInset = UIEdgeInsets(top: 0, left: 20, bottom: 0, right: 20)
-        
+
         if #available(iOS 15.0, *) {
             tableView.sectionHeaderTopPadding = .zero
         } else {
@@ -50,6 +49,8 @@ class HomeViewController: UIViewController {
         view.backgroundColor = .white
         view.addSubview(homeLabel)
         view.addSubview(homeTableView)
+        
+        homeTableView.separatorStyle = .none
         
         homeTableView.register(ScheduleTableViewCell.self, forCellReuseIdentifier: ScheduleTableViewCell.identifier)
         homeTableView.register(TeamTabbarTableViewCell.self, forCellReuseIdentifier: TeamTabbarTableViewCell.identifier)
