@@ -20,9 +20,10 @@ class NewsViewController: UIViewController {
     
     let titleLabel: UILabel = {
         let label = UILabel()
-        label.font = .boldSystemFont(ofSize: 20)
+        label.text = "✪ LOL News"
+        label.font = .boldSystemFont(ofSize: 25)
         label.textAlignment = .left
-        label.text = "Esports News"
+        label.textColor = .black
         
         return label
     }()
@@ -93,27 +94,27 @@ class NewsViewController: UIViewController {
         newsTableView.translatesAutoresizingMaskIntoConstraints = false
         
         NSLayoutConstraint.activate([
-            containerView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 60),
-            containerView.leftAnchor.constraint(equalTo: view.leftAnchor, constant: 10),
-            containerView.rightAnchor.constraint(equalTo: view.rightAnchor, constant: -10),
-            containerView.heightAnchor.constraint(equalToConstant: 25),
+            containerView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
+            containerView.leftAnchor.constraint(equalTo: view.leftAnchor),
+            containerView.rightAnchor.constraint(equalTo: view.rightAnchor),
+            containerView.heightAnchor.constraint(equalToConstant: 100),
             
-            titleLabel.topAnchor.constraint(equalTo: containerView.topAnchor),
-            titleLabel.leftAnchor.constraint(equalTo: containerView.leftAnchor),
+            titleLabel.leftAnchor.constraint(equalTo: containerView.leftAnchor, constant: 10),
             titleLabel.bottomAnchor.constraint(equalTo: containerView.bottomAnchor),
-            titleLabel.widthAnchor.constraint(equalToConstant: 150),
+            titleLabel.widthAnchor.constraint(equalToConstant: 180),
+            titleLabel.heightAnchor.constraint(equalToConstant: 25),
             
             RecentOrderButton.bottomAnchor.constraint(equalTo: containerView.bottomAnchor),
-            RecentOrderButton.rightAnchor.constraint(equalTo: containerView.rightAnchor),
+            RecentOrderButton.rightAnchor.constraint(equalTo: containerView.rightAnchor, constant: -10),
             RecentOrderButton.widthAnchor.constraint(equalToConstant: 40),
-            RecentOrderButton.heightAnchor.constraint(equalToConstant: 17),
+            RecentOrderButton.heightAnchor.constraint(equalToConstant: 12),
             
             popularityOrderButton.bottomAnchor.constraint(equalTo: containerView.bottomAnchor),
             popularityOrderButton.rightAnchor.constraint(equalTo: RecentOrderButton.leftAnchor),
             popularityOrderButton.widthAnchor.constraint(equalToConstant: 40),
-            popularityOrderButton.heightAnchor.constraint(equalToConstant: 17),
+            popularityOrderButton.heightAnchor.constraint(equalToConstant: 12),
             
-            newsTableView.topAnchor.constraint(equalTo: containerView.bottomAnchor),
+            newsTableView.topAnchor.constraint(equalTo: containerView.bottomAnchor, constant: 20),
             newsTableView.leftAnchor.constraint(equalTo: view.leftAnchor),
             newsTableView.bottomAnchor.constraint(equalTo: view.bottomAnchor),
             newsTableView.rightAnchor.constraint(equalTo: view.rightAnchor)

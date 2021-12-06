@@ -17,14 +17,15 @@ class HomeViewController: UIViewController {
         let label = UILabel()
         label.text = "Join Us"
         label.font = .boldSystemFont(ofSize: 30)
-        label.textColor = .black
         label.textAlignment = .center
+        label.textColor = .black
         
         return label
     }()
     
     var homeTableView: UITableView = {
         let tableView = UITableView()
+        tableView.separatorInset = UIEdgeInsets(top: 0, left: 20, bottom: 0, right: 20)
         
         if #available(iOS 15.0, *) {
             tableView.sectionHeaderTopPadding = .zero
@@ -52,7 +53,7 @@ class HomeViewController: UIViewController {
         
         homeTableView.register(ScheduleTableViewCell.self, forCellReuseIdentifier: ScheduleTableViewCell.identifier)
         homeTableView.register(TeamTabbarTableViewCell.self, forCellReuseIdentifier: TeamTabbarTableViewCell.identifier)
-        homeTableView.register(PlayerTableViewCell.self, forCellReuseIdentifier: PlayerTableViewCell.identifier)
+        homeTableView.register(TeamPlayerTableViewCell.self, forCellReuseIdentifier: TeamPlayerTableViewCell.identifier)
         
         homeTableView.dataSource = self
         homeTableView.delegate = self
@@ -122,7 +123,7 @@ extension HomeViewController: UITableViewDataSource {
                 return cell
                 
             case .players:
-                guard let cell = tableView.dequeueReusableCell(withIdentifier: PlayerTableViewCell.identifier, for: indexPath) as? PlayerTableViewCell else {
+                guard let cell = tableView.dequeueReusableCell(withIdentifier: TeamPlayerTableViewCell.identifier, for: indexPath) as? TeamPlayerTableViewCell else {
                     return UITableViewCell()
                 }
                 
@@ -157,11 +158,11 @@ extension HomeViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         if indexPath.section == 1 {
             if indexPath.row == 0 {
-                return 50
+                return 40
             }
-//            else {
-//                return 250
-//            }
+            else {
+                return 240
+            }
         }
 
         return 250

@@ -10,7 +10,7 @@ import UIKit
 class CategoryTableViewCell: UITableViewCell {
     static let identifier = "categoryTableViewCell"
     
-    let categoryDataView: UIView = {
+    let containerView: UIView = {
         let view = UIView()
         
         return view
@@ -71,15 +71,15 @@ class CategoryTableViewCell: UITableViewCell {
     }()
     
     func configureCell() {
-        contentView.addSubview(categoryDataView)
-        categoryDataView.addSubview(rankingLabel)
-        categoryDataView.addSubview(teamLabel)
-        categoryDataView.addSubview(winsLabel)
-        categoryDataView.addSubview(losesLabel)
-        categoryDataView.addSubview(winRateLabel)
-        categoryDataView.addSubview(pointLabel)
+        contentView.addSubview(containerView)
+        containerView.addSubview(rankingLabel)
+        containerView.addSubview(teamLabel)
+        containerView.addSubview(winsLabel)
+        containerView.addSubview(losesLabel)
+        containerView.addSubview(winRateLabel)
+        containerView.addSubview(pointLabel)
         
-        categoryDataView.translatesAutoresizingMaskIntoConstraints = false
+        containerView.translatesAutoresizingMaskIntoConstraints = false
         rankingLabel.translatesAutoresizingMaskIntoConstraints = false
         teamLabel.translatesAutoresizingMaskIntoConstraints = false
         winsLabel.translatesAutoresizingMaskIntoConstraints = false
@@ -88,40 +88,40 @@ class CategoryTableViewCell: UITableViewCell {
         pointLabel.translatesAutoresizingMaskIntoConstraints = false
         
         NSLayoutConstraint.activate([
-            categoryDataView.leftAnchor.constraint(equalTo: contentView.leftAnchor, constant: 10),
-            categoryDataView.rightAnchor.constraint(equalTo: contentView.rightAnchor, constant: -10),
-            categoryDataView.centerYAnchor.constraint(equalTo: contentView.centerYAnchor),
-            categoryDataView.heightAnchor.constraint(equalToConstant: 30),
+            containerView.leftAnchor.constraint(equalTo: contentView.leftAnchor, constant: 10),
+            containerView.rightAnchor.constraint(equalTo: contentView.rightAnchor, constant: -15),
+            containerView.centerYAnchor.constraint(equalTo: contentView.centerYAnchor),
+            containerView.heightAnchor.constraint(equalToConstant: 30),
             
-            rankingLabel.topAnchor.constraint(equalTo: categoryDataView.topAnchor),
-            rankingLabel.leftAnchor.constraint(equalTo: categoryDataView.leftAnchor),
-            rankingLabel.bottomAnchor.constraint(equalTo: categoryDataView.bottomAnchor),
-            rankingLabel.widthAnchor.constraint(equalToConstant: 25),
+            rankingLabel.topAnchor.constraint(equalTo: containerView.topAnchor),
+            rankingLabel.leftAnchor.constraint(equalTo: containerView.leftAnchor),
+            rankingLabel.bottomAnchor.constraint(equalTo: containerView.bottomAnchor),
+            rankingLabel.widthAnchor.constraint(equalToConstant: (contentView.frame.width - 20) / 10 - 10),
             
-            teamLabel.topAnchor.constraint(equalTo: categoryDataView.topAnchor),
-            teamLabel.leftAnchor.constraint(equalTo: rankingLabel.rightAnchor, constant: 5),
-            teamLabel.bottomAnchor.constraint(equalTo: categoryDataView.bottomAnchor),
-            teamLabel.widthAnchor.constraint(equalToConstant: 135),
+            teamLabel.topAnchor.constraint(equalTo: containerView.topAnchor),
+            teamLabel.leftAnchor.constraint(equalTo: rankingLabel.rightAnchor),
+            teamLabel.bottomAnchor.constraint(equalTo: containerView.bottomAnchor),
+            teamLabel.widthAnchor.constraint(equalToConstant: (contentView.frame.width - 20) / 10 * 5),
             
-            winsLabel.topAnchor.constraint(equalTo: categoryDataView.topAnchor),
+            winsLabel.topAnchor.constraint(equalTo: containerView.topAnchor),
             winsLabel.leftAnchor.constraint(equalTo: teamLabel.rightAnchor),
-            winsLabel.bottomAnchor.constraint(equalTo: categoryDataView.bottomAnchor),
-            winsLabel.widthAnchor.constraint(equalToConstant: 25),
+            winsLabel.bottomAnchor.constraint(equalTo: containerView.bottomAnchor),
+            winsLabel.widthAnchor.constraint(equalToConstant: (contentView.frame.width - 20) / 10),
             
-            losesLabel.topAnchor.constraint(equalTo: categoryDataView.topAnchor),
+            losesLabel.topAnchor.constraint(equalTo: containerView.topAnchor),
             losesLabel.leftAnchor.constraint(equalTo: winsLabel.rightAnchor),
-            losesLabel.bottomAnchor.constraint(equalTo: categoryDataView.bottomAnchor),
-            losesLabel.widthAnchor.constraint(equalToConstant: 25),
+            losesLabel.bottomAnchor.constraint(equalTo: containerView.bottomAnchor),
+            losesLabel.widthAnchor.constraint(equalToConstant: (contentView.frame.width - 20) / 10),
             
-            winRateLabel.topAnchor.constraint(equalTo: categoryDataView.topAnchor),
+            winRateLabel.topAnchor.constraint(equalTo: containerView.topAnchor),
             winRateLabel.leftAnchor.constraint(equalTo: losesLabel.rightAnchor),
-            winRateLabel.bottomAnchor.constraint(equalTo: categoryDataView.bottomAnchor),
-            winRateLabel.widthAnchor.constraint(equalToConstant: 50),
+            winRateLabel.bottomAnchor.constraint(equalTo: containerView.bottomAnchor),
+            winRateLabel.widthAnchor.constraint(equalToConstant: (contentView.frame.width - 20) / 10 + 10),
             
-            pointLabel.topAnchor.constraint(equalTo: categoryDataView.topAnchor),
+            pointLabel.topAnchor.constraint(equalTo: containerView.topAnchor),
             pointLabel.leftAnchor.constraint(equalTo: winRateLabel.rightAnchor),
-            pointLabel.bottomAnchor.constraint(equalTo: categoryDataView.bottomAnchor),
-            pointLabel.widthAnchor.constraint(equalToConstant: 35),
+            pointLabel.bottomAnchor.constraint(equalTo: containerView.bottomAnchor),
+            pointLabel.widthAnchor.constraint(equalToConstant: (contentView.frame.width - 20) / 10),
         ])
     }
 }

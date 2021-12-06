@@ -46,9 +46,10 @@ class StandingsViewController: UIViewController {
     
     let titleLabel: UILabel = {
         let label = UILabel()
-        label.font = .boldSystemFont(ofSize: 20)
+        label.text = "✪ LCK 순위"
+        label.font = .boldSystemFont(ofSize: 25)
         label.textAlignment = .left
-        label.text = "LCK 순위"
+        label.textColor = .black
         
         return label
     }()
@@ -61,7 +62,7 @@ class StandingsViewController: UIViewController {
             bottom: 0,
             right: 10
         )
-
+                
         if #available(iOS 15.0, *) {
             tableView.sectionHeaderTopPadding = .zero
         } else {
@@ -96,9 +97,9 @@ class StandingsViewController: UIViewController {
     func configureUI() {
         view.backgroundColor = .white
         view.addSubview(containerView)
-        view.addSubview(titleLabel)
         view.addSubview(standingsTableView)
         containerView.addSubview(seasonSelectionButton)
+        containerView.addSubview(titleLabel)
         
         standingsTableView.register(
             CategoryTableViewCell.self,
@@ -120,19 +121,19 @@ class StandingsViewController: UIViewController {
             containerView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
             containerView.leftAnchor.constraint(equalTo: view.leftAnchor),
             containerView.rightAnchor.constraint(equalTo: view.rightAnchor),
-            containerView.heightAnchor.constraint(equalToConstant: 60),
+            containerView.heightAnchor.constraint(equalToConstant: 100),
             
             seasonSelectionButton.topAnchor.constraint(equalTo: containerView.topAnchor, constant: 15),
-            seasonSelectionButton.rightAnchor.constraint(equalTo: containerView.rightAnchor, constant: -10),
+            seasonSelectionButton.rightAnchor.constraint(equalTo: containerView.rightAnchor, constant: -15),
             seasonSelectionButton.widthAnchor.constraint(equalToConstant: 50),
             seasonSelectionButton.heightAnchor.constraint(equalToConstant: 25),
             
-            titleLabel.topAnchor.constraint(equalTo: containerView.bottomAnchor),
-            titleLabel.leftAnchor.constraint(equalTo: view.leftAnchor, constant: 10),
-            titleLabel.widthAnchor.constraint(equalToConstant: 100),
+            titleLabel.leftAnchor.constraint(equalTo: containerView.leftAnchor, constant: 10),
+            titleLabel.bottomAnchor.constraint(equalTo: containerView.bottomAnchor),
+            titleLabel.rightAnchor.constraint(equalTo: containerView.rightAnchor, constant: -10),
             titleLabel.heightAnchor.constraint(equalToConstant: 25),
             
-            standingsTableView.topAnchor.constraint(equalTo: titleLabel.bottomAnchor),
+            standingsTableView.topAnchor.constraint(equalTo: containerView.bottomAnchor, constant: 10),
             standingsTableView.leftAnchor.constraint(equalTo: view.leftAnchor),
             standingsTableView.bottomAnchor.constraint(equalTo: view.bottomAnchor),
             standingsTableView.rightAnchor.constraint(equalTo: view.rightAnchor)

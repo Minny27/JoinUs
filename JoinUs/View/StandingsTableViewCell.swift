@@ -10,7 +10,7 @@ import UIKit
 class StandingsTableViewCell: UITableViewCell {
     static let identifier = "standingsTableViewCell"
     
-    let standingsDataView: UIView = {
+    let containerView: UIView = {
         let view = UIView()
         
         return view
@@ -71,16 +71,16 @@ class StandingsTableViewCell: UITableViewCell {
     }()
 
     func configureCell() {
-        contentView.addSubview(standingsDataView)
-        standingsDataView.addSubview(rankingLabel)
-        standingsDataView.addSubview(teamImageView)
-        standingsDataView.addSubview(teamLabel)
-        standingsDataView.addSubview(winsLabel)
-        standingsDataView.addSubview(losesLabel)
-        standingsDataView.addSubview(winRateLabel)
-        standingsDataView.addSubview(pointLabel)
+        contentView.addSubview(containerView)
+        containerView.addSubview(rankingLabel)
+        containerView.addSubview(teamImageView)
+        containerView.addSubview(teamLabel)
+        containerView.addSubview(winsLabel)
+        containerView.addSubview(losesLabel)
+        containerView.addSubview(winRateLabel)
+        containerView.addSubview(pointLabel)
         
-        standingsDataView.translatesAutoresizingMaskIntoConstraints = false
+        containerView.translatesAutoresizingMaskIntoConstraints = false
         rankingLabel.translatesAutoresizingMaskIntoConstraints = false
         teamImageView.translatesAutoresizingMaskIntoConstraints = false
         teamLabel.translatesAutoresizingMaskIntoConstraints = false
@@ -90,45 +90,45 @@ class StandingsTableViewCell: UITableViewCell {
         pointLabel.translatesAutoresizingMaskIntoConstraints = false
         
         NSLayoutConstraint.activate([
-            standingsDataView.leftAnchor.constraint(equalTo: contentView.leftAnchor, constant: 10),
-            standingsDataView.rightAnchor.constraint(equalTo: contentView.rightAnchor, constant: -10),
-            standingsDataView.centerYAnchor.constraint(equalTo: contentView.centerYAnchor),
-            standingsDataView.heightAnchor.constraint(equalToConstant: 30),
+            containerView.leftAnchor.constraint(equalTo: contentView.leftAnchor, constant: 10),
+            containerView.rightAnchor.constraint(equalTo: contentView.rightAnchor, constant: -10),
+            containerView.centerYAnchor.constraint(equalTo: contentView.centerYAnchor),
+            containerView.heightAnchor.constraint(equalToConstant: 30),
             
-            rankingLabel.topAnchor.constraint(equalTo: standingsDataView.topAnchor),
-            rankingLabel.leftAnchor.constraint(equalTo: standingsDataView.leftAnchor),
-            rankingLabel.bottomAnchor.constraint(equalTo: standingsDataView.bottomAnchor),
-            rankingLabel.widthAnchor.constraint(equalToConstant: 25),
+            rankingLabel.topAnchor.constraint(equalTo: containerView.topAnchor),
+            rankingLabel.leftAnchor.constraint(equalTo: containerView.leftAnchor),
+            rankingLabel.bottomAnchor.constraint(equalTo: containerView.bottomAnchor),
+            rankingLabel.widthAnchor.constraint(equalToConstant: (contentView.frame.width - 20) / 10 - 10),
             
-            teamImageView.topAnchor.constraint(equalTo: standingsDataView.topAnchor),
+            teamImageView.topAnchor.constraint(equalTo: containerView.topAnchor),
             teamImageView.leftAnchor.constraint(equalTo: rankingLabel.rightAnchor),
-            teamImageView.bottomAnchor.constraint(equalTo: standingsDataView.bottomAnchor),
-            teamImageView.widthAnchor.constraint(equalToConstant: 40),
+            teamImageView.bottomAnchor.constraint(equalTo: containerView.bottomAnchor),
+            teamImageView.widthAnchor.constraint(equalToConstant: (contentView.frame.width - 20) / 10),
             
-            teamLabel.topAnchor.constraint(equalTo: standingsDataView.topAnchor),
+            teamLabel.topAnchor.constraint(equalTo: containerView.topAnchor),
             teamLabel.leftAnchor.constraint(equalTo: teamImageView.rightAnchor),
-            teamLabel.bottomAnchor.constraint(equalTo: standingsDataView.bottomAnchor),
-            teamLabel.widthAnchor.constraint(equalToConstant: 100),
+            teamLabel.bottomAnchor.constraint(equalTo: containerView.bottomAnchor),
+            teamLabel.widthAnchor.constraint(equalToConstant: (contentView.frame.width - 20) / 10 * 4),
             
-            winsLabel.topAnchor.constraint(equalTo: standingsDataView.topAnchor),
+            winsLabel.topAnchor.constraint(equalTo: containerView.topAnchor),
             winsLabel.leftAnchor.constraint(equalTo: teamLabel.rightAnchor),
-            winsLabel.bottomAnchor.constraint(equalTo: standingsDataView.bottomAnchor),
-            winsLabel.widthAnchor.constraint(equalToConstant: 25),
+            winsLabel.bottomAnchor.constraint(equalTo: containerView.bottomAnchor),
+            winsLabel.widthAnchor.constraint(equalToConstant: (contentView.frame.width - 20) / 10),
             
-            losesLabel.topAnchor.constraint(equalTo: standingsDataView.topAnchor),
+            losesLabel.topAnchor.constraint(equalTo: containerView.topAnchor),
             losesLabel.leftAnchor.constraint(equalTo: winsLabel.rightAnchor),
-            losesLabel.bottomAnchor.constraint(equalTo: standingsDataView.bottomAnchor),
-            losesLabel.widthAnchor.constraint(equalToConstant: 25),
+            losesLabel.bottomAnchor.constraint(equalTo: containerView.bottomAnchor),
+            losesLabel.widthAnchor.constraint(equalToConstant: (contentView.frame.width - 20) / 10),
             
-            winRateLabel.topAnchor.constraint(equalTo: standingsDataView.topAnchor),
+            winRateLabel.topAnchor.constraint(equalTo: containerView.topAnchor),
             winRateLabel.leftAnchor.constraint(equalTo: losesLabel.rightAnchor),
-            winRateLabel.bottomAnchor.constraint(equalTo: standingsDataView.bottomAnchor),
-            winRateLabel.widthAnchor.constraint(equalToConstant: 50),
+            winRateLabel.bottomAnchor.constraint(equalTo: containerView.bottomAnchor),
+            winRateLabel.widthAnchor.constraint(equalToConstant: (contentView.frame.width - 20) / 10 + 10),
             
-            pointLabel.topAnchor.constraint(equalTo: standingsDataView.topAnchor),
+            pointLabel.topAnchor.constraint(equalTo: containerView.topAnchor),
             pointLabel.leftAnchor.constraint(equalTo: winRateLabel.rightAnchor),
-            pointLabel.bottomAnchor.constraint(equalTo: standingsDataView.bottomAnchor),
-            pointLabel.widthAnchor.constraint(equalToConstant: 35),
+            pointLabel.bottomAnchor.constraint(equalTo: containerView.bottomAnchor),
+            pointLabel.widthAnchor.constraint(equalToConstant: (contentView.frame.width - 20) / 10),
         ])
     }
     
