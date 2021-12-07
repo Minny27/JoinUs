@@ -142,7 +142,22 @@ extension NewsViewController: UITableViewDataSource {
 }
 
 extension NewsViewController: UITableViewDelegate {
-    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+    func tableView(
+        _ tableView: UITableView,
+        heightForRowAt indexPath: IndexPath
+    ) -> CGFloat {
         return 80
+    }
+    
+    func tableView(
+        _ tableView: UITableView,
+        didSelectRowAt indexPath: IndexPath
+    ) {
+        let newsDetailViewController = NewsDetailViewController()
+        newsDetailViewController.modalPresentationStyle = .overFullScreen
+        
+        newsDetailViewController.newsDetailUrlString = newsTableViewModel.newsInfo(at: indexPath.row)!.detailUrlString
+        
+        present(newsDetailViewController, animated: false, completion: nil)
     }
 }

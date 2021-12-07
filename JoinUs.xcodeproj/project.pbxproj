@@ -74,6 +74,7 @@
 		5605BB902715351700A9811A /* TeamPlayerCollectionViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5605BB8F2715351700A9811A /* TeamPlayerCollectionViewModel.swift */; };
 		5605BB952715636500A9811A /* TeamType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5605BB942715636500A9811A /* TeamType.swift */; };
 		5605BB9927157FBF00A9811A /* TeamPlayerCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5605BB9827157FBF00A9811A /* TeamPlayerCollectionViewCell.swift */; };
+		56098295275EF2EB0029D64C /* NewsDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 56098294275EF2EB0029D64C /* NewsDetailViewController.swift */; };
 		561019C427570A5C001F2C55 /* RequestSeason.swift in Sources */ = {isa = PBXBuildFile; fileRef = 561019C327570A5C001F2C55 /* RequestSeason.swift */; };
 		561019C727571960001F2C55 /* Strings.swift in Sources */ = {isa = PBXBuildFile; fileRef = 561019C627571960001F2C55 /* Strings.swift */; };
 		561EDFB02723FE3F00D31E7F /* NetworkError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 561EDFAF2723FE3F00D31E7F /* NetworkError.swift */; };
@@ -198,6 +199,7 @@
 		5605BB8F2715351700A9811A /* TeamPlayerCollectionViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TeamPlayerCollectionViewModel.swift; sourceTree = "<group>"; };
 		5605BB942715636500A9811A /* TeamType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TeamType.swift; sourceTree = "<group>"; };
 		5605BB9827157FBF00A9811A /* TeamPlayerCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TeamPlayerCollectionViewCell.swift; sourceTree = "<group>"; };
+		56098294275EF2EB0029D64C /* NewsDetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewsDetailViewController.swift; sourceTree = "<group>"; };
 		561019C327570A5C001F2C55 /* RequestSeason.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RequestSeason.swift; sourceTree = "<group>"; };
 		561019C627571960001F2C55 /* Strings.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Strings.swift; sourceTree = "<group>"; };
 		561EDFAF2723FE3F00D31E7F /* NetworkError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkError.swift; sourceTree = "<group>"; };
@@ -617,6 +619,7 @@
 				56E26B8E27193CB8007C9EE0 /* NewsViewController.swift */,
 				56E26B9127193CD5007C9EE0 /* PlayerViewController.swift */,
 				5642CD082755EC250017F78B /* PopUpViewController.swift */,
+				56098294275EF2EB0029D64C /* NewsDetailViewController.swift */,
 			);
 			path = Controller;
 			sourceTree = "<group>";
@@ -802,6 +805,7 @@
 				56E9F0BE27394B3E00E7A901 /* MatchStatusType.swift in Sources */,
 				5642CD0B275624160017F78B /* Season.swift in Sources */,
 				5642CD0F275625C40017F78B /* SeasonCollectionViewCell.swift in Sources */,
+				56098295275EF2EB0029D64C /* NewsDetailViewController.swift in Sources */,
 				56AC6676274E1BD900CC2BF1 /* CrawlManager.swift in Sources */,
 				56E26B8927193C92007C9EE0 /* ScheduleViewController.swift in Sources */,
 				5622EF8F27412CD1001E1C35 /* Month.swift.swift in Sources */,

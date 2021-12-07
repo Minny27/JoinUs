@@ -12,10 +12,17 @@ struct News {
     let photo: Data
     let title: String
     let etc: String
+    let detailUrlString: String
     
-    init(photo: Data, title: String, etc: String) {
+    init(
+        photo: Data,
+        title: String,
+        etc: String,
+        detailUrlString: String
+    ) {
         self.photo = photo
         self.title = title
         self.etc = etc
+        self.detailUrlString = detailUrlString
     }
 }
