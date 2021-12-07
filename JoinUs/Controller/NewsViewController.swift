@@ -134,6 +134,7 @@ extension NewsViewController: UITableViewDataSource {
         
         let newsInfo = newsTableViewModel.newsInfo(at: indexPath.row)
         
+        cell.selectionStyle = .none
         cell.configureCell()
         cell.update(newsInfo: newsInfo!)
         
