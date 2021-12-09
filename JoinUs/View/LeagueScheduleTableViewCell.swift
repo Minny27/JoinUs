@@ -7,7 +7,7 @@
 
 import UIKit
 
-class LeagueScheduleTableViewCell: UITableViewCell {
+final class LeagueScheduleTableViewCell: UITableViewCell {
     static let identifier = "leagueScheduleTableViewCell"
     
     let leftDataView: UIView = {

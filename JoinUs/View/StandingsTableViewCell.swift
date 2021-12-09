@@ -7,7 +7,7 @@
 
 import UIKit
 
-class StandingsTableViewCell: UITableViewCell {
+final class StandingsTableViewCell: UITableViewCell {
     static let identifier = "standingsTableViewCell"
     
     let containerView: UIView = {

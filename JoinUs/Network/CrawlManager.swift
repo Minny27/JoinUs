@@ -30,7 +30,7 @@ struct CrawlManager {
             
             do {
                 let document: Document = try SwiftSoup.parse(html)
-                let elements: Elements = try document.select("#mw-content-text > div.mw-parser-output > div.mw-parser-output > div.inline-content > div.standings-outer-div > div > table.wikitable2.standings > tbody > tr")
+                let elements: Elements = try document.select(Strings.leagueStandingsSelector)
 
                 let standingsDataList = elements.array()
                 
@@ -61,10 +61,10 @@ struct CrawlManager {
     
     func crawlNews(completion: @escaping(([News])-> Void)) {
         var newsList: [News] = []
-        let baseUrl = "https://www.fomos.kr"
-        let newsUrlString = baseUrl + "/esports/news_list?news_cate_id=13"
+        let newsPortalBaseUrl = Strings.newsPortalBaseUrl
+        let newsPortalLolUrl = Strings.newsPortalLolUrl
         
-        AF.request(newsUrlString).responseString { response in
+        AF.request(newsPortalLolUrl).responseString { response in
             if response.response?.url == nil {
                 print(NetworkError.invalidUrl)
                 return
@@ -82,19 +82,23 @@ struct CrawlManager {
             
             do {
                 let document: Document = try SwiftSoup.parse(html)
-                let elements: Elements = try document.select("body > div.wrap > div.page.page_sub > div.two_content > div.left_side > div > div > ul > li")
-                
+                let elements: Elements = try document.select(Strings.newsSelector)
+                                
                 for element in elements {
                     let imageRelativePath = try element.select("img").attr("src")
-                    let imageUrl = baseUrl + imageRelativePath
+                    let imageUrl = newsPortalBaseUrl + imageRelativePath
                     let photo = try Data(contentsOf: URL(string: imageUrl)!)
                     let title = try element.select("p.tit").text()
                     let etc = try element.select("p.etc").text()
+                    let detailRelativePath = try element.select("p.tit").select("a").attr("href")
+                    let detailUrlString = newsPortalBaseUrl + detailRelativePath
                                         
                     newsList.append(
-                        News(photo: photo,
-                             title: title,
-                             etc: etc
+                        News(
+                            photo: photo,
+                            title: title,
+                            etc: etc,
+                            detailUrlString: detailUrlString
                         )
                     )
                 }

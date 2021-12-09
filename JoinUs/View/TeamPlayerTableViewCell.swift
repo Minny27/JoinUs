@@ -7,7 +7,7 @@
 
 import UIKit
 
-class TeamPlayerTableViewCell: UITableViewCell {
+final class TeamPlayerTableViewCell: UITableViewCell {
     static let identifier = "playerTableViewCell"
     
     let playerCollectionViewModel = TeamPlayerCollectionViewModel()

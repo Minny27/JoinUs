@@ -7,7 +7,7 @@
 
 import UIKit
 
-class TeamTabbarTableViewCell: UITableViewCell {
+final class TeamTabbarTableViewCell: UITableViewCell {
     static let identifier = "teamTabbarTableViewCell"
     
     let teamTabbarCellWidth: [Int] = [80, 75, 50, 55, 55, 80, 75, 65, 50, 60]

@@ -19,7 +19,8 @@ final class NewsTableViewModel {
             self.newsList.value = newsList.compactMap {
                 News(photo: $0.photo,
                      title: $0.title,
-                     etc: $0.etc
+                     etc: $0.etc,
+                     detailUrlString: $0.detailUrlString
                 )
             }
         }

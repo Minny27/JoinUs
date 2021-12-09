@@ -178,6 +178,7 @@ extension StandingsViewController: UITableViewDataSource {
                 return UITableViewCell()
             }
             
+            cell.selectionStyle = .none
             cell.configureCell()
             
             return cell
@@ -191,6 +192,7 @@ extension StandingsViewController: UITableViewDataSource {
             
             let standingsInfo = standingsViewModel.standingsInfo(at: indexPath.row - 1)
             
+            cell.selectionStyle = .none
             cell.configureCell()
             cell.update(standingsInfo: standingsInfo!)
             
