@@ -75,6 +75,7 @@
 		5605BB952715636500A9811A /* TeamType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5605BB942715636500A9811A /* TeamType.swift */; };
 		5605BB9927157FBF00A9811A /* TeamPlayerCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5605BB9827157FBF00A9811A /* TeamPlayerCollectionViewCell.swift */; };
 		56098295275EF2EB0029D64C /* NewsDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 56098294275EF2EB0029D64C /* NewsDetailViewController.swift */; };
+		56098297275F8EB60029D64C /* PlayerSearchViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 56098296275F8EB60029D64C /* PlayerSearchViewController.swift */; };
 		561019C427570A5C001F2C55 /* RequestSeason.swift in Sources */ = {isa = PBXBuildFile; fileRef = 561019C327570A5C001F2C55 /* RequestSeason.swift */; };
 		561019C727571960001F2C55 /* Strings.swift in Sources */ = {isa = PBXBuildFile; fileRef = 561019C627571960001F2C55 /* Strings.swift */; };
 		561EDFB02723FE3F00D31E7F /* NetworkError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 561EDFAF2723FE3F00D31E7F /* NetworkError.swift */; };
@@ -113,6 +114,7 @@
 		56BFFC1527210025007A1826 /* TeamPlayerTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 56BFFC1427210025007A1826 /* TeamPlayerTableViewCell.swift */; };
 		56C2CEB4271D63DF005691C6 /* ScheduleTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 56C2CEB3271D63DF005691C6 /* ScheduleTableViewCell.swift */; };
 		56C71EE5273AB41E0017EE77 /* NetworkManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 56C71EE4273AB41E0017EE77 /* NetworkManager.swift */; };
+		56D630382760CA700098D8D7 /* PlayerTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 56D630372760CA700098D8D7 /* PlayerTableViewCell.swift */; };
 		56DE7C6F2734BAC60093C9AE /* Game.swift in Sources */ = {isa = PBXBuildFile; fileRef = 56DE7C6E2734BAC60093C9AE /* Game.swift */; };
 		56DE7C722734BADC0093C9AE /* Winner.swift in Sources */ = {isa = PBXBuildFile; fileRef = 56DE7C712734BADC0093C9AE /* Winner.swift */; };
 		56DE7C752734BAEA0093C9AE /* League.swift in Sources */ = {isa = PBXBuildFile; fileRef = 56DE7C742734BAEA0093C9AE /* League.swift */; };
@@ -200,6 +202,7 @@
 		5605BB942715636500A9811A /* TeamType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TeamType.swift; sourceTree = "<group>"; };
 		5605BB9827157FBF00A9811A /* TeamPlayerCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TeamPlayerCollectionViewCell.swift; sourceTree = "<group>"; };
 		56098294275EF2EB0029D64C /* NewsDetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewsDetailViewController.swift; sourceTree = "<group>"; };
+		56098296275F8EB60029D64C /* PlayerSearchViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlayerSearchViewController.swift; sourceTree = "<group>"; };
 		561019C327570A5C001F2C55 /* RequestSeason.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RequestSeason.swift; sourceTree = "<group>"; };
 		561019C627571960001F2C55 /* Strings.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Strings.swift; sourceTree = "<group>"; };
 		561EDFAF2723FE3F00D31E7F /* NetworkError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkError.swift; sourceTree = "<group>"; };
@@ -240,6 +243,7 @@
 		56BFFC1427210025007A1826 /* TeamPlayerTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TeamPlayerTableViewCell.swift; sourceTree = "<group>"; };
 		56C2CEB3271D63DF005691C6 /* ScheduleTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScheduleTableViewCell.swift; sourceTree = "<group>"; };
 		56C71EE4273AB41E0017EE77 /* NetworkManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkManager.swift; sourceTree = "<group>"; };
+		56D630372760CA700098D8D7 /* PlayerTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlayerTableViewCell.swift; sourceTree = "<group>"; };
 		56DE7C6E2734BAC60093C9AE /* Game.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Game.swift; sourceTree = "<group>"; };
 		56DE7C712734BADC0093C9AE /* Winner.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Winner.swift; sourceTree = "<group>"; };
 		56DE7C742734BAEA0093C9AE /* League.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = League.swift; sourceTree = "<group>"; };
@@ -605,6 +609,7 @@
 				564B3D9127506C3000A62E4C /* CategoryTableViewCell.swift */,
 				5646AC292750D4BD009F295A /* NewsTableViewCell.swift */,
 				5642CD0E275625C40017F78B /* SeasonCollectionViewCell.swift */,
+				56D630372760CA700098D8D7 /* PlayerTableViewCell.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -620,6 +625,7 @@
 				56E26B9127193CD5007C9EE0 /* PlayerViewController.swift */,
 				5642CD082755EC250017F78B /* PopUpViewController.swift */,
 				56098294275EF2EB0029D64C /* NewsDetailViewController.swift */,
+				56098296275F8EB60029D64C /* PlayerSearchViewController.swift */,
 			);
 			path = Controller;
 			sourceTree = "<group>";
@@ -820,6 +826,7 @@
 				56BFFC1527210025007A1826 /* TeamPlayerTableViewCell.swift in Sources */,
 				56DE7C832734BE110093C9AE /* DateFotmat.swift in Sources */,
 				561019C427570A5C001F2C55 /* RequestSeason.swift in Sources */,
+				56D630382760CA700098D8D7 /* PlayerTableViewCell.swift in Sources */,
 				56B1A724274F421E00C91BB8 /* StandingsTableViewCell.swift in Sources */,
 				56E8E63227322F15003A0EDA /* ReceivedScheduleModel.swift in Sources */,
 				564B3D942750770300A62E4C /* StandingsType.swift in Sources */,
@@ -834,6 +841,7 @@
 				56DE7C97273572B80093C9AE /* LeagueScheduleTableViewCell.swift in Sources */,
 				5605BB902715351700A9811A /* TeamPlayerCollectionViewModel.swift in Sources */,
 				561019C727571960001F2C55 /* Strings.swift in Sources */,
+				56098297275F8EB60029D64C /* PlayerSearchViewController.swift in Sources */,
 				5642CD0D275624760017F78B /* SeasonCollectionViewModel.swift in Sources */,
 				56E26B8F27193CB8007C9EE0 /* NewsViewController.swift in Sources */,
 				56DE7C882734E68D0093C9AE /* DateFormatter.swift in Sources */,

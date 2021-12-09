@@ -7,7 +7,7 @@
 
 import UIKit
 
-class ScheduleTableViewCell: UITableViewCell {
+final class ScheduleTableViewCell: UITableViewCell {
     static let identifier = "scheduleTableViewCell"
     
     let worldsPastViewModel = LeagueScheduleTableViewModel(dataType: .past(league: "worlds"))

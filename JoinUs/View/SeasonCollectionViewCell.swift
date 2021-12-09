@@ -7,7 +7,7 @@
 
 import UIKit
 
-class SeasonCollectionViewCell: UICollectionViewCell {
+final class SeasonCollectionViewCell: UICollectionViewCell {
     static let identifier = "seasonCollectionViewCell"
     
     let containerView: UIView = {
