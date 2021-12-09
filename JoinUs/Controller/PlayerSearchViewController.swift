@@ -12,10 +12,23 @@ class PlayerSearchViewController: UIViewController {
     
     // MARK: - Properties
     let playerCollectionViewModel = PlayerCollectionViewModel()
+    let playerSearchController = UISearchController(searchResultsController: nil)
+    var filteredPlayers: [PlayerModel] = []
+    var isFiltering: Bool {
+        return playerSearchController.isActive && !isTextEmpty
+    }
+    var isTextEmpty: Bool {
+        return playerSearchController.searchBar.text?.isEmpty ?? true
+    }
     
     let playerTableView: UITableView = {
         let tableView = UITableView()
-        tableView.separatorInset = UIEdgeInsets(top: 0, left: 10, bottom: 0, right: 10)
+        tableView.separatorInset = UIEdgeInsets(
+            top: 0,
+            left: 10,
+            bottom: 0,
+            right: 10
+        )
         
         return tableView
     }()
@@ -29,15 +42,16 @@ class PlayerSearchViewController: UIViewController {
     }
     
     func configureSearchController() {
-        let playerSearchController = UISearchController(searchResultsController: nil)
         playerSearchController.searchBar.placeholder = "선수를 검색해보세요"
         playerSearchController.hidesNavigationBarDuringPresentation = false
+        playerSearchController.searchResultsUpdater = self
+        definesPresentationContext = true
         
-        self.navigationController?.navigationBar.tintColor = .lightGray
-        self.navigationItem.searchController = playerSearchController
-        self.navigationItem.title = "Search"
-        self.navigationItem.hidesSearchBarWhenScrolling = false
-        self.navigationItem.leftBarButtonItem = UIBarButtonItem(
+        navigationController?.navigationBar.tintColor = .lightGray
+        navigationItem.searchController = playerSearchController
+        navigationItem.title = "Search"
+        navigationItem.hidesSearchBarWhenScrolling = false
+        navigationItem.leftBarButtonItem = UIBarButtonItem(
             image: UIImage(systemName: "arrow.left"),
             style: .plain,
             target: self,
@@ -56,7 +70,10 @@ class PlayerSearchViewController: UIViewController {
         
         view.addSubview(playerTableView)
         
-        playerTableView.register(PlayerTableViewCell.self, forCellReuseIdentifier: PlayerTableViewCell.identifier)
+        playerTableView.register(
+            PlayerTableViewCell.self,
+            forCellReuseIdentifier: PlayerTableViewCell.identifier
+        )
         
         playerTableView.dataSource = self
         playerTableView.delegate = self
@@ -72,21 +89,43 @@ class PlayerSearchViewController: UIViewController {
     }
     
     @objc func clickBackButton() {
-        dismiss(animated: false, completion: nil)
+        dismiss(
+            animated: false,
+            completion: nil
+        )
     }
 }
 
 extension PlayerSearchViewController: UITableViewDataSource {
-    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+    func tableView(
+        _ tableView: UITableView,
+        numberOfRowsInSection section: Int
+    ) -> Int {
+        if isFiltering {
+            return filteredPlayers.count
+        }
+        
         return playerCollectionViewModel.countPlayerList
     }
     
-    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        guard let cell = tableView.dequeueReusableCell(withIdentifier: PlayerTableViewCell.identifier, for: indexPath) as? PlayerTableViewCell else {
+    func tableView(
+        _ tableView: UITableView,
+        cellForRowAt indexPath: IndexPath
+    ) -> UITableViewCell {
+        guard let cell = tableView.dequeueReusableCell(
+            withIdentifier: PlayerTableViewCell.identifier,
+            for: indexPath
+        ) as? PlayerTableViewCell else {
             return UITableViewCell()
         }
         
-        let playerInfo = playerCollectionViewModel.playerInfo(at: indexPath.row)
+        var playerInfo: PlayerModel
+        
+        if isFiltering {
+            playerInfo = filteredPlayers[indexPath.row]
+        } else {
+            playerInfo = playerCollectionViewModel.playerInfo(at: indexPath.row)
+        }
         
         cell.selectionStyle = .none
         cell.configureCell()
@@ -97,7 +136,21 @@ extension PlayerSearchViewController: UITableViewDataSource {
 }
 
 extension PlayerSearchViewController: UITableViewDelegate {
-    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+    func tableView(
+        _ tableView: UITableView,
+        heightForRowAt indexPath: IndexPath
+    ) -> CGFloat {
         return 90
+    }
+}
+
+extension PlayerSearchViewController: UISearchResultsUpdating {
+    func updateSearchResults(for searchController: UISearchController) {
+        let searchText = playerSearchController.searchBar.text!
+        filteredPlayers = playerCollectionViewModel.playerList.filter { (player: PlayerModel) -> Bool in
+            return player.playerName.lowercased().contains(searchText.lowercased())
+        }
+        
+        playerTableView.reloadData()
     }
 }
