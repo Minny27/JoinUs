@@ -18,6 +18,20 @@ class PlayerViewController: UIViewController {
         return view
     }()
     
+    let searchButton: UIButton = {
+        let button = UIButton()
+        button.setImage(UIImage(systemName: "magnifyingglass"), for: .normal)
+        button.tintColor = .lightGray
+        
+        button.addTarget(
+            self,
+            action: #selector(clickSearchButton),
+            for: .touchUpInside
+        )
+        
+        return button
+    }()
+    
     let titleLabel: UILabel = {
         let label = UILabel()
         label.text = "✪ LCK Player"
@@ -41,7 +55,7 @@ class PlayerViewController: UIViewController {
         
         return collectionView
     }()
-    
+        
     // MARK: - LifeCycle
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -52,6 +66,7 @@ class PlayerViewController: UIViewController {
     func configureUI() {
         view.addSubview(containerView)
         view.addSubview(playerCollectionView)
+        containerView.addSubview(searchButton)
         containerView.addSubview(titleLabel)
         
         playerCollectionView.register(TeamPlayerCollectionViewCell.self, forCellWithReuseIdentifier: TeamPlayerCollectionViewCell.identifier)
@@ -60,6 +75,7 @@ class PlayerViewController: UIViewController {
         playerCollectionView.delegate = self
         
         containerView.translatesAutoresizingMaskIntoConstraints = false
+        searchButton.translatesAutoresizingMaskIntoConstraints = false
         titleLabel.translatesAutoresizingMaskIntoConstraints = false
         playerCollectionView.translatesAutoresizingMaskIntoConstraints = false
         
@@ -68,6 +84,11 @@ class PlayerViewController: UIViewController {
             containerView.leftAnchor.constraint(equalTo: view.leftAnchor),
             containerView.rightAnchor.constraint(equalTo: view.rightAnchor),
             containerView.heightAnchor.constraint(equalToConstant: 100),
+            
+            searchButton.topAnchor.constraint(equalTo: containerView.topAnchor, constant: 10),
+            searchButton.rightAnchor.constraint(equalTo: containerView.rightAnchor, constant: -10),
+            searchButton.widthAnchor.constraint(equalToConstant: 30),
+            searchButton.heightAnchor.constraint(equalToConstant: 30),
             
             titleLabel.leftAnchor.constraint(equalTo: containerView.leftAnchor, constant: 10),
             titleLabel.bottomAnchor.constraint(equalTo: containerView.bottomAnchor),
@@ -79,6 +100,18 @@ class PlayerViewController: UIViewController {
             playerCollectionView.bottomAnchor.constraint(equalTo: view.bottomAnchor),
             playerCollectionView.rightAnchor.constraint(equalTo: containerView.rightAnchor, constant: -10),
         ])
+    }
+    
+    @objc func clickSearchButton() {
+        let playerSearchViewController = PlayerSearchViewController()
+        let navigationViewController = UINavigationController(rootViewController: playerSearchViewController)
+        navigationViewController.modalPresentationStyle = .fullScreen
+        
+        present(navigationViewController, animated: false, completion: nil)
+    }
+    
+    @objc func clickBackButton() {
+        dismiss(animated: false, completion: nil)
     }
 }
 
