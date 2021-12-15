@@ -40,7 +40,7 @@ final class LeagueScheduleTableViewModel {
         let date: String = self.dateFormatter.dateToString(date: schedule.scheduledAt, dateFormat: .date)
         let time: String = self.dateFormatter.dateToString(date: schedule.scheduledAt, dateFormat: .time).replacingOccurrences(of: "-", with: ":")
         let status: String = schedule.status
-        let versus = schedule.status == "not_started" ? "vs" : ":"
+        let versus = schedule.status == "not_started" ? "vs" :":"
         let homeTeamId:Int = schedule.opponents[0].opponent.id
         let homeTeam: String = getTeam(totalName: schedule.name).homeTeam
         var homeTeamImage: Data = Data()

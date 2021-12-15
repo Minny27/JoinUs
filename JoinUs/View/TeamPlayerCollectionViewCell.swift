@@ -25,7 +25,7 @@ final class TeamPlayerCollectionViewCell: UICollectionViewCell {
         return imageView
     }()
     
-    let playerLineLabel: UILabel = {
+    let playerRoleLabel: UILabel = {
         let label = UILabel()
         label.font = .boldSystemFont(ofSize: 12)
         label.textColor = .lightGray
@@ -34,7 +34,7 @@ final class TeamPlayerCollectionViewCell: UICollectionViewCell {
         return label
     }()
     
-    let playerNameLabel: UILabel = {
+    let playerGameIdLabel: UILabel = {
         let label = UILabel()
         label.font = .boldSystemFont(ofSize: 15)
         label.textColor = .black
@@ -56,13 +56,13 @@ final class TeamPlayerCollectionViewCell: UICollectionViewCell {
     func configureUI() {
         contentView.addSubview(containerView)
         containerView.addSubview(playerImageView)
-        containerView.addSubview(playerLineLabel)
-        containerView.addSubview(playerNameLabel)
+        containerView.addSubview(playerRoleLabel)
+        containerView.addSubview(playerGameIdLabel)
         
         containerView.translatesAutoresizingMaskIntoConstraints = false
         playerImageView.translatesAutoresizingMaskIntoConstraints = false
-        playerLineLabel.translatesAutoresizingMaskIntoConstraints = false
-        playerNameLabel.translatesAutoresizingMaskIntoConstraints = false
+        playerRoleLabel.translatesAutoresizingMaskIntoConstraints = false
+        playerGameIdLabel.translatesAutoresizingMaskIntoConstraints = false
         
         NSLayoutConstraint.activate([
             containerView.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 10),
@@ -75,20 +75,20 @@ final class TeamPlayerCollectionViewCell: UICollectionViewCell {
             playerImageView.bottomAnchor.constraint(equalTo: containerView.bottomAnchor, constant: -40),
             playerImageView.rightAnchor.constraint(equalTo: containerView.rightAnchor, constant: -5),
             
-            playerLineLabel.topAnchor.constraint(equalTo: playerImageView.bottomAnchor, constant: 3),
-            playerLineLabel.centerXAnchor.constraint(equalTo: containerView.centerXAnchor),
-            playerLineLabel.heightAnchor.constraint(equalToConstant: 10),
+            playerRoleLabel.topAnchor.constraint(equalTo: playerImageView.bottomAnchor, constant: 3),
+            playerRoleLabel.centerXAnchor.constraint(equalTo: containerView.centerXAnchor),
+            playerRoleLabel.heightAnchor.constraint(equalToConstant: 10),
             
-            playerNameLabel.topAnchor.constraint(equalTo: playerLineLabel.bottomAnchor, constant: 2),
-            playerNameLabel.centerXAnchor.constraint(equalTo: containerView.centerXAnchor),
-            playerNameLabel.heightAnchor.constraint(equalToConstant: 15)
+            playerGameIdLabel.topAnchor.constraint(equalTo: playerRoleLabel.bottomAnchor, constant: 2),
+            playerGameIdLabel.centerXAnchor.constraint(equalTo: containerView.centerXAnchor),
+            playerGameIdLabel.heightAnchor.constraint(equalToConstant: 15)
         ])
     }
     
-    func update(playerInfo: PlayerModel) {
-        playerImageView.image = UIImage(named: playerInfo.playerImageName)
-        playerLineLabel.text = playerInfo.playerLine
-        playerNameLabel.text = playerInfo.playerName
+    func update(playerInfo: Player) {
+        playerImageView.image = UIImage(named: playerInfo.imageString)
+        playerRoleLabel.text = playerInfo.role
+        playerGameIdLabel.text = playerInfo.gameId
         containerView.layer.borderColor = playerInfo.teamColor.cgColor
     }
 }

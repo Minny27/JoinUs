@@ -5,7 +5,6 @@
 //  Created by SeungMin on 2021/12/07.
 //
 
-import Foundation
 import UIKit
 
 class PlayerSearchViewController: UIViewController {
@@ -13,7 +12,7 @@ class PlayerSearchViewController: UIViewController {
     // MARK: - Properties
     let playerCollectionViewModel = PlayerCollectionViewModel()
     let playerSearchController = UISearchController(searchResultsController: nil)
-    var filteredPlayers: [PlayerModel] = []
+    var filteredPlayers: [Player] = []
     var isFiltering: Bool {
         return playerSearchController.isActive && !isTextEmpty
     }
@@ -119,7 +118,7 @@ extension PlayerSearchViewController: UITableViewDataSource {
             return UITableViewCell()
         }
         
-        var playerInfo: PlayerModel
+        var playerInfo: Player
         
         if isFiltering {
             playerInfo = filteredPlayers[indexPath.row]
@@ -142,13 +141,30 @@ extension PlayerSearchViewController: UITableViewDelegate {
     ) -> CGFloat {
         return 90
     }
+    
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        let playerDetailViewController = PlayerDetailViewController()
+        playerDetailViewController.modalPresentationStyle = .overFullScreen
+                
+        NotificationCenter.default.post(
+            name: Notification.Name(Strings.clickPlayerTableViewCellNotification),
+            object: nil,
+            userInfo: ["namePathVariable": playerCollectionViewModel.playerInfo(at: indexPath.row).namePathVariable]
+        )
+        
+        present(
+            playerDetailViewController,
+            animated: false,
+            completion: nil
+        )
+    }
 }
 
 extension PlayerSearchViewController: UISearchResultsUpdating {
     func updateSearchResults(for searchController: UISearchController) {
         let searchText = playerSearchController.searchBar.text!
-        filteredPlayers = playerCollectionViewModel.playerList.filter { (player: PlayerModel) -> Bool in
-            return player.playerName.lowercased().contains(searchText.lowercased())
+        filteredPlayers = playerCollectionViewModel.playerList.filter { (player: Player) -> Bool in
+            return player.gameId.lowercased().contains(searchText.lowercased())
         }
         
         playerTableView.reloadData()

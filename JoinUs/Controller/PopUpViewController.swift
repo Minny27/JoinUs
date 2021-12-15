@@ -67,6 +67,7 @@ class PopUpViewController: UIViewController {
     
     func configureUI() {
         view.backgroundColor = .black.withAlphaComponent(0.6)
+        
         view.addSubview(containerView)
         containerView.addSubview(seasonCollectionView)
         containerView.addSubview(selectionButton)
