@@ -71,8 +71,8 @@ final class TeamTabbarCollectionViewCell: UICollectionViewCell {
         ])
     }
     
-    func update(teamInfo: TeamModel) {
-        teamLabel.text = teamInfo.teamName
-        teamImageView.image = UIImage(named: teamInfo.teamImageName)
+    func update(teamInfo: Team) {
+        teamLabel.text = teamInfo.team
+        teamImageView.image = UIImage(named: teamInfo.imageString)
     }
 }

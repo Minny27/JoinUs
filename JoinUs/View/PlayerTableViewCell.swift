@@ -37,7 +37,7 @@ final class PlayerTableViewCell: UITableViewCell {
         return label
     }()
     
-    let playerName: UILabel = {
+    let playerGameIdLabel: UILabel = {
         let label = UILabel()
         label.font = .boldSystemFont(ofSize: 17)
         label.textAlignment = .left
@@ -50,13 +50,13 @@ final class PlayerTableViewCell: UITableViewCell {
         contentView.addSubview(containerView)
         imageFrameView.addSubview(playerImageView)
         containerView.addSubview(playerTeamLabel)
-        containerView.addSubview(playerName)
+        containerView.addSubview(playerGameIdLabel)
         
         imageFrameView.translatesAutoresizingMaskIntoConstraints = false
         playerImageView.translatesAutoresizingMaskIntoConstraints = false
         containerView.translatesAutoresizingMaskIntoConstraints = false
         playerTeamLabel.translatesAutoresizingMaskIntoConstraints = false
-        playerName.translatesAutoresizingMaskIntoConstraints = false
+        playerGameIdLabel.translatesAutoresizingMaskIntoConstraints = false
         
         NSLayoutConstraint.activate([
             imageFrameView.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 10),
@@ -74,22 +74,22 @@ final class PlayerTableViewCell: UITableViewCell {
             containerView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -10),
             containerView.rightAnchor.constraint(equalTo: contentView.rightAnchor, constant: -10),
             
-            playerName.leftAnchor.constraint(equalTo: containerView.leftAnchor),
-            playerName.bottomAnchor.constraint(equalTo: containerView.bottomAnchor),
-            playerName.rightAnchor.constraint(equalTo: containerView.rightAnchor),
-            playerName.heightAnchor.constraint(equalToConstant: 17),
+            playerGameIdLabel.leftAnchor.constraint(equalTo: containerView.leftAnchor),
+            playerGameIdLabel.bottomAnchor.constraint(equalTo: containerView.bottomAnchor),
+            playerGameIdLabel.rightAnchor.constraint(equalTo: containerView.rightAnchor),
+            playerGameIdLabel.heightAnchor.constraint(equalToConstant: 17),
             
             playerTeamLabel.leftAnchor.constraint(equalTo: containerView.leftAnchor),
-            playerTeamLabel.bottomAnchor.constraint(equalTo: playerName.topAnchor, constant: -5),
+            playerTeamLabel.bottomAnchor.constraint(equalTo: playerGameIdLabel.topAnchor, constant: -5),
             playerTeamLabel.rightAnchor.constraint(equalTo: containerView.rightAnchor),
             playerTeamLabel.heightAnchor.constraint(equalToConstant: 20),
         ])
     }
     
-    func update(playerInfo: PlayerModel) {
-        playerImageView.image = UIImage(named: playerInfo.playerImageName)
-        playerTeamLabel.text = playerInfo.teamName
+    func update(playerInfo: Player) {
+        playerImageView.image = UIImage(named: playerInfo.imageString)
+        playerTeamLabel.text = playerInfo.team
         playerTeamLabel.textColor = playerInfo.teamColor
-        playerName.text = playerInfo.playerName
+        playerGameIdLabel.text = playerInfo.gameId
     }
 }

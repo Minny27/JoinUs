@@ -1,31 +1,31 @@
 //
-//  TeamTabbarViewModel.swift
-//  JoinUs
+//TeamTabbarViewModel.swift
+//JoinUs
 //
-//  Created by SeungMin on 2021/10/06.
+//CreatedbySeungMinon2021/10/06.
 //
 
 import Foundation
 
-final class TeamTabbarViewModel {
-    let team: [TeamModel] = [
-        TeamModel(teamName: "담원 기아", teamImageName: "1.jpg"),
-        TeamModel(teamName: "한화생명", teamImageName: "2.jpg"),
-        TeamModel(teamName: "T1", teamImageName: "3.jpg"),
-        TeamModel(teamName: "젠지", teamImageName: "4.jpg"),
-        TeamModel(teamName: "농심", teamImageName: "5.jpg"),
-        TeamModel(teamName: "리브 샌박", teamImageName: "6.jpg"),
-        TeamModel(teamName: "아프리카", teamImageName: "7.jpg"),
-        TeamModel(teamName: "프레딧", teamImageName: "8.jpg"),
-        TeamModel(teamName: "KT", teamImageName: "9.jpg"),
-        TeamModel(teamName: "DRX", teamImageName: "10.jpg"),
+final class TeamTabbarViewModel{
+    let teamList: [Team] = [
+        Team("담원기아", "1.jpg"),
+        Team("한화생명", "2.jpg"),
+        Team("T1", "3.jpg"),
+        Team("젠지", "4.jpg"),
+        Team("농심", "5.jpg"),
+        Team("리브샌박", "6.jpg"),
+        Team("아프리카", "7.jpg"),
+        Team("프레딧", "8.jpg"),
+        Team("KT", "9.jpg"),
+        Team("DRX", "10.jpg"),
     ]
     
-    var countTeam: Int {
-        return team.count
+    var countTeamList: Int{
+        return teamList.count
     }
     
-    func teamInfo(at index: Int) -> TeamModel {
-        return team[index]
+    func teamInfo(at index:Int) -> Team {
+        return teamList[index]
     }
 }
