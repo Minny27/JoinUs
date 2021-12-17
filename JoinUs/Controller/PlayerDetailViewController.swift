@@ -10,6 +10,13 @@ import UIKit
 class PlayerDetailViewController: UIViewController {
     
     // MARK: - Properties
+    let backgroundView: UIView = {
+        let view = UIView()
+        view.backgroundColor = .black.withAlphaComponent(0.6)
+        
+        return view
+    }()
+    
     let playerDetailViewModel = PlayerDetailViewModel()
     
     let containerView: UIView = {
@@ -82,7 +89,7 @@ class PlayerDetailViewController: UIViewController {
         return label
     }()
     
-    let BackgroundDataTableView: UITableView = {
+    let backgroundDataTableView: UITableView = {
         let tableView = UITableView()
         tableView.separatorInset = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 0)
         tableView.separatorColor = .black
@@ -96,6 +103,7 @@ class PlayerDetailViewController: UIViewController {
         super.viewDidLoad()
         
         configureUI()
+        addGestureEvent()
         
         NotificationCenter.default.addObserver(
             self,
@@ -114,7 +122,7 @@ class PlayerDetailViewController: UIViewController {
                     self.gameIdLabel.text = playerDetail?.gameId
                 }
                 
-                self.BackgroundDataTableView.reloadData()
+                self.backgroundDataTableView.reloadData()
             }
         }
         
@@ -123,12 +131,12 @@ class PlayerDetailViewController: UIViewController {
     }
     
     func configureUI() {
-        view.backgroundColor = .black.withAlphaComponent(0.6)
         
-        view.addSubview(containerView)
+        view.addSubview(backgroundView)
+        backgroundView.addSubview(containerView)
         containerView.addSubview(playerImageFrameView)
         containerView.addSubview(frontDataView)
-        containerView.addSubview(BackgroundDataTableView)
+        containerView.addSubview(backgroundDataTableView)
         playerImageFrameView.addSubview(playerImageView)
         frontDataView.addSubview(teamLabel)
         frontDataView.addSubview(roleContainerView)
@@ -136,14 +144,15 @@ class PlayerDetailViewController: UIViewController {
         roleContainerView.addSubview(roleImageView)
         roleContainerView.addSubview(roleLabel)
         
-        BackgroundDataTableView.register(
+        backgroundDataTableView.register(
             PlayerBackgroundDataTableViewCell.self,
             forCellReuseIdentifier: PlayerBackgroundDataTableViewCell.identifier
         )
         
-        BackgroundDataTableView.dataSource = self
-        BackgroundDataTableView.delegate = self
+        backgroundDataTableView.dataSource = self
+        backgroundDataTableView.delegate = self
         
+        backgroundView.translatesAutoresizingMaskIntoConstraints = false
         containerView.translatesAutoresizingMaskIntoConstraints = false
         playerImageFrameView.translatesAutoresizingMaskIntoConstraints = false
         playerImageView.translatesAutoresizingMaskIntoConstraints = false
@@ -153,9 +162,14 @@ class PlayerDetailViewController: UIViewController {
         roleImageView.translatesAutoresizingMaskIntoConstraints = false
         roleLabel.translatesAutoresizingMaskIntoConstraints = false
         gameIdLabel.translatesAutoresizingMaskIntoConstraints = false
-        BackgroundDataTableView.translatesAutoresizingMaskIntoConstraints = false
+        backgroundDataTableView.translatesAutoresizingMaskIntoConstraints = false
         
         NSLayoutConstraint.activate([
+            backgroundView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
+            backgroundView.leftAnchor.constraint(equalTo: view.leftAnchor),
+            backgroundView.bottomAnchor.constraint(equalTo: view.bottomAnchor),
+            backgroundView.rightAnchor.constraint(equalTo: view.rightAnchor),
+            
             containerView.centerXAnchor.constraint(equalTo: view.centerXAnchor),
             containerView.centerYAnchor.constraint(equalTo: view.centerYAnchor),
             containerView.widthAnchor.constraint(equalToConstant: view.frame.width * 2 / 3),
@@ -201,11 +215,23 @@ class PlayerDetailViewController: UIViewController {
             gameIdLabel.rightAnchor.constraint(equalTo: frontDataView.rightAnchor),
             gameIdLabel.heightAnchor.constraint(equalToConstant: 22),
             
-            BackgroundDataTableView.topAnchor.constraint(equalTo: gameIdLabel.bottomAnchor),
-            BackgroundDataTableView.leftAnchor.constraint(equalTo: containerView.leftAnchor, constant: 10),
-            BackgroundDataTableView.bottomAnchor.constraint(equalTo: containerView.bottomAnchor, constant: -10),
-            BackgroundDataTableView.rightAnchor.constraint(equalTo: containerView.rightAnchor, constant: -10),
+            backgroundDataTableView.topAnchor.constraint(equalTo: gameIdLabel.bottomAnchor),
+            backgroundDataTableView.leftAnchor.constraint(equalTo: containerView.leftAnchor, constant: 10),
+            backgroundDataTableView.bottomAnchor.constraint(equalTo: containerView.bottomAnchor, constant: -10),
+            backgroundDataTableView.rightAnchor.constraint(equalTo: containerView.rightAnchor, constant: -10),
         ])
+    }
+    
+    func addGestureEvent() {
+        let tapGesture = UITapGestureRecognizer(
+            target: self,
+            action: #selector(clickBackgroundView(_:))
+        )
+        backgroundView.addGestureRecognizer(tapGesture)
+    }
+    
+    @objc func clickBackgroundView(_ sender: UITapGestureRecognizer) {
+        dismiss(animated: false, completion: nil)
     }
     
     @objc func clickPlayerTableViewCellNotification(_ notification: NSNotification) {
