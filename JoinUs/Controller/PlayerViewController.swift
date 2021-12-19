@@ -104,10 +104,9 @@ class PlayerViewController: UIViewController {
     
     @objc func clickSearchButton() {
         let playerSearchViewController = PlayerSearchViewController()
-        let navigationViewController = UINavigationController(rootViewController: playerSearchViewController)
-        navigationViewController.modalPresentationStyle = .fullScreen
         
-        present(navigationViewController, animated: false, completion: nil)
+        self.navigationController?.isNavigationBarHidden = false
+        self.navigationController?.pushViewController(playerSearchViewController, animated: true)
     }
     
     @objc func clickBackButton() {
@@ -131,6 +130,15 @@ extension PlayerViewController: UICollectionViewDataSource {
         cell.update(playerInfo: playerInfo)
                 
         return cell
+    }
+}
+
+extension PlayerViewController: UICollectionViewDelegate {
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        let playerDetailViewController = PlayerDetailViewController()
+        playerDetailViewController.playerInfo = playerCollectionViewModel.playerInfo(at: indexPath.row)
+        
+        self.navigationController?.pushViewController(playerDetailViewController, animated: true)
     }
 }
 
