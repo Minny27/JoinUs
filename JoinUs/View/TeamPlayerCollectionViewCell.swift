@@ -36,7 +36,7 @@ final class TeamPlayerCollectionViewCell: UICollectionViewCell {
     
     let playerGameIdLabel: UILabel = {
         let label = UILabel()
-        label.font = .boldSystemFont(ofSize: 15)
+        label.font = .boldSystemFont(ofSize: 13)
         label.textColor = .black
         label.textAlignment = .center
         

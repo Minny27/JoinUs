@@ -10,14 +10,14 @@ import UIKit
 class PlayerDetailViewController: UIViewController {
     
     // MARK: - Properties
+    var playerInfo: Player?
+    
     let backgroundView: UIView = {
         let view = UIView()
         view.backgroundColor = .black.withAlphaComponent(0.6)
         
         return view
     }()
-    
-    let playerDetailViewModel = PlayerDetailViewModel()
     
     let containerView: UIView = {
         let view = UIView()
@@ -50,7 +50,7 @@ class PlayerDetailViewController: UIViewController {
     
     let teamLabel: UILabel = {
         let label = UILabel()
-        label.font = .boldSystemFont(ofSize: 18)
+        label.font = .boldSystemFont(ofSize: 16)
         label.textAlignment = .center
         label.textColor = .black
         label.layer.borderWidth = 1
@@ -58,22 +58,10 @@ class PlayerDetailViewController: UIViewController {
         return label
     }()
     
-    let roleContainerView: UIView = {
-        let view = UIView()
-        
-        return view
-    }()
-    
-    let roleImageView: UIImageView = {
-        let imageView = UIImageView()
-        
-        return imageView
-    }()
-    
     let roleLabel: UILabel = {
         let label = UILabel()
-        label.font = .boldSystemFont(ofSize: 18)
-        label.textAlignment = .left
+        label.font = .boldSystemFont(ofSize: 16)
+        label.textAlignment = .center
         label.textColor = .black
         
         return label
@@ -81,7 +69,7 @@ class PlayerDetailViewController: UIViewController {
     
     let gameIdLabel: UILabel = {
         let label = UILabel()
-        label.font = .boldSystemFont(ofSize: 20)
+        label.font = .boldSystemFont(ofSize: 18)
         label.textAlignment = .center
         label.textColor = .black
         label.layer.borderWidth = 1
@@ -103,35 +91,14 @@ class PlayerDetailViewController: UIViewController {
         super.viewDidLoad()
         
         configureUI()
+        updatePlayerDetail()
         addGestureEvent()
-        
-        NotificationCenter.default.addObserver(
-            self,
-            selector: #selector(clickPlayerTableViewCellNotification(_:)),
-            name: Notification.Name(Strings.clickPlayerTableViewCellNotification),
-            object: nil
-        )
-        
-        playerDetailViewModel.playerDetail.bind { playerDetail in
-            DispatchQueue.main.async {
-                if playerDetail != nil {
-                    self.playerImageView.image = UIImage(named: playerDetail!.imageString)
-                    self.teamLabel.text = playerDetail?.team
-                    self.roleImageView.image = UIImage(data: playerDetail!.roleImageData)
-                    self.roleLabel.text = playerDetail?.role
-                    self.gameIdLabel.text = playerDetail?.gameId
-                }
-                
-                self.backgroundDataTableView.reloadData()
-            }
-        }
-        
-        playerDetailViewModel.fetchData(urlString: "https://namu.wiki/w/%EA%B9%80%EA%B1%B4%EB%B6%80")
-//        CrawlManager().crawlPlayerDetail(urlString: "https://namu.wiki/w/%EA%B9%80%EA%B1%B4%EB%B6%80")
     }
     
     func configureUI() {
+        self.navigationController?.isNavigationBarHidden = true
         
+        view.backgroundColor = .white
         view.addSubview(backgroundView)
         backgroundView.addSubview(containerView)
         containerView.addSubview(playerImageFrameView)
@@ -139,10 +106,8 @@ class PlayerDetailViewController: UIViewController {
         containerView.addSubview(backgroundDataTableView)
         playerImageFrameView.addSubview(playerImageView)
         frontDataView.addSubview(teamLabel)
-        frontDataView.addSubview(roleContainerView)
+        frontDataView.addSubview(roleLabel)
         frontDataView.addSubview(gameIdLabel)
-        roleContainerView.addSubview(roleImageView)
-        roleContainerView.addSubview(roleLabel)
         
         backgroundDataTableView.register(
             PlayerBackgroundDataTableViewCell.self,
@@ -158,8 +123,6 @@ class PlayerDetailViewController: UIViewController {
         playerImageView.translatesAutoresizingMaskIntoConstraints = false
         frontDataView.translatesAutoresizingMaskIntoConstraints = false
         teamLabel.translatesAutoresizingMaskIntoConstraints = false
-        roleContainerView.translatesAutoresizingMaskIntoConstraints = false
-        roleImageView.translatesAutoresizingMaskIntoConstraints = false
         roleLabel.translatesAutoresizingMaskIntoConstraints = false
         gameIdLabel.translatesAutoresizingMaskIntoConstraints = false
         backgroundDataTableView.translatesAutoresizingMaskIntoConstraints = false
@@ -195,22 +158,12 @@ class PlayerDetailViewController: UIViewController {
             teamLabel.rightAnchor.constraint(equalTo: frontDataView.rightAnchor),
             teamLabel.heightAnchor.constraint(equalToConstant: 22),
             
-            roleContainerView.topAnchor.constraint(equalTo: teamLabel.bottomAnchor, constant: 2),
-            roleContainerView.centerXAnchor.constraint(equalTo: frontDataView.centerXAnchor),
-            roleContainerView.widthAnchor.constraint(equalToConstant: 70 ),
-            roleContainerView.heightAnchor.constraint(equalToConstant: 20),
+            roleLabel.topAnchor.constraint(equalTo: teamLabel.bottomAnchor),
+            roleLabel.leftAnchor.constraint(equalTo: frontDataView.leftAnchor),
+            roleLabel.rightAnchor.constraint(equalTo: frontDataView.rightAnchor),
+            roleLabel.heightAnchor.constraint(equalToConstant: 20),
             
-            roleImageView.topAnchor.constraint(equalTo: roleContainerView.topAnchor),
-            roleImageView.leftAnchor.constraint(equalTo: roleContainerView.leftAnchor),
-            roleImageView.bottomAnchor.constraint(equalTo: roleContainerView.bottomAnchor),
-            roleImageView.widthAnchor.constraint(equalToConstant: 20),
-            
-            roleLabel.topAnchor.constraint(equalTo: roleContainerView.topAnchor),
-            roleLabel.leftAnchor.constraint(equalTo: roleImageView.rightAnchor, constant: 5),
-            roleLabel.rightAnchor.constraint(equalTo: roleContainerView.rightAnchor),
-            roleLabel.bottomAnchor.constraint(equalTo: roleContainerView.bottomAnchor),
-            
-            gameIdLabel.topAnchor.constraint(equalTo: roleContainerView.bottomAnchor),
+            gameIdLabel.topAnchor.constraint(equalTo: roleLabel.bottomAnchor),
             gameIdLabel.leftAnchor.constraint(equalTo: frontDataView.leftAnchor),
             gameIdLabel.rightAnchor.constraint(equalTo: frontDataView.rightAnchor),
             gameIdLabel.heightAnchor.constraint(equalToConstant: 22),
@@ -222,6 +175,15 @@ class PlayerDetailViewController: UIViewController {
         ])
     }
     
+    func updatePlayerDetail() {
+        playerImageView.image = UIImage(named: playerInfo!.imageString)
+        teamLabel.text = playerInfo?.team
+        roleLabel.text = playerInfo?.role
+        gameIdLabel.text = playerInfo?.gameId
+        
+        backgroundDataTableView.reloadData()
+    }
+    
     func addGestureEvent() {
         let tapGesture = UITapGestureRecognizer(
             target: self,
@@ -231,12 +193,7 @@ class PlayerDetailViewController: UIViewController {
     }
     
     @objc func clickBackgroundView(_ sender: UITapGestureRecognizer) {
-        dismiss(animated: false, completion: nil)
-    }
-    
-    @objc func clickPlayerTableViewCellNotification(_ notification: NSNotification) {
-        let namePathVariable = notification.userInfo!["namePathVariable"]! as! String
-        playerDetailViewModel.fetchData(urlString: Strings.wikiBaseUrl + namePathVariable)
+        self.navigationController?.popViewController(animated: true)
     }
 }
 
@@ -266,13 +223,13 @@ extension PlayerDetailViewController: UITableViewDataSource {
         switch playerDetailDataType {
         case .name:
             cell.categoryLabel.text = playerDetailDataType.category()
-            cell.contentLabel.text = playerDetailViewModel.playerDetail.value?.name
+            cell.contentLabel.text = playerInfo?.name
         case .birth:
             cell.categoryLabel.text = playerDetailDataType.category()
-            cell.contentLabel.text = playerDetailViewModel.playerDetail.value?.birth
+            cell.contentLabel.text = playerInfo?.birth
         case .nationality:
             cell.categoryLabel.text = playerDetailDataType.category()
-            cell.contentLabel.text = playerDetailViewModel.playerDetail.value?.nationality
+            cell.contentLabel.text = playerInfo?.nationality
         }
         
         return cell

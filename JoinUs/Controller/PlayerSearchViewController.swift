@@ -40,23 +40,30 @@ class PlayerSearchViewController: UIViewController {
         configureTableView()
     }
     
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        
+        self.navigationController?.isNavigationBarHidden = false
+    }
+    
     func configureSearchController() {
         playerSearchController.searchBar.placeholder = "선수를 검색해보세요"
         playerSearchController.hidesNavigationBarDuringPresentation = false
         playerSearchController.searchResultsUpdater = self
         definesPresentationContext = true
         
-        navigationController?.navigationBar.tintColor = .lightGray
-        navigationItem.searchController = playerSearchController
-        navigationItem.title = "Search"
-        navigationItem.hidesSearchBarWhenScrolling = false
-        navigationItem.leftBarButtonItem = UIBarButtonItem(
+        self.navigationController?.navigationBar.tintColor = .lightGray
+        self.navigationItem.title = "Search"
+        self.navigationItem.leftBarButtonItem = UIBarButtonItem(
             image: UIImage(systemName: "arrow.left"),
             style: .plain,
             target: self,
             action: #selector(clickBackButton)
         )
         
+        self.navigationItem.searchController = playerSearchController
+        self.navigationItem.hidesSearchBarWhenScrolling = false
+
         playerSearchController.searchBar.barStyle = .default
         playerSearchController.searchBar.translatesAutoresizingMaskIntoConstraints = false
         playerSearchController.searchBar.frame = playerSearchController.searchBar.bounds
@@ -66,7 +73,6 @@ class PlayerSearchViewController: UIViewController {
     
     func configureTableView() {
         view.backgroundColor = .white
-        
         view.addSubview(playerTableView)
         
         playerTableView.register(
@@ -88,10 +94,8 @@ class PlayerSearchViewController: UIViewController {
     }
     
     @objc func clickBackButton() {
-        dismiss(
-            animated: false,
-            completion: nil
-        )
+        self.navigationController?.isNavigationBarHidden = true
+        self.navigationController?.popViewController(animated: true)
     }
 }
 
@@ -144,19 +148,14 @@ extension PlayerSearchViewController: UITableViewDelegate {
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let playerDetailViewController = PlayerDetailViewController()
-        playerDetailViewController.modalPresentationStyle = .overFullScreen
-                
-        NotificationCenter.default.post(
-            name: Notification.Name(Strings.clickPlayerTableViewCellNotification),
-            object: nil,
-            userInfo: ["namePathVariable": playerCollectionViewModel.playerInfo(at: indexPath.row).namePathVariable]
-        )
         
-        present(
-            playerDetailViewController,
-            animated: false,
-            completion: nil
-        )
+        if isFiltering {
+            playerDetailViewController.playerInfo = filteredPlayers[indexPath.row]
+        } else {
+            playerDetailViewController.playerInfo = playerCollectionViewModel.playerInfo(at: indexPath.row)
+        }
+        
+        self.navigationController?.pushViewController(playerDetailViewController, animated: false)
     }
 }
 

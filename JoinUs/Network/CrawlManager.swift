@@ -112,59 +112,6 @@ struct CrawlManager {
         }
     }
     
-    func crawlPlayerDetail(urlString: String, completion: @escaping((PlayerDetail) -> Void)) {
-        AF.request(urlString).responseString { response in
-            if response.response?.url == nil {
-                print(NetworkError.invalidUrl)
-                return
-            }
-            
-            if response.error != nil {
-                print(NetworkError.invalidResponse)
-                return
-            }
-            
-            guard let html = response.value else {
-                print(NetworkError.invalidHTML)
-                return
-            }
-            
-            do {
-                let document: Document = try SwiftSoup.parse(html)
-                let elements: Elements = try document.select(Strings.playerDetailSelector)
-                
-                // 1: 팀, 이이디, 2: 이름, 3: 출생, 4: 국적, 8: 라인
-                var teamData = try elements[1].select("td > div > strong").text().components(separatedBy: " ")
-                let gameId = teamData.removeLast()
-                let team = Array(teamData).joined(separator: " ")
-                let name = try elements[2].select("td > div > strong").text().components(separatedBy: " ")[0]
-                let birthData = try elements[3].select("td:nth-child(2) > div").text().components(separatedBy: " ")
-                let birth = birthData[0] + " " + birthData[1] + " " + birthData[2] + " " + birthData[3]
-                let nationality = try elements[4].select("td:nth-child(2) > div > a").text()
-                let roleImageRelativePath = try elements[8].select("td:nth-child(2) > div > a.wiki-link-internal > span > span > img").attr("src")
-                let roleImageUrl = Strings.roleImageHttps + roleImageRelativePath
-                let roleImageData = try Data(contentsOf: URL(string: roleImageUrl)!)
-                let role = try elements[8].select("td:nth-child(2) > div > a.wiki-link-internal").text()
-                
-                let playerDetail = PlayerDetail(
-                    imageString: "\(gameId).jpg",
-                    team: team,
-                    roleImageData: roleImageData,
-                    role: role,
-                    gameId: gameId,
-                    name: name,
-                    birth: birth,
-                    nationality: nationality
-                )
-                
-                completion(playerDetail)
-                
-            } catch {
-                print(NetworkError.parsingError)
-            }
-        }
-    }
-    
     func standingsStringDataParsing(_ standingsData: String) -> [String] {
         var standingsTextData: [String] = []
         let blankComponentsData = standingsData.components(separatedBy: " ")

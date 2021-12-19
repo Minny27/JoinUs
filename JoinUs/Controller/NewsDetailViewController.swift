@@ -13,25 +13,6 @@ class NewsDetailViewController: UIViewController {
     var newsDetailUrlString = ""
     
     // MARK: - Properties
-    let backButton: UIButton = {
-        let button = UIButton()
-        button.setImage(
-            UIImage(systemName: "arrow.left"),
-            for: .normal
-        )
-        button.tintColor = .lightGray
-        button.contentHorizontalAlignment = .center
-        button.contentVerticalAlignment = .center
-        
-        button.addTarget(
-            self,
-            action: #selector(clickBackButton),
-            for: .touchUpInside
-        )
-        
-        return button
-    }()
-    
     let newsDetailView: WKWebView = {
         let webView = WKWebView()
         
@@ -47,25 +28,22 @@ class NewsDetailViewController: UIViewController {
     }
     
     func configureUI() {
-        view.addSubview(backButton)
+        self.navigationController?.isNavigationBarHidden = false
+        self.navigationController?.navigationBar.tintColor = .lightGray
+        self.navigationItem.leftBarButtonItem = UIBarButtonItem(
+            image: UIImage(systemName: "arrow.left"),
+            style: .plain,
+            target: self,
+            action: #selector(clickBackButton)
+        )
+        
+        view.backgroundColor = .white
         view.addSubview(newsDetailView)
         
-        backButton.translatesAutoresizingMaskIntoConstraints = false
-        backButton.imageView!.translatesAutoresizingMaskIntoConstraints = false
         newsDetailView.translatesAutoresizingMaskIntoConstraints = false
         
         NSLayoutConstraint.activate([
-            backButton.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 10),
-            backButton.leftAnchor.constraint(equalTo: view.leftAnchor, constant: 15),
-            backButton.widthAnchor.constraint(equalToConstant: 25),
-            backButton.heightAnchor.constraint(equalToConstant: 25),
-            
-            backButton.imageView!.topAnchor.constraint(equalTo: backButton.topAnchor),
-            backButton.imageView!.leftAnchor.constraint(equalTo: backButton.leftAnchor),
-            backButton.imageView!.bottomAnchor.constraint(equalTo: backButton.bottomAnchor),
-            backButton.imageView!.rightAnchor.constraint(equalTo: backButton.rightAnchor),
-            
-            newsDetailView.topAnchor.constraint(equalTo: backButton.bottomAnchor, constant: 10),
+            newsDetailView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
             newsDetailView.leftAnchor.constraint(equalTo: view.leftAnchor),
             newsDetailView.bottomAnchor.constraint(equalTo: view.bottomAnchor),
             newsDetailView.rightAnchor.constraint(equalTo: view.rightAnchor),
@@ -83,9 +61,7 @@ class NewsDetailViewController: UIViewController {
     }
     
     @objc func clickBackButton() {
-        dismiss(
-            animated: false,
-            completion: nil
-        )
+        self.navigationController?.isNavigationBarHidden = true
+        self.navigationController?.popViewController(animated: true)
     }
 }

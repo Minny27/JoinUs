@@ -155,10 +155,9 @@ extension NewsViewController: UITableViewDelegate {
         didSelectRowAt indexPath: IndexPath
     ) {
         let newsDetailViewController = NewsDetailViewController()
-        newsDetailViewController.modalPresentationStyle = .overFullScreen
         
         newsDetailViewController.newsDetailUrlString = newsTableViewModel.newsInfo(at: indexPath.row)!.detailUrlString
         
-        present(newsDetailViewController, animated: false, completion: nil)
+        self.navigationController?.pushViewController(newsDetailViewController, animated: true)
     }
 }
