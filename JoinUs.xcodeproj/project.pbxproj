@@ -581,7 +581,7 @@
 		56C785362770249800940A2D /* News */ = {
 			isa = PBXGroup;
 			children = (
-				56C7854827703E9A00940A2D /* Model */,
+				56C7855027704B2700940A2D /* Model */,
 				56C7854727703E9800940A2D /* ViewModel */,
 				56C7854627703E9600940A2D /* Cell */,
 				56C7854527703E9100940A2D /* Controller */,
@@ -745,14 +745,6 @@
 			path = ViewModel;
 			sourceTree = "<group>";
 		};
-		56C7854827703E9A00940A2D /* Model */ = {
-			isa = PBXGroup;
-			children = (
-				564B3D952750D0DE00A62E4C /* News.swift */,
-			);
-			name = Model;
-			sourceTree = "<group>";
-		};
 		56C7854927703E9C00940A2D /* Controller */ = {
 			isa = PBXGroup;
 			children = (
@@ -791,6 +783,14 @@
 				56FC0C7F270CAB4900E1FE3B /* TabBarController */,
 			);
 			path = Source;
+			sourceTree = "<group>";
+		};
+		56C7855027704B2700940A2D /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				564B3D952750D0DE00A62E4C /* News.swift */,
+			);
+			path = Model;
 			sourceTree = "<group>";
 		};
 		56DE7C682734B4CB0093C9AE /* Response */ = {
