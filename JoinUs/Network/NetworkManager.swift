@@ -8,7 +8,10 @@
 import Foundation
 
 final class NetworkManger {
-    func getScheduleData(dataType: RequestScheduleType, completion: @escaping (([ReceivedScheduleModel]) -> Void)) {
+    func getScheduleData(
+        dataType: RequestScheduleType,
+        completion: @escaping (([ReceivedScheduleModel]) -> Void)
+    ) {
         guard let requestUrl = dataType.url else {
             print(NetworkError.invalidUrl)
             return
@@ -19,17 +22,19 @@ final class NetworkManger {
             "Authorization": Storage().apiKey
         ]
         
-        let request = NSMutableURLRequest(url: requestUrl,
-                                          cachePolicy: .useProtocolCachePolicy,
-                                          timeoutInterval: 10.0)
-        
-//        var request = URLRequest(url: requestUrl)
-        
+        let request = NSMutableURLRequest(
+            url: requestUrl,
+            cachePolicy: .useProtocolCachePolicy,
+            timeoutInterval: 10.0
+        )
+                
         request.httpMethod = "GET"
         request.allHTTPHeaderFields = headers
         
         let urlSession = URLSession.shared
-        urlSession.dataTask(with: request as URLRequest, completionHandler: { (data, response, error) -> Void in
+        urlSession.dataTask(
+            with: request as URLRequest,
+            completionHandler: { (data, response, error) -> Void in
             guard let responseStatus = response as? HTTPURLResponse, responseStatus.statusCode == 200 else {
                 print(NetworkError.invalidResponse)
                 
@@ -48,7 +53,10 @@ final class NetworkManger {
                 let decoder = JSONDecoder()
                 decoder.dateDecodingStrategy = .iso8601
                 decoder.keyDecodingStrategy = .convertFromSnakeCase
-                scheduleData = try decoder.decode([ReceivedScheduleModel].self, from: data)
+                scheduleData = try decoder.decode(
+                    [ReceivedScheduleModel].self,
+                    from: data
+                )
                 completion(scheduleData)
             } catch {
                 print(NetworkError.decodingError)

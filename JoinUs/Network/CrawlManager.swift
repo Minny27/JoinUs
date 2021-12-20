@@ -10,7 +10,10 @@ import Alamofire
 import SwiftSoup
 
 struct CrawlManager {
-    func crawlLeagueStandings(urlString: String, completion: @escaping (([Standings]) -> Void)) {
+    func crawlLeagueStandings(
+        urlString: String,
+        completion: @escaping (([Standings]) -> Void)
+    ) {
         var standingsList: [Standings] = []
         
         AF.request(urlString).responseString { response in
@@ -41,19 +44,18 @@ struct CrawlManager {
                     let standingsTeamImageString = try standingsDataList[index].select("img").attr("data-src")
 
                     standingsList.append(
-                        Standings(ranking: standingsTextData[0],
-                                  teamImage: try Data(contentsOf: URL(string: standingsTeamImageString)!),
-                                  team: standingsTextData[1],
-                                  wins: standingsTextData[2],
-                                  loses: standingsTextData[3],
-                                  winRate: standingsTextData[4],
-                                  point: standingsTextData[5]
+                        Standings(
+                            ranking: standingsTextData[0],
+                            teamImage: try Data(contentsOf: URL(string: standingsTeamImageString)!),
+                            team: standingsTextData[1],
+                            wins: standingsTextData[2],
+                            loses: standingsTextData[3],
+                            winRate: standingsTextData[4],
+                            point: standingsTextData[5]
                         )
                     )
                 }
-                
                 completion(standingsList)
-                
             } catch {
                 print(NetworkError.parsingError)
             }

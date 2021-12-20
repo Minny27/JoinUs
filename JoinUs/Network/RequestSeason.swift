@@ -12,7 +12,6 @@ struct RequestSeason {
     static var seasonName = "Summer"
     static var seasonString = "_Season"
     static var baseUrl = "https://lol.fandom.com/wiki/LCK"
-    
     static var urlPath: String {
             return "\(RequestSeason.baseUrl)/\(RequestSeason.year)\(RequestSeason.seasonString)/\(RequestSeason.seasonName)\(RequestSeason.seasonString)"
     }
