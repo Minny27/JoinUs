@@ -2,7 +2,9 @@
 
 ## Join Us
 - LCK 팬들을 위한 LCK 일정, 순위, 뉴스, 그리고 각 팀 선수들에 대한 정보 제공 플랫폼
+
 <br>
+
 <img src=https://user-images.githubusercontent.com/68800789/146727581-becfc15c-8035-47a6-904a-57086e294408.gif>
 
 ## 기간
