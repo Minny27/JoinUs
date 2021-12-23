@@ -14,10 +14,10 @@
 - 개인 프로젝트
 
 ## 기술
-- Auto Layout Programmatically
-- MVVM Pattern
-- Alamofire
-- SwiftSoup
+- **Auto Layout Programmatically**
+- **MVVM Pattern**
+- **Alamofire**
+- **SwiftSoup**
 
 ## 출처
 - 나무위키
