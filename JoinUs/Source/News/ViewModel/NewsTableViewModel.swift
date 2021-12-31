@@ -17,10 +17,11 @@ final class NewsTableViewModel {
     func fetchNewsData() {
         CrawlManager().crawlNews() { newsList in
             self.newsList.value = newsList.compactMap {
-                News(photo: $0.photo,
-                     title: $0.title,
-                     etc: $0.etc,
-                     detailUrlString: $0.detailUrlString
+                News(
+                    photo: $0.photo,
+                    title: $0.title,
+                    etc: $0.etc,
+                    detailUrlString: $0.detailUrlString
                 )
             }
         }

@@ -18,13 +18,14 @@ final class StandingsViewModel {
     func fetchStandingsData(urlString: String) {
         CrawlManager().crawlLeagueStandings(urlString: urlString) { standingsList in
             self.standingsList.value = standingsList.compactMap({
-                Standings(ranking: $0.ranking,
-                          teamImage: $0.teamImage,
-                          team: $0.team,
-                          wins: $0.wins,
-                          loses: $0.loses,
-                          winRate: $0.winRate,
-                          point: $0.point
+                Standings(
+                    ranking: $0.ranking,
+                    teamImage: $0.teamImage,
+                    team: $0.team,
+                    wins: $0.wins,
+                    loses: $0.loses,
+                    winRate: $0.winRate,
+                    point: $0.point
                 )
             })
         }
