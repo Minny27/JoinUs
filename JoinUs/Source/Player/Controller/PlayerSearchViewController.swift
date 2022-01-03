@@ -47,10 +47,8 @@ class PlayerSearchViewController: UIViewController {
     }
     
     func configureSearchController() {
-        playerSearchController.searchBar.placeholder = "선수를 검색해보세요"
-        playerSearchController.hidesNavigationBarDuringPresentation = false
         playerSearchController.searchResultsUpdater = self
-        definesPresentationContext = true
+        playerSearchController.hidesNavigationBarDuringPresentation = false
         
         self.navigationController?.navigationBar.tintColor = .lightGray
         self.navigationItem.title = "Search"
@@ -63,7 +61,8 @@ class PlayerSearchViewController: UIViewController {
         
         self.navigationItem.searchController = playerSearchController
         self.navigationItem.hidesSearchBarWhenScrolling = false
-
+        
+        playerSearchController.searchBar.placeholder = "선수를 검색해보세요"
         playerSearchController.searchBar.barStyle = .default
         playerSearchController.searchBar.translatesAutoresizingMaskIntoConstraints = false
         playerSearchController.searchBar.frame = playerSearchController.searchBar.bounds
@@ -165,7 +164,7 @@ extension PlayerSearchViewController: UITableViewDelegate {
 extension PlayerSearchViewController: UISearchResultsUpdating {
     func updateSearchResults(for searchController: UISearchController) {
         let searchText = playerSearchController.searchBar.text!
-        filteredPlayers = playerCollectionViewModel.playerList.filter { (player: Player) -> Bool in
+        filteredPlayers = playerCollectionViewModel.playerList.filter { player -> Bool in
             return player.gameId.lowercased().contains(searchText.lowercased())
         }
         

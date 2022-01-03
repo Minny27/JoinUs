@@ -624,8 +624,8 @@
 		56C7853A27703CB800940A2D /* Cell */ = {
 			isa = PBXGroup;
 			children = (
-				56DE7C96273572B80093C9AE /* LeagueScheduleTableViewCell.swift */,
 				56C2CEB3271D63DF005691C6 /* ScheduleTableViewCell.swift */,
+				56DE7C96273572B80093C9AE /* LeagueScheduleTableViewCell.swift */,
 				56FC0C7B270CAB1800E1FE3B /* TeamTabbarCollectionViewCell.swift */,
 				56BFFC102720FDE1007A1826 /* TeamTabbarTableViewCell.swift */,
 				5605BB9827157FBF00A9811A /* TeamPlayerCollectionViewCell.swift */,

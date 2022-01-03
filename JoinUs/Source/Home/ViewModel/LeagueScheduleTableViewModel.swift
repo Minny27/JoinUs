@@ -26,7 +26,7 @@ final class LeagueScheduleTableViewModel {
     
     func fetchData() {
         DispatchQueue.main.async {
-            NetworkManger().getScheduleData(dataType: self.dataType) { [self] receivedScheduleModel in
+            NetworkManger().getScheduleData(dataType: self.dataType) { receivedScheduleModel in
                 self.scheduleList.value = receivedScheduleModel.compactMap({ schedule in
                     self.extractScehduleData(schedule: schedule)
                 })
