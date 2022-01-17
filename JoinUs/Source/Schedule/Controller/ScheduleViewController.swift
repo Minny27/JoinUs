@@ -12,7 +12,7 @@ class ScheduleViewController: UIViewController {
     // MARK: - Properties
     
     let monthCollectionViewModel = MonthCollectionViewModel()
-    let lckRunningViewModel = LeagueScheduleTableViewModel(dataType: .running(league: "worlds"))
+    let lckMonthViewModel = LeagueScheduleTableViewModel(leagueType: .lck)
     
     let containerView: UIView = {
         let view = UIView()
@@ -68,9 +68,9 @@ class ScheduleViewController: UIViewController {
         
         configureUI()
         
-        lckRunningViewModel.fetchData()
+        lckMonthViewModel.fetchData()
 
-        lckRunningViewModel.scheduleList.bind { _ in
+        lckMonthViewModel.scheduleList.bind { _ in
             DispatchQueue.main.async {
                 self.scheduleTableView.reloadData()
             }
@@ -80,9 +80,9 @@ class ScheduleViewController: UIViewController {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         
-        lckRunningViewModel.fetchData()
+        lckMonthViewModel.fetchData()
         
-        lckRunningViewModel.scheduleList.bind { _ in
+        lckMonthViewModel.scheduleList.bind { _ in
             DispatchQueue.main.async {
                 self.scheduleTableView.reloadData()
             }
@@ -180,7 +180,7 @@ extension ScheduleViewController: UITableViewDataSource {
         _ tableView: UITableView,
         numberOfRowsInSection section: Int
     ) -> Int {
-        return lckRunningViewModel.scheduleList.value!.count
+        return lckMonthViewModel.scheduleList.value!.count
     }
 
     func tableView(
@@ -194,7 +194,7 @@ extension ScheduleViewController: UITableViewDataSource {
             return UITableViewCell()
         }
         
-        let leagueScheduleInfo = lckRunningViewModel.scheduleInfo(at: indexPath.row)
+        let leagueScheduleInfo = lckMonthViewModel.scheduleInfo(at: indexPath.row)
         
         cell.configureUI()
         cell.update(leagueScheduleTableViewCellModel: leagueScheduleInfo!)

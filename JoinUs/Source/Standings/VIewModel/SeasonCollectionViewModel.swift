@@ -9,6 +9,7 @@ import Foundation
 
 final class SeasonCollectionViewModel {
     let seasonList: [Season] = [
+        Season(year: "2022", seasonName: "Spring"),
         Season(year: "2021", seasonName: "Summer"),
         Season(year: "2021", seasonName: "Spring"),
         Season(year: "2020", seasonName: "Summer"),

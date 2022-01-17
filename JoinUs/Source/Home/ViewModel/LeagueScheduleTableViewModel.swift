@@ -10,14 +10,14 @@ import Foundation
 final class LeagueScheduleTableViewModel {
     private let dateFormatter = DateFormatter()
     var scheduleList: Observable<[LeagueScheduleTableViewCellModel]> = Observable([])
-    var dataType: RequestScheduleType
+    var leagueType: RequestLeagueType
     
     var countScheduleList: Int {
         return scheduleList.value?.count ?? 0
     }
     
-    init(dataType: RequestScheduleType) {
-        self.dataType = dataType
+    init(leagueType: RequestLeagueType) {
+        self.leagueType = leagueType
     }
     
     func scheduleInfo(at index: Int) -> LeagueScheduleTableViewCellModel? {
@@ -26,7 +26,7 @@ final class LeagueScheduleTableViewModel {
     
     func fetchData() {
         DispatchQueue.main.async {
-            NetworkManger().getScheduleData(dataType: self.dataType) { receivedScheduleModel in
+            NetworkManger().getScheduleData(leagueType: self.leagueType) { receivedScheduleModel in
                 self.scheduleList.value = receivedScheduleModel.compactMap({ schedule in
                     self.extractScehduleData(schedule: schedule)
                 })

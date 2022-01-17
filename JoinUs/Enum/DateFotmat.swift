@@ -8,11 +8,14 @@
 import Foundation
 
 enum DateFormat {
+    case today
     case date
     case time
     
     var type: String {
         switch self {
+        case .today:
+            return "YYYY-MM-dd"
         case .date:
             return "MM-dd"
         case .time:
