@@ -9,7 +9,7 @@ import Foundation
 
 struct Standings {
     let ranking: String
-    let teamImage: Data
+    let teamImageUrl: URL
     let team: String
     let wins: String
     let loses: String
@@ -18,7 +18,7 @@ struct Standings {
     
     init(
         ranking: String,
-        teamImage: Data,
+        teamImageUrl: URL,
         team: String,
         wins: String,
         loses: String,
@@ -26,7 +26,7 @@ struct Standings {
         point: String
     ) {
         self.ranking = ranking
-        self.teamImage = teamImage
+        self.teamImageUrl = teamImageUrl
         self.team = team
         self.wins = wins
         self.loses = loses

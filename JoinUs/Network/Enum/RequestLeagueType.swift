@@ -12,17 +12,26 @@ enum RequestLeagueType {
     case lck
     
     static let baseUrl: String = "https://api.pandascore.co/lol/matches"
-    static let worldsQueryParameter = "/?filter[league_id]=297&filter[begin_at]="
-    static let lckQueryParameter = "/?filter[league_id]=293&filter[begin_at]="
+    static let worldsTodayQueryParameter = "/?filter[league_id]=297&filter[begin_at]="
+    static let lckTodayQueryParameter = "/?filter[league_id]=293&filter[begin_at]="
+    static let lckMonthQueryParameter = "/?filter[league_id]=293"
     static let today = DateFormatter().dateToString(date: Date(), dateFormat: .today)
+    static let sortQueryParameter = "&sort=begin_at"
+    static let rangeQueryParameter = "&range[begin_at]=2022-01-18"
 
     // worlds: 297, lck: 293
     private var urlPath: String {
         switch self {
         case .worlds:
-            return RequestLeagueType.worldsQueryParameter + RequestLeagueType.today
+//            return RequestLeagueType.worldsTodayQueryParameter + "2021-10-05"
+//            + RequestLeagueType.sortQueryParameter
+            return RequestLeagueType.worldsTodayQueryParameter + RequestLeagueType.today
+            + RequestLeagueType.sortQueryParameter
         case .lck:
-            return RequestLeagueType.lckQueryParameter + RequestLeagueType.today
+//            return RequestLeagueType.lckMonthQueryParameter
+//            + RequestLeagueType.sortQueryParameter + RequestLeagueType.rangeQueryParameter
+            return RequestLeagueType.lckTodayQueryParameter + RequestLeagueType.today
+            + RequestLeagueType.sortQueryParameter
         }
     }
     

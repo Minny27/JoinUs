@@ -77,18 +77,6 @@ class ScheduleViewController: UIViewController {
         }
     }
     
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
-        
-        lckMonthViewModel.fetchData()
-        
-        lckMonthViewModel.scheduleList.bind { _ in
-            DispatchQueue.main.async {
-                self.scheduleTableView.reloadData()
-            }
-        }
-    }
-    
     func configureUI() {
         view.backgroundColor = .white
         view.addSubview(containerView)

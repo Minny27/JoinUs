@@ -7,7 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		28639D38A772F5671094A996 /* libPods-JoinUs.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 8F85D3B5AEC3F930AA268AC6 /* libPods-JoinUs.a */; };
+		05E5CA236769BA5C49429A3C /* Pods_JoinUs.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 43361298571AC229C84253DF /* Pods_JoinUs.framework */; };
 		5602F05A270D2DE00096B048 /* Team.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5602F059270D2DE00096B048 /* Team.swift */; };
 		5602F05D270D2E0E0096B048 /* TeamTabbarViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5602F05C270D2E0E0096B048 /* TeamTabbarViewModel.swift */; };
 		5605BB442715348F00A9811A /* Blank.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 5605BB092715348F00A9811A /* Blank.jpg */; };
@@ -82,6 +82,7 @@
 		5622EF9127412D60001E1C35 /* MonthCollectionViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5622EF9027412D60001E1C35 /* MonthCollectionViewModel.swift */; };
 		5622EF9327412E40001E1C35 /* MonthCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5622EF9227412E40001E1C35 /* MonthCollectionViewCell.swift */; };
 		56256B3A2795038B00C17466 /* RequestLeagueType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 56256B392795038B00C17466 /* RequestLeagueType.swift */; };
+		56256B3C2795A68F00C17466 /* NoScheduleTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 56256B3B2795A68F00C17466 /* NoScheduleTableViewCell.swift */; };
 		562DB968271E93DF00EC6ABE /* HomeTableViewSectionHeader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 562DB967271E93DF00EC6ABE /* HomeTableViewSectionHeader.swift */; };
 		563CB60C2759F31A00905C10 /* PlayerCollectionViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 563CB60B2759F31A00905C10 /* PlayerCollectionViewModel.swift */; };
 		56418AA0273CF0A5005BEF2E /* LeagueScheduleTableViewSectionType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 56418A9F273CF0A5005BEF2E /* LeagueScheduleTableViewSectionType.swift */; };
@@ -138,6 +139,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		43361298571AC229C84253DF /* Pods_JoinUs.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_JoinUs.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		5602F059270D2DE00096B048 /* Team.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Team.swift; sourceTree = "<group>"; };
 		5602F05C270D2E0E0096B048 /* TeamTabbarViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TeamTabbarViewModel.swift; sourceTree = "<group>"; };
 		5605BB092715348F00A9811A /* Blank.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = Blank.jpg; sourceTree = "<group>"; };
@@ -212,6 +214,7 @@
 		5622EF9027412D60001E1C35 /* MonthCollectionViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MonthCollectionViewModel.swift; sourceTree = "<group>"; };
 		5622EF9227412E40001E1C35 /* MonthCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MonthCollectionViewCell.swift; sourceTree = "<group>"; };
 		56256B392795038B00C17466 /* RequestLeagueType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RequestLeagueType.swift; sourceTree = "<group>"; };
+		56256B3B2795A68F00C17466 /* NoScheduleTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NoScheduleTableViewCell.swift; sourceTree = "<group>"; };
 		562DB967271E93DF00EC6ABE /* HomeTableViewSectionHeader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeTableViewSectionHeader.swift; sourceTree = "<group>"; };
 		563CB60B2759F31A00905C10 /* PlayerCollectionViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlayerCollectionViewModel.swift; sourceTree = "<group>"; };
 		56418A9F273CF0A5005BEF2E /* LeagueScheduleTableViewSectionType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LeagueScheduleTableViewSectionType.swift; sourceTree = "<group>"; };
@@ -268,7 +271,6 @@
 		56E9F0C12739600500E7A901 /* LeagueScheduleTableViewSectionHeader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LeagueScheduleTableViewSectionHeader.swift; sourceTree = "<group>"; };
 		56FC0C7B270CAB1800E1FE3B /* TeamTabbarCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TeamTabbarCollectionViewCell.swift; sourceTree = "<group>"; };
 		5F6CC99A0F5B2A97AA8FEBE4 /* Pods-JoinUs.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-JoinUs.debug.xcconfig"; path = "Target Support Files/Pods-JoinUs/Pods-JoinUs.debug.xcconfig"; sourceTree = "<group>"; };
-		8F85D3B5AEC3F930AA268AC6 /* libPods-JoinUs.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-JoinUs.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		DE2EFA195FAFF65F561DAB3D /* Pods-JoinUs.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-JoinUs.release.xcconfig"; path = "Target Support Files/Pods-JoinUs/Pods-JoinUs.release.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -277,7 +279,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				28639D38A772F5671094A996 /* libPods-JoinUs.a in Frameworks */,
+				05E5CA236769BA5C49429A3C /* Pods_JoinUs.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -630,6 +632,7 @@
 				56BFFC102720FDE1007A1826 /* TeamTabbarTableViewCell.swift */,
 				5605BB9827157FBF00A9811A /* TeamPlayerCollectionViewCell.swift */,
 				56BFFC1427210025007A1826 /* TeamPlayerTableViewCell.swift */,
+				56256B3B2795A68F00C17466 /* NoScheduleTableViewCell.swift */,
 			);
 			path = Cell;
 			sourceTree = "<group>";
@@ -834,7 +837,7 @@
 		7D021C45D234223027773AF6 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
-				8F85D3B5AEC3F930AA268AC6 /* libPods-JoinUs.a */,
+				43361298571AC229C84253DF /* Pods_JoinUs.framework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -850,6 +853,7 @@
 				564EC1F82709D63800DCA9E6 /* Sources */,
 				564EC1F92709D63800DCA9E6 /* Frameworks */,
 				564EC1FA2709D63800DCA9E6 /* Resources */,
+				92EFE248C5FC7CDE3B9C676A /* [CP] Embed Pods Frameworks */,
 			);
 			buildRules = (
 			);
@@ -987,6 +991,23 @@
 			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
 			showEnvVarsInLog = 0;
 		};
+		92EFE248C5FC7CDE3B9C676A /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-JoinUs/Pods-JoinUs-frameworks-${CONFIGURATION}-input-files.xcfilelist",
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-JoinUs/Pods-JoinUs-frameworks-${CONFIGURATION}-output-files.xcfilelist",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-JoinUs/Pods-JoinUs-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
 /* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
@@ -1001,6 +1022,7 @@
 				56C2CEB4271D63DF005691C6 /* ScheduleTableViewCell.swift in Sources */,
 				5646AC282750D47D009F295A /* NewsTableViewModel.swift in Sources */,
 				56555F6E273670AA00A8A53D /* Observable.swift in Sources */,
+				56256B3C2795A68F00C17466 /* NoScheduleTableViewCell.swift in Sources */,
 				56B1A720274F1F7D00C91BB8 /* Standings.swift in Sources */,
 				5642CD092755EC250017F78B /* PopUpViewController.swift in Sources */,
 				56DE7C752734BAEA0093C9AE /* League.swift in Sources */,

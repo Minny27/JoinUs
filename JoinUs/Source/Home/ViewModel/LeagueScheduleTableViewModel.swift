@@ -49,10 +49,10 @@ final class LeagueScheduleTableViewModel {
         let versus = schedule.status == "not_started" ? "vs" :":"
         let homeTeamId = schedule.opponents[0].opponent.id
         let homeTeam = getTeam(totalName: schedule.name).homeTeam
-        let homeTeamImage = try! Data(contentsOf: URL(string: schedule.opponents[0].opponent.imageUrl)!)
+        let homeTeamImageUrl = URL(string: schedule.opponents[0].opponent.imageUrl)!
         let awayTeamId = schedule.opponents[1].opponent.id
         let awayTeam = getTeam(totalName: schedule.name).awayTeam
-        let awayTeamImage = try! Data(contentsOf: URL(string: schedule.opponents[1].opponent.imageUrl)!)
+        let awayTeamImageUrl = URL(string: schedule.opponents[1].opponent.imageUrl)!
         var homeTeamWinCount = 0
         var awayTeamWinCount = 0
         let winnerId = schedule.winnerId
@@ -79,10 +79,10 @@ final class LeagueScheduleTableViewModel {
             versus: versus,
             homeTeamId: homeTeamId,
             homeTeam: homeTeam,
-            homeTeamImage: homeTeamImage,
+            homeTeamImageUrl: homeTeamImageUrl,
             awayTeamId: awayTeamId,
             awayTeam: awayTeam,
-            awayTeamImage: awayTeamImage,
+            awayTeamImageUrl: awayTeamImageUrl,
             homeTeamWinCount: homeTeamWinCount,
             awayTeamWinCount: awayTeamWinCount,
             winnerId: winnerId

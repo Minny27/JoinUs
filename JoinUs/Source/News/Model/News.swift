@@ -9,13 +9,13 @@ import Foundation
 import UIKit
 
 struct News {
-    let photo: Data
+    let photo: URL
     let title: String
     let etc: String
     let detailUrlString: String
     
     init(
-        photo: Data,
+        photo: URL,
         title: String,
         etc: String,
         detailUrlString: String
