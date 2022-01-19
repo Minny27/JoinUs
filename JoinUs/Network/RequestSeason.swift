@@ -8,8 +8,8 @@
 import Foundation
 
 struct RequestSeason {
-    static var year = "2021"
-    static var seasonName = "Summer"
+    static var year = "2022"
+    static var seasonName = "Spring"
     static var seasonString = "_Season"
     static var baseUrl = "https://lol.fandom.com/wiki/LCK"
     static var urlPath: String {

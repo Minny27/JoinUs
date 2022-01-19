@@ -16,10 +16,10 @@ struct LeagueScheduleTableViewCellModel {
     let versus: String
     let homeTeamId: Int
     let homeTeam: String
-    let homeTeamImage: Data
+    let homeTeamImageUrl: URL
     let awayTeamId: Int
     let awayTeam: String
-    let awayTeamImage: Data
+    let awayTeamImageUrl: URL
     let homeTeamWinCount: Int
     let awayTeamWinCount: Int
     let winnerId: Int?
@@ -33,10 +33,10 @@ struct LeagueScheduleTableViewCellModel {
         versus: String,
         homeTeamId: Int,
         homeTeam: String,
-        homeTeamImage: Data,
+        homeTeamImageUrl: URL,
         awayTeamId: Int,
         awayTeam: String,
-        awayTeamImage: Data,
+        awayTeamImageUrl: URL,
         homeTeamWinCount: Int,
         awayTeamWinCount: Int,
         winnerId: Int?
@@ -49,10 +49,10 @@ struct LeagueScheduleTableViewCellModel {
         self.versus = versus
         self.homeTeamId = homeTeamId
         self.homeTeam = homeTeam
-        self.homeTeamImage = homeTeamImage
+        self.homeTeamImageUrl = homeTeamImageUrl
         self.awayTeamId = awayTeamId
         self.awayTeam = awayTeam
-        self.awayTeamImage = awayTeamImage
+        self.awayTeamImageUrl = awayTeamImageUrl
         self.homeTeamWinCount = homeTeamWinCount
         self.awayTeamWinCount = awayTeamWinCount
         self.winnerId = winnerId

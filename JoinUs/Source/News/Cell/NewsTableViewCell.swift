@@ -5,7 +5,7 @@
 //  Created by SeungMin on 2021/11/26.
 //
 
-import Foundation
+import Kingfisher
 import UIKit
 
 final class NewsTableViewCell: UITableViewCell {
@@ -89,8 +89,38 @@ final class NewsTableViewCell: UITableViewCell {
     }
     
     func update(newsInfo: News) {
-        self.photoImageView.image = UIImage(data: newsInfo.photo)
+        setNewsImage(
+            newsImageUrl: newsInfo.photo,
+            newsImageView: photoImageView
+        )
         self.newsTitleLabel.text = newsInfo.title
         self.newsEtcLabel.text = newsInfo.etc
+    }
+    
+    func setNewsImage(newsImageUrl: URL, newsImageView: UIImageView) {
+        let processor = DownsamplingImageProcessor(size: CGSize(
+            width: 100,
+            height: contentView.frame.height - 10
+        )) |> RoundCornerImageProcessor(cornerRadius: 5)
+        newsImageView.kf.indicatorType = .activity
+        newsImageView.kf.setImage(
+            with: newsImageUrl,
+            placeholder: UIImage(named: "placeholderImage"),
+            options: [
+                .processor(processor),
+                .scaleFactor(UIScreen.main.scale),
+                .transition(.fade(1)),
+                .cacheOriginalImage
+            ]
+        )
+        {
+            result in
+            switch result {
+            case .success(let value):
+                print("Task done for: \(value.source.url?.absoluteString ?? "")")
+            case .failure(let error):
+                print("Job failed: \(error.localizedDescription)")
+            }
+        }
     }
 }

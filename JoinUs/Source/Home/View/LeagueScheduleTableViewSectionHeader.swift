@@ -21,10 +21,10 @@ final class LeagueScheduleTableViewSectionHeader: UIView {
         return view
     }()
     
-    let leagueImage: UIImageView = {
-        let image = UIImageView()
+    let leagueImageView: UIImageView = {
+        let imageView = UIImageView()
         
-        return image
+        return imageView
     }()
     
     let leagueTitleLabel: UILabel = {
@@ -41,12 +41,12 @@ final class LeagueScheduleTableViewSectionHeader: UIView {
         
         addSubview(leagueView)
         leagueView.addSubview(leagueDataView)
-        leagueDataView.addSubview(leagueImage)
+        leagueDataView.addSubview(leagueImageView)
         leagueDataView.addSubview(leagueTitleLabel)
         
         leagueView.translatesAutoresizingMaskIntoConstraints = false
         leagueDataView.translatesAutoresizingMaskIntoConstraints = false
-        leagueImage.translatesAutoresizingMaskIntoConstraints = false
+        leagueImageView.translatesAutoresizingMaskIntoConstraints = false
         leagueTitleLabel.translatesAutoresizingMaskIntoConstraints = false
         
         NSLayoutConstraint.activate([
@@ -60,18 +60,18 @@ final class LeagueScheduleTableViewSectionHeader: UIView {
             leagueDataView.centerYAnchor.constraint(equalTo: leagueView.centerYAnchor),
             leagueDataView.heightAnchor.constraint(equalToConstant: 20),
             
-            leagueImage.topAnchor.constraint(equalTo: leagueDataView.topAnchor),
-            leagueImage.leftAnchor.constraint(equalTo: leagueDataView.leftAnchor),
-            leagueImage.bottomAnchor.constraint(equalTo: leagueDataView.bottomAnchor),
-            leagueImage.widthAnchor.constraint(equalToConstant: 20),
+            leagueImageView.topAnchor.constraint(equalTo: leagueDataView.topAnchor),
+            leagueImageView.leftAnchor.constraint(equalTo: leagueDataView.leftAnchor),
+            leagueImageView.bottomAnchor.constraint(equalTo: leagueDataView.bottomAnchor),
+            leagueImageView.widthAnchor.constraint(equalToConstant: 20),
             
             leagueTitleLabel.topAnchor.constraint(equalTo: leagueDataView.topAnchor),
-            leagueTitleLabel.leftAnchor.constraint(equalTo: leagueImage.rightAnchor, constant: 5),
+            leagueTitleLabel.leftAnchor.constraint(equalTo: leagueImageView.rightAnchor, constant: 5),
             leagueTitleLabel.bottomAnchor.constraint(equalTo: leagueDataView.bottomAnchor),
             leagueTitleLabel.widthAnchor.constraint(equalToConstant: 100),
         ])
         
-        leagueImage.image = UIImage(data: leagueScheduleTableViewSectionType.image())
+        leagueImageView.image = UIImage(data: leagueScheduleTableViewSectionType.image())
         leagueTitleLabel.text = leagueScheduleTableViewSectionType.title()
     }
 }

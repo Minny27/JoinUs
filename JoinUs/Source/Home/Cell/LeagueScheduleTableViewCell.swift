@@ -5,6 +5,7 @@
 //  Created by SeungMin on 2021/11/05.
 //
 
+import Kingfisher
 import UIKit
 
 final class LeagueScheduleTableViewCell: UITableViewCell {
@@ -50,7 +51,7 @@ final class LeagueScheduleTableViewCell: UITableViewCell {
         return label
     }()
     
-    let homeTeamImage: UIImageView = {
+    let homeTeamImageView: UIImageView = {
         let imageView = UIImageView()
         
         return imageView
@@ -95,7 +96,7 @@ final class LeagueScheduleTableViewCell: UITableViewCell {
         return label
     }()
     
-    let awayTeamImage: UIImageView = {
+    let awayTeamImageView: UIImageView = {
         let imageView = UIImageView()
         
         return imageView
@@ -120,11 +121,11 @@ final class LeagueScheduleTableViewCell: UITableViewCell {
         leftDataView.addSubview(timeLabel)
         leftDataView.addSubview(statusLabel)
         homeTeamView.addSubview(homeTeam)
-        homeTeamView.addSubview(homeTeamImage)
+        homeTeamView.addSubview(homeTeamImageView)
         homeTeamView.addSubview(homeTeamWins)
         versusView.addSubview(versusLabel)
         awayTeamView.addSubview(awayTeam)
-        awayTeamView.addSubview(awayTeamImage)
+        awayTeamView.addSubview(awayTeamImageView)
         awayTeamView.addSubview(awayTeamWins)
         
         leftDataView.translatesAutoresizingMaskIntoConstraints = false
@@ -133,12 +134,12 @@ final class LeagueScheduleTableViewCell: UITableViewCell {
         timeLabel.translatesAutoresizingMaskIntoConstraints = false
         statusLabel.translatesAutoresizingMaskIntoConstraints = false
         homeTeam.translatesAutoresizingMaskIntoConstraints = false
-        homeTeamImage.translatesAutoresizingMaskIntoConstraints = false
+        homeTeamImageView.translatesAutoresizingMaskIntoConstraints = false
         homeTeamWins.translatesAutoresizingMaskIntoConstraints = false
         versusView.translatesAutoresizingMaskIntoConstraints = false
         versusLabel.translatesAutoresizingMaskIntoConstraints = false
         awayTeam.translatesAutoresizingMaskIntoConstraints = false
-        awayTeamImage.translatesAutoresizingMaskIntoConstraints = false
+        awayTeamImageView.translatesAutoresizingMaskIntoConstraints = false
         awayTeamWins.translatesAutoresizingMaskIntoConstraints = false
         
         NSLayoutConstraint.activate([
@@ -167,15 +168,15 @@ final class LeagueScheduleTableViewCell: UITableViewCell {
             homeTeamWins.rightAnchor.constraint(equalTo: homeTeamView.rightAnchor),
             homeTeamWins.widthAnchor.constraint(equalToConstant: 10),
             
-            homeTeamImage.topAnchor.constraint(equalTo: homeTeamView.topAnchor),
-            homeTeamImage.bottomAnchor.constraint(equalTo: homeTeamView.bottomAnchor),
-            homeTeamImage.rightAnchor.constraint(equalTo: homeTeamWins.leftAnchor, constant: -8),
-            homeTeamImage.widthAnchor.constraint(equalToConstant: 20),
+            homeTeamImageView.topAnchor.constraint(equalTo: homeTeamView.topAnchor),
+            homeTeamImageView.bottomAnchor.constraint(equalTo: homeTeamView.bottomAnchor),
+            homeTeamImageView.rightAnchor.constraint(equalTo: homeTeamWins.leftAnchor, constant: -8),
+            homeTeamImageView.widthAnchor.constraint(equalToConstant: 20),
             
             homeTeam.topAnchor.constraint(equalTo: homeTeamView.topAnchor),
             homeTeam.leftAnchor.constraint(equalTo: homeTeamView.leftAnchor),
             homeTeam.bottomAnchor.constraint(equalTo: homeTeamView.bottomAnchor),
-            homeTeam.rightAnchor.constraint(equalTo: homeTeamImage.leftAnchor, constant: -5),
+            homeTeam.rightAnchor.constraint(equalTo: homeTeamImageView.leftAnchor, constant: -5),
             
             versusView.leftAnchor.constraint(equalTo: homeTeamView.rightAnchor),
             versusView.widthAnchor.constraint(equalToConstant: 20),
@@ -197,13 +198,13 @@ final class LeagueScheduleTableViewCell: UITableViewCell {
             awayTeamWins.bottomAnchor.constraint(equalTo: awayTeamView.bottomAnchor),
             awayTeamWins.widthAnchor.constraint(equalToConstant: 10),
             
-            awayTeamImage.topAnchor.constraint(equalTo: awayTeamView.topAnchor),
-            awayTeamImage.leftAnchor.constraint(equalTo: awayTeamWins.rightAnchor, constant: 8),
-            awayTeamImage.bottomAnchor.constraint(equalTo: awayTeamView.bottomAnchor),
-            awayTeamImage.widthAnchor.constraint(equalToConstant: 20),
+            awayTeamImageView.topAnchor.constraint(equalTo: awayTeamView.topAnchor),
+            awayTeamImageView.leftAnchor.constraint(equalTo: awayTeamWins.rightAnchor, constant: 8),
+            awayTeamImageView.bottomAnchor.constraint(equalTo: awayTeamView.bottomAnchor),
+            awayTeamImageView.widthAnchor.constraint(equalToConstant: 20),
             
             awayTeam.topAnchor.constraint(equalTo: awayTeamView.topAnchor),
-            awayTeam.leftAnchor.constraint(equalTo: awayTeamImage.rightAnchor, constant: 5),
+            awayTeam.leftAnchor.constraint(equalTo: awayTeamImageView.rightAnchor, constant: 5),
             awayTeam.bottomAnchor.constraint(equalTo: awayTeamView.bottomAnchor),
             awayTeam.rightAnchor.constraint(equalTo: awayTeamView.rightAnchor),
         ])
@@ -216,10 +217,16 @@ final class LeagueScheduleTableViewCell: UITableViewCell {
         statusLabel.layer.borderColor = MatchStatusType(rawValue: leagueScheduleTableViewCellModel.status)!.statusColor().cgColor
         versusLabel.text = leagueScheduleTableViewCellModel.versus
         homeTeam.text = leagueScheduleTableViewCellModel.homeTeam
-        homeTeamImage.image = UIImage(data: leagueScheduleTableViewCellModel.homeTeamImage)
+        setTeamImage(
+            teamImageUrl: leagueScheduleTableViewCellModel.homeTeamImageUrl,
+            teamImageView: homeTeamImageView
+        )
         homeTeamWins.text = leagueScheduleTableViewCellModel.status == "not_started" ? "" : String(leagueScheduleTableViewCellModel.homeTeamWinCount)
         awayTeam.text = leagueScheduleTableViewCellModel.awayTeam
-        awayTeamImage.image = UIImage(data: leagueScheduleTableViewCellModel.awayTeamImage)
+        setTeamImage(
+            teamImageUrl: leagueScheduleTableViewCellModel.awayTeamImageUrl,
+            teamImageView: awayTeamImageView
+        )
         awayTeamWins.text = leagueScheduleTableViewCellModel.status == "not_started" ? "" : String(leagueScheduleTableViewCellModel.awayTeamWinCount)
         
         if let winnerId = leagueScheduleTableViewCellModel.winnerId {
@@ -231,6 +238,30 @@ final class LeagueScheduleTableViewCell: UITableViewCell {
             else {
                 awayTeamWins.textColor = .black
                 homeTeamWins.textColor = .darkGray
+            }
+        }
+    }
+    
+    func setTeamImage(teamImageUrl: URL, teamImageView: UIImageView) {
+        let processor = DownsamplingImageProcessor(size: CGSize(width: 20, height: 20))
+        teamImageView.kf.indicatorType = .activity
+        teamImageView.kf.setImage(
+            with: teamImageUrl,
+            placeholder: UIImage(named: "placeholderImage"),
+            options: [
+                .processor(processor),
+                .scaleFactor(UIScreen.main.scale),
+                .transition(.fade(1)),
+                .cacheOriginalImage
+            ]
+        )
+        {
+            result in
+            switch result {
+            case .success(let value):
+                print("Task done for: \(value.source.url?.absoluteString ?? "")")
+            case .failure(let error):
+                print("Job failed: \(error.localizedDescription)")
             }
         }
     }

@@ -20,7 +20,7 @@ final class StandingsViewModel {
             self.standingsList.value = standingsList.compactMap({
                 Standings(
                     ranking: $0.ranking,
-                    teamImage: $0.teamImage,
+                    teamImageUrl: $0.teamImageUrl,
                     team: $0.team,
                     wins: $0.wins,
                     loses: $0.loses,

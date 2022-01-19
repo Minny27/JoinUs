@@ -46,7 +46,7 @@ struct CrawlManager {
                     standingsList.append(
                         Standings(
                             ranking: standingsTextData[0],
-                            teamImage: try Data(contentsOf: URL(string: standingsTeamImageString)!),
+                            teamImageUrl: URL(string: standingsTeamImageString)!,
                             team: standingsTextData[1],
                             wins: standingsTextData[2],
                             loses: standingsTextData[3],
@@ -90,7 +90,7 @@ struct CrawlManager {
                 for element in elements {
                     let imageRelativePath = try element.select("img").attr("src")
                     let imageUrl = newsPortalBaseUrl + imageRelativePath
-                    let photo = try Data(contentsOf: URL(string: imageUrl)!)
+                    let photo = URL(string: imageUrl)!
                     let title = try element.select("p.tit").text()
                     let etc = try element.select("p.etc").text()
                     let detailRelativePath = try element.select("p.tit").select("a").attr("href")

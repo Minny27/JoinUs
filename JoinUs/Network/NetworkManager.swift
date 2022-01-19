@@ -9,10 +9,10 @@ import Foundation
 
 final class NetworkManger {
     func getScheduleData(
-        dataType: RequestScheduleType,
+        leagueType: RequestLeagueType,
         completion: @escaping (([ReceivedScheduleModel]) -> Void)
     ) {
-        guard let requestUrl = dataType.url else {
+        guard let requestUrl = leagueType.url else {
             print(NetworkError.invalidUrl)
             return
         }

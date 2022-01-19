@@ -5,6 +5,7 @@
 //  Created by SeungMin on 2021/11/25.
 //
 
+import Kingfisher
 import UIKit
 
 final class StandingsTableViewCell: UITableViewCell {
@@ -134,11 +135,41 @@ final class StandingsTableViewCell: UITableViewCell {
     
     func update(standingsInfo: Standings) {
         rankingLabel.text = standingsInfo.ranking
-        teamImageView.image = UIImage(data: standingsInfo.teamImage)
+        setTeamImage(
+            teamImageUrl: standingsInfo.teamImageUrl,
+            teamImageView: teamImageView
+        )
         teamLabel.text = standingsInfo.team
         winsLabel.text = standingsInfo.wins
         losesLabel.text = standingsInfo.loses
         winRateLabel.text = standingsInfo.winRate
         pointLabel.text = standingsInfo.point
+    }
+    
+    func setTeamImage(teamImageUrl: URL, teamImageView: UIImageView) {
+        let processor = DownsamplingImageProcessor(size: CGSize(
+            width: (contentView.frame.width - 20) / 10,
+            height: contentView.frame.height - 20
+        ))
+        teamImageView.kf.indicatorType = .activity
+        teamImageView.kf.setImage(
+            with: teamImageUrl,
+            placeholder: UIImage(named: "placeholderImage"),
+            options: [
+                .processor(processor),
+                .scaleFactor(UIScreen.main.scale),
+                .transition(.fade(1)),
+                .cacheOriginalImage
+            ]
+        )
+        {
+            result in
+            switch result {
+            case .success(let value):
+                print("Task done for: \(value.source.url?.absoluteString ?? "")")
+            case .failure(let error):
+                print("Job failed: \(error.localizedDescription)")
+            }
+        }
     }
 }
