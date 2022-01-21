@@ -22,6 +22,7 @@ final class ScheduleTableViewCell: UITableViewCell {
             bottom: 0,
             right: 10
         )
+        tableView.separatorStyle = .none
         
         if #available(iOS 15.0, *) {
             tableView.sectionHeaderTopPadding = .zero
@@ -60,12 +61,20 @@ final class ScheduleTableViewCell: UITableViewCell {
             
         self.worldsTodayViewModel.scheduleList.bind { _ in
             DispatchQueue.main.async {
+                if self.worldsTodayViewModel.scheduleList.value!.count > 0 {
+                    self.leagueType = "worlds"
+                }
+                
                 self.leagueScheduleTableView.reloadData()
             }
         }
         
         self.lckTodayViewModel.scheduleList.bind { _ in
             DispatchQueue.main.async {
+                if self.lckTodayViewModel.scheduleList.value!.count > 0 {
+                    self.leagueType = "lck"
+                }
+                
                 self.leagueScheduleTableView.reloadData()
             }
         }
@@ -78,14 +87,6 @@ extension ScheduleTableViewCell: UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        if worldsTodayViewModel.scheduleList.value!.count > 0 {
-            leagueType = "worlds"
-        }
-
-        else if lckTodayViewModel.scheduleList.value!.count > 0 {
-            leagueType = "lck"
-        }
-        
         if let leagueType = leagueType {
             let leagueScheduleTableViewSectionType = LeagueScheduleTableViewSectionType(rawValue: leagueType)!
             
@@ -105,6 +106,7 @@ extension ScheduleTableViewCell: UITableViewDataSource {
         cellForRowAt indexPath: IndexPath
     ) -> UITableViewCell {
         if let leagueType = leagueType {
+            leagueScheduleTableView.separatorStyle = .singleLine
             let leagueScheduleTableViewSectionType = LeagueScheduleTableViewSectionType(rawValue: leagueType)!
             
             switch leagueScheduleTableViewSectionType {
@@ -135,17 +137,22 @@ extension ScheduleTableViewCell: UITableViewDataSource {
         }
         
         else {
-//            guard let cell = tableView.dequeueReusableCell(
-//                withIdentifier: NoScheduleTableViewCell.identifier,
-//                for: indexPath
-//            ) as? NoScheduleTableViewCell else {
-//                return UITableViewCell()
-//            }
-//
-//            cell.configureCell()
-//
-//            return cell
-            return UITableViewCell()
+            if !worldsTodayViewModel.hasScheduleData && !lckTodayViewModel.hasScheduleData {
+                guard let cell = tableView.dequeueReusableCell(
+                    withIdentifier: NoScheduleTableViewCell.identifier,
+                    for: indexPath
+                ) as? NoScheduleTableViewCell else {
+                    return UITableViewCell()
+                }
+                
+                cell.configureCell()
+                
+                return cell
+            }
+            
+            else {
+                return UITableViewCell()
+            }
         }
     }
     
@@ -159,13 +166,15 @@ extension ScheduleTableViewCell: UITableViewDataSource {
             switch leagueScheduleTableViewSectionType {
             case .worlds:
                 let worldsSectionHeader = LeagueScheduleTableViewSectionHeader()
-                worldsSectionHeader.configureUI(leagueScheduleTableViewSectionType: .worlds)
+                worldsSectionHeader.configureUI()
+                worldsSectionHeader.update(leagueScheduleTableViewSectionType: .worlds)
                 
                 return worldsSectionHeader
                 
             case .lck:
                 let lckSectionHeader = LeagueScheduleTableViewSectionHeader()
-                lckSectionHeader.configureUI(leagueScheduleTableViewSectionType: .lck)
+                lckSectionHeader.configureUI()
+                lckSectionHeader.update(leagueScheduleTableViewSectionType: .lck)
                 
                 return lckSectionHeader
             }
@@ -177,7 +186,7 @@ extension ScheduleTableViewCell: UITableViewDataSource {
 
 extension ScheduleTableViewCell: UITableViewDelegate {
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        if leagueType == nil {
+        if !worldsTodayViewModel.hasScheduleData && !lckTodayViewModel.hasScheduleData {
             return 150
         }
         

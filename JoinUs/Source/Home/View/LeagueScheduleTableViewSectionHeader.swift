@@ -5,6 +5,7 @@
 //  Created by SeungMin on 2021/11/08.
 //
 
+import Kingfisher
 import UIKit
 
 final class LeagueScheduleTableViewSectionHeader: UIView {
@@ -36,7 +37,7 @@ final class LeagueScheduleTableViewSectionHeader: UIView {
         return label
     }()
     
-    func configureUI(leagueScheduleTableViewSectionType: LeagueScheduleTableViewSectionType) {
+    func configureUI() {
         backgroundColor = .systemGray6
         
         addSubview(leagueView)
@@ -70,8 +71,37 @@ final class LeagueScheduleTableViewSectionHeader: UIView {
             leagueTitleLabel.bottomAnchor.constraint(equalTo: leagueDataView.bottomAnchor),
             leagueTitleLabel.widthAnchor.constraint(equalToConstant: 100),
         ])
-        
-        leagueImageView.image = UIImage(data: leagueScheduleTableViewSectionType.image())
+    }
+    
+    func update(leagueScheduleTableViewSectionType: LeagueScheduleTableViewSectionType) {
+        setLeagueImage(
+            leagueImageUrl: leagueScheduleTableViewSectionType.imageUrl(),
+            leagueImageView: leagueImageView
+        )
         leagueTitleLabel.text = leagueScheduleTableViewSectionType.title()
+    }
+    
+    func setLeagueImage(leagueImageUrl: URL, leagueImageView: UIImageView) {
+        let processor = DownsamplingImageProcessor(size: CGSize(width: 20, height: 20))
+        leagueImageView.kf.indicatorType = .activity
+        leagueImageView.kf.setImage(
+            with: leagueImageUrl,
+            placeholder: UIImage(named: "placeholderImage"),
+            options: [
+                .processor(processor),
+                .scaleFactor(UIScreen.main.scale),
+                .transition(.fade(1)),
+                .cacheOriginalImage
+            ]
+        )
+        {
+            result in
+            switch result {
+            case .success(let value):
+                print("Task done for: \(value.source.url?.absoluteString ?? "")")
+            case .failure(let error):
+                print("Job failed: \(error.localizedDescription)")
+            }
+        }
     }
 }

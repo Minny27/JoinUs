@@ -24,7 +24,7 @@ final class HomeTableViewSectionHeader: UIView {
         return label
     }()
     
-    func configureUI(homeTableViewSectionType: HomeTableViewSectionType) {
+    func configureUI() {
         backgroundColor = .systemGray6
         
         addSubview(TitleView)
@@ -44,7 +44,9 @@ final class HomeTableViewSectionHeader: UIView {
             TitleLabel.centerYAnchor.constraint(equalTo: TitleView.centerYAnchor),
             TitleLabel.heightAnchor.constraint(equalToConstant: 20)
         ])
-        
+    }
+    
+    func update(homeTableViewSectionType: HomeTableViewSectionType) {
         TitleLabel.text = homeTableViewSectionType.title()
     }
 }

@@ -20,12 +20,12 @@ enum LeagueScheduleTableViewSectionType: String {
         }
     }
     
-    func image() -> Data {
+    func imageUrl() -> URL {
         switch self {
         case .worlds:
-            return try! Data(contentsOf: URL(string: "https://cdn.pandascore.co/images/league/image/297/220px-Worlds_2020.png")!)
+            return URL(string: "https://cdn.pandascore.co/images/league/image/297/220px-Worlds_2020.png")!
         case .lck:
-            return try! Data(contentsOf: URL(string: "https://cdn.pandascore.co/images/league/image/293/LCK_2021_logo.png")!)
+            return URL(string: "https://cdn.pandascore.co/images/league/image/293/LCK_2021_logo.png")!
         }
     }
 }
