@@ -11,6 +11,7 @@ final class LeagueScheduleTableViewModel {
     private let dateFormatter = DateFormatter()
     var scheduleList: Observable<[LeagueScheduleTableViewCellModel]> = Observable([])
     var leagueType: RequestLeagueType
+    var hasScheduleData: Bool = true
     
     var countScheduleList: Int {
         return scheduleList.value?.count ?? 0
@@ -25,11 +26,13 @@ final class LeagueScheduleTableViewModel {
     }
     
     func fetchData() {
-        DispatchQueue.main.async {
-            NetworkManger().getScheduleData(leagueType: self.leagueType) { receivedScheduleModel in
-                self.scheduleList.value = receivedScheduleModel.compactMap({ schedule in
-                    self.extractScehduleData(schedule: schedule)
-                })
+        NetworkManger().getScheduleData(leagueType: self.leagueType) { receivedScheduleModel in
+            self.scheduleList.value = receivedScheduleModel.compactMap({ schedule in
+                self.extractScehduleData(schedule: schedule)
+            })
+            
+            if self.scheduleList.value!.count == 0 {
+                self.hasScheduleData = false
             }
         }
     }

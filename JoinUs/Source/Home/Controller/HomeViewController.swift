@@ -162,12 +162,14 @@ extension HomeViewController: UITableViewDataSource {
         switch homeTableViewSectionType {
         case .schedule:
             let scheduleSectionHeader = HomeTableViewSectionHeader()
-            scheduleSectionHeader.configureUI(homeTableViewSectionType: .schedule)
+            scheduleSectionHeader.configureUI()
+            scheduleSectionHeader.update(homeTableViewSectionType: .schedule)
             
             return scheduleSectionHeader
         case .player:
             let playerSectionHeader = HomeTableViewSectionHeader()
-            playerSectionHeader.configureUI(homeTableViewSectionType: .player)
+            playerSectionHeader.configureUI()
+            playerSectionHeader.update(homeTableViewSectionType: .player)
             
             return playerSectionHeader
         }
