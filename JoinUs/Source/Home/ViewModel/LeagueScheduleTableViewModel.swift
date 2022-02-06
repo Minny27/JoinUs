@@ -9,30 +9,65 @@ import Foundation
 
 final class LeagueScheduleTableViewModel {
     private let dateFormatter = DateFormatter()
-    var scheduleList: Observable<[LeagueScheduleTableViewCellModel]> = Observable([])
+    var todayScheduleList: Observable<[LeagueScheduleTableViewCellModel]> = Observable([])
+    var monthScheduleList: Observable<[LeagueScheduleTableViewCellModel]> = Observable([])
+    var dayOfMonthSchedule: [String: [LeagueScheduleTableViewCellModel]] = [:]
     var leagueType: RequestLeagueType
-    var hasScheduleData: Bool = true
+    var hasTodayData: Bool = true
+    var hasMonthData: Bool = true
     
-    var countScheduleList: Int {
-        return scheduleList.value?.count ?? 0
+    var countTodayScheduleList: Int {
+        return todayScheduleList.value?.count ?? 0
+    }
+    
+    var countMonthScheduleList: Int {
+        return monthScheduleList.value?.count ?? 0
     }
     
     init(leagueType: RequestLeagueType) {
         self.leagueType = leagueType
     }
     
-    func scheduleInfo(at index: Int) -> LeagueScheduleTableViewCellModel? {
-        return scheduleList.value?[index]
+    func todayScheduleInfo(at index: Int) -> LeagueScheduleTableViewCellModel? {
+        return todayScheduleList.value?[index]
     }
     
-    func fetchData() {
-        NetworkManger().getScheduleData(leagueType: self.leagueType) { receivedScheduleModel in
-            self.scheduleList.value = receivedScheduleModel.compactMap({ schedule in
+    func monthScheduleInfo(at index: Int) -> LeagueScheduleTableViewCellModel? {
+        return monthScheduleList.value?[index]
+    }
+    
+    func fetchTodayData() {
+        NetworkManger().getScheduleData(scheduleUrl: self.leagueType.todayScheduleUrl) { receivedScheduleModel in
+            self.todayScheduleList.value = receivedScheduleModel.compactMap({ schedule in
                 self.extractScehduleData(schedule: schedule)
             })
             
-            if self.scheduleList.value!.count == 0 {
-                self.hasScheduleData = false
+            if self.todayScheduleList.value!.count == 0 {
+                self.hasTodayData = false
+            }
+        }
+    }
+    
+    func fetchMonthData() {
+        NetworkManger().getScheduleData(scheduleUrl: self.leagueType.totalScheduleUrl) { receivedScheduleModel in
+            self.monthScheduleList.value = receivedScheduleModel.compactMap({ schedule in
+                self.extractScehduleData(schedule: schedule)
+            })
+            
+            if let monthSechduleList = self.monthScheduleList.value {
+                monthSechduleList.sorted { ($1.date, $0.time) < ($0.date, $1.time) }.forEach {
+                    if self.dayOfMonthSchedule[$0.date] == nil {
+                        self.dayOfMonthSchedule[$0.date] = [$0]
+                    }
+                        
+                    else {
+                        self.dayOfMonthSchedule[$0.date]!.append($0)
+                    }
+                }
+            }
+            
+            if self.monthScheduleList.value!.count == 0 {
+                self.hasMonthData = false
             }
         }
     }

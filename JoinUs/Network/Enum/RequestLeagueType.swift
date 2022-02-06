@@ -12,30 +12,50 @@ enum RequestLeagueType {
     case lck
     
     static let baseUrl: String = "https://api.pandascore.co/lol/matches"
-    static let worldsTodayQueryParameter = "/?filter[league_id]=297&filter[begin_at]="
-    static let lckTodayQueryParameter = "/?filter[league_id]=293&filter[begin_at]="
-    static let lckMonthQueryParameter = "/?filter[league_id]=293"
+    static let worldsLeagueQueryParameter = "/?filter[league_id]=297"
+    static let lckLeagueQueryParameter = "/?filter[league_id]=293"
     static let today = DateFormatter().dateToString(date: Date(), dateFormat: .today)
-    static let sortQueryParameter = "&sort=begin_at"
-    static let rangeQueryParameter = "&range[begin_at]=2022-01-18"
+    static let DayQueryParameter = "&filter[begin_at]=\(RequestLeagueType.today)"
+    static let todaySortQueryParameter = "&sort=begin_at"
+    static let totalSortQueryParameter = "&sort=-begin_at"
+//    static let pageQueryParameter = "&page[number]=1&page[size]=50"
+    static let rangeQueryParameter = "&page=2&per_page=500"
 
     // worlds: 297, lck: 293
-    private var urlPath: String {
+    private var todayScheduleUrlQuery: String {
         switch self {
         case .worlds:
-//            return RequestLeagueType.worldsTodayQueryParameter + "2021-10-05"
-//            + RequestLeagueType.sortQueryParameter
-            return RequestLeagueType.worldsTodayQueryParameter + RequestLeagueType.today
-            + RequestLeagueType.sortQueryParameter
+            return RequestLeagueType.worldsLeagueQueryParameter + "&filter[begin_at]=2021-10-05"
+            + RequestLeagueType.todaySortQueryParameter
+//            return RequestLeagueType.worldsLeagueQueryParameter + RequestLeagueType.DayQueryParameter
+//            + RequestLeagueType.todaySortQueryParameter
         case .lck:
-//            return RequestLeagueType.lckMonthQueryParameter
-//            + RequestLeagueType.sortQueryParameter + RequestLeagueType.rangeQueryParameter
-            return RequestLeagueType.lckTodayQueryParameter + RequestLeagueType.today
-            + RequestLeagueType.sortQueryParameter
+            return RequestLeagueType.lckLeagueQueryParameter + "&filter[begin_at]=2022-01-01"
+            + RequestLeagueType.todaySortQueryParameter
+//            return RequestLeagueType.lckLeagueQueryParameter + RequestLeagueType.DayQueryParameter
+//            + RequestLeagueType.todaySortQueryParameter
         }
     }
     
-    var url: URL? {
-        return URL(string: RequestLeagueType.baseUrl + urlPath)
+    private var totalScheduleUrlQuery: String {
+        switch self {
+        case .worlds:
+            return RequestLeagueType.worldsLeagueQueryParameter + RequestLeagueType.totalSortQueryParameter
+//            + RequestLeagueType.pageQueryParameter
+            + RequestLeagueType.rangeQueryParameter
+        case .lck:
+            return RequestLeagueType.lckLeagueQueryParameter + RequestLeagueType.totalSortQueryParameter
+//            + RequestLeagueType.pageQueryParameter
+            + RequestLeagueType.rangeQueryParameter
+        }
     }
+    
+    var todayScheduleUrl: URL? {
+        return URL(string: RequestLeagueType.baseUrl + todayScheduleUrlQuery)
+    }
+    
+    var totalScheduleUrl: URL? {
+        return URL(string: RequestLeagueType.baseUrl + totalScheduleUrlQuery)
+    }
+    
 }
