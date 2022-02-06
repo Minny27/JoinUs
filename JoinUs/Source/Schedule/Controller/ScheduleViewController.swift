@@ -51,6 +51,7 @@ class ScheduleViewController: UIViewController {
             bottom: 0,
             right: 0
         )
+        tableview.separatorStyle = .none
         
         if #available(iOS 15.0, *) {
             tableview.sectionHeaderTopPadding = .zero
@@ -68,9 +69,9 @@ class ScheduleViewController: UIViewController {
         
         configureUI()
         
-        lckMonthViewModel.fetchData()
+        lckMonthViewModel.fetchMonthData()
 
-        lckMonthViewModel.scheduleList.bind { _ in
+        lckMonthViewModel.monthScheduleList.bind { _ in
             DispatchQueue.main.async {
                 self.scheduleTableView.reloadData()
             }
@@ -91,6 +92,11 @@ class ScheduleViewController: UIViewController {
         scheduleTableView.register(
             LeagueScheduleTableViewCell.self,
             forCellReuseIdentifier: LeagueScheduleTableViewCell.identifier
+        )
+        
+        scheduleTableView.register(
+            NoScheduleTableViewCell.self,
+            forCellReuseIdentifier: NoScheduleTableViewCell.identifier
         )
         
         monthCollectionView.dataSource = self
@@ -168,26 +174,38 @@ extension ScheduleViewController: UITableViewDataSource {
         _ tableView: UITableView,
         numberOfRowsInSection section: Int
     ) -> Int {
-        return lckMonthViewModel.scheduleList.value!.count
+        if lckMonthViewModel.hasMonthData {
+            return lckMonthViewModel.countMonthScheduleList
+        }
+        
+        return 1
     }
 
     func tableView(
         _ tableView: UITableView,
         cellForRowAt indexPath: IndexPath
     ) -> UITableViewCell {
-        guard let cell = tableView.dequeueReusableCell(
-            withIdentifier: LeagueScheduleTableViewCell.identifier,
-            for: indexPath
-        ) as? LeagueScheduleTableViewCell else {
-            return UITableViewCell()
+        if lckMonthViewModel.hasMonthData {
+            scheduleTableView.separatorStyle = .singleLine
+            
+            guard let cell = tableView.dequeueReusableCell(
+                withIdentifier: LeagueScheduleTableViewCell.identifier,
+                for: indexPath
+            ) as? LeagueScheduleTableViewCell else {
+                return UITableViewCell()
+            }
+            
+            let leagueScheduleInfo = lckMonthViewModel.monthScheduleInfo(at: indexPath.row)
+            
+            cell.configureUI()
+            cell.update(leagueScheduleTableViewCellModel: leagueScheduleInfo!)
+            
+            return cell
         }
         
-        let leagueScheduleInfo = lckMonthViewModel.scheduleInfo(at: indexPath.row)
-        
-        cell.configureUI()
-        cell.update(leagueScheduleTableViewCellModel: leagueScheduleInfo!)
-        
-        return cell
+        else {
+            return NoScheduleTableViewCell()
+        }
     }
 }
 
