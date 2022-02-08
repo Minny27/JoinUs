@@ -33,6 +33,6 @@ final class MonthCollectionViewCell: UICollectionViewCell {
     }
     
     func update(monthInfo: Month) {
-        monthLabel.text = monthInfo.month
+        monthLabel.text = String(Int(monthInfo.month.replacingOccurrences(of: "월", with: ""))!) + "월"
     }
 }
