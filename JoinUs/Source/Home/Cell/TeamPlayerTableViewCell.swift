@@ -46,9 +46,9 @@ final class TeamPlayerTableViewCell: UITableViewCell {
         
         NSLayoutConstraint.activate([
             TeamPlayerTableViewCell.teamPlayerCollectionView.topAnchor.constraint(equalTo: contentView.topAnchor),
-            TeamPlayerTableViewCell.teamPlayerCollectionView.leftAnchor.constraint(equalTo: contentView.leftAnchor, constant: 10),
+            TeamPlayerTableViewCell.teamPlayerCollectionView.leftAnchor.constraint(equalTo: contentView.leftAnchor, constant: 16),
             TeamPlayerTableViewCell.teamPlayerCollectionView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor),
-            TeamPlayerTableViewCell.teamPlayerCollectionView.rightAnchor.constraint(equalTo: contentView.rightAnchor,constant: -10)
+            TeamPlayerTableViewCell.teamPlayerCollectionView.rightAnchor.constraint(equalTo: contentView.rightAnchor,constant: -16)
         ])
     }
 }
