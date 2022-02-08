@@ -9,22 +9,17 @@ import Kingfisher
 import UIKit
 
 final class LeagueScheduleTableViewSectionHeader: UIView {
-    let leagueView: UIView = {
-        let view = UIView()
-        view.backgroundColor = .white
-        
-        return view
-    }()
-    
-    let leagueDataView: UIView = {
-        let view = UIView()
-        
-        return view
+    let containerStackView: UIStackView = {
+        let stackView = UIStackView()
+        stackView.axis = .horizontal
+        stackView.spacing = 5
+        stackView.translatesAutoresizingMaskIntoConstraints = false
+        return stackView
     }()
     
     let leagueImageView: UIImageView = {
         let imageView = UIImageView()
-        
+        imageView.translatesAutoresizingMaskIntoConstraints = false
         return imageView
     }()
     
@@ -33,43 +28,24 @@ final class LeagueScheduleTableViewSectionHeader: UIView {
         label.font = .boldSystemFont(ofSize: 15)
         label.textColor = .black
         label.textAlignment = .left
-        
+        label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()
     
     func configureUI() {
         backgroundColor = .systemGray6
         
-        addSubview(leagueView)
-        leagueView.addSubview(leagueDataView)
-        leagueDataView.addSubview(leagueImageView)
-        leagueDataView.addSubview(leagueTitleLabel)
-        
-        leagueView.translatesAutoresizingMaskIntoConstraints = false
-        leagueDataView.translatesAutoresizingMaskIntoConstraints = false
-        leagueImageView.translatesAutoresizingMaskIntoConstraints = false
-        leagueTitleLabel.translatesAutoresizingMaskIntoConstraints = false
+        addSubview(containerStackView)
+        containerStackView.addArrangedSubview(leagueImageView)
+        containerStackView.addArrangedSubview(leagueTitleLabel)
         
         NSLayoutConstraint.activate([
-            leagueView.topAnchor.constraint(equalTo: topAnchor, constant: 10),
-            leagueView.leftAnchor.constraint(equalTo: leftAnchor),
-            leagueView.bottomAnchor.constraint(equalTo: bottomAnchor),
-            leagueView.rightAnchor.constraint(equalTo: rightAnchor),
+            containerStackView.centerYAnchor.constraint(equalTo: centerYAnchor),
             
-            leagueDataView.leftAnchor.constraint(equalTo: leftAnchor, constant: 20),
-            leagueDataView.rightAnchor.constraint(equalTo: rightAnchor, constant: -10),
-            leagueDataView.centerYAnchor.constraint(equalTo: leagueView.centerYAnchor),
-            leagueDataView.heightAnchor.constraint(equalToConstant: 20),
-            
-            leagueImageView.topAnchor.constraint(equalTo: leagueDataView.topAnchor),
-            leagueImageView.leftAnchor.constraint(equalTo: leagueDataView.leftAnchor),
-            leagueImageView.bottomAnchor.constraint(equalTo: leagueDataView.bottomAnchor),
+            leagueImageView.leftAnchor.constraint(equalTo: leftAnchor, constant: 12),
             leagueImageView.widthAnchor.constraint(equalToConstant: 20),
-            
-            leagueTitleLabel.topAnchor.constraint(equalTo: leagueDataView.topAnchor),
-            leagueTitleLabel.leftAnchor.constraint(equalTo: leagueImageView.rightAnchor, constant: 5),
-            leagueTitleLabel.bottomAnchor.constraint(equalTo: leagueDataView.bottomAnchor),
-            leagueTitleLabel.widthAnchor.constraint(equalToConstant: 100),
+            leagueImageView.heightAnchor.constraint(equalToConstant: 20),
+
         ])
     }
     

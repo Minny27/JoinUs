@@ -9,6 +9,7 @@ import Foundation
 
 enum DateFormat {
     case today
+    case year
     case month
     case date
     case time
@@ -17,6 +18,8 @@ enum DateFormat {
         switch self {
         case .today:
             return "YYYY-MM-dd"
+        case .year:
+            return "YYYY"
         case .month:
             return "MM"
         case .date:

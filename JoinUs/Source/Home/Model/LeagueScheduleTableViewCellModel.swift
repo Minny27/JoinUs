@@ -10,6 +10,8 @@ import Foundation
 struct LeagueScheduleTableViewCellModel {
     let leagueImage: String
     let league: String
+    let year: String
+    let month: String
     let date: String
     let time: String
     let status: String
@@ -27,6 +29,8 @@ struct LeagueScheduleTableViewCellModel {
     init(
         leagueImage: String,
         league: String,
+        year: String,
+        month: String,
         date: String,
         time: String,
         status: String,
@@ -43,6 +47,8 @@ struct LeagueScheduleTableViewCellModel {
     ) {
         self.leagueImage = leagueImage
         self.league = league
+        self.year = year
+        self.month = month
         self.date = date
         self.time = time
         self.status = status

@@ -10,19 +10,19 @@ import UIKit
 final class ScheduleTableViewCell: UITableViewCell {
     static let identifier = "scheduleTableViewCell"
     
-    let worldsTodayViewModel = LeagueScheduleTableViewModel(leagueType: .worlds)
-    let lckTodayViewModel = LeagueScheduleTableViewModel(leagueType: .lck)
+    let worldsTodayScheduleViewModel = LeagueScheduleTableViewModel(leagueType: .worlds)
+    let lckTodayScheduleViewModel = LeagueScheduleTableViewModel(leagueType: .lck)
     var leagueType: String?
     
     var leagueScheduleTableView: UITableView = {
         let tableView = UITableView()
+        tableView.separatorStyle = .none
         tableView.separatorInset = UIEdgeInsets(
             top: 0,
-            left: 10,
+            left: 0,
             bottom: 0,
-            right: 10
+            right: 0
         )
-        tableView.separatorStyle = .none
         
         if #available(iOS 15.0, *) {
             tableView.sectionHeaderTopPadding = .zero
@@ -51,17 +51,17 @@ final class ScheduleTableViewCell: UITableViewCell {
         
         NSLayoutConstraint.activate([
             leagueScheduleTableView.topAnchor.constraint(equalTo: contentView.topAnchor),
-            leagueScheduleTableView.leftAnchor.constraint(equalTo: contentView.leftAnchor),
+            leagueScheduleTableView.leftAnchor.constraint(equalTo: contentView.leftAnchor, constant: 16),
             leagueScheduleTableView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor),
-            leagueScheduleTableView.rightAnchor.constraint(equalTo: contentView.rightAnchor),
+            leagueScheduleTableView.rightAnchor.constraint(equalTo: contentView.rightAnchor, constant: -16),
         ])
         
-        self.worldsTodayViewModel.fetchTodayData()
-        self.lckTodayViewModel.fetchTodayData()
+        self.worldsTodayScheduleViewModel.fetchTodayData()
+        self.lckTodayScheduleViewModel.fetchTodayData()
             
-        self.worldsTodayViewModel.todayScheduleList.bind { _ in
+        self.worldsTodayScheduleViewModel.todayScheduleList.bind { _ in
             DispatchQueue.main.async {
-                if self.worldsTodayViewModel.countTodayScheduleList > 0 {
+                if self.worldsTodayScheduleViewModel.countTodayScheduleList > 0 {
                     self.leagueType = "worlds"
                 }
                 
@@ -69,9 +69,9 @@ final class ScheduleTableViewCell: UITableViewCell {
             }
         }
         
-        self.lckTodayViewModel.todayScheduleList.bind { _ in
+        self.lckTodayScheduleViewModel.todayScheduleList.bind { _ in
             DispatchQueue.main.async {
-                if self.lckTodayViewModel.countTodayScheduleList > 0 {
+                if self.lckTodayScheduleViewModel.countTodayScheduleList > 0 {
                     self.leagueType = "lck"
                 }
                 
@@ -83,7 +83,7 @@ final class ScheduleTableViewCell: UITableViewCell {
 
 extension ScheduleTableViewCell: UITableViewDataSource {
     func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
-        return 60
+        return 40
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -92,9 +92,9 @@ extension ScheduleTableViewCell: UITableViewDataSource {
             
             switch leagueScheduleTableViewSectionType {
             case .worlds:
-                return worldsTodayViewModel.countTodayScheduleList
+                return worldsTodayScheduleViewModel.countTodayScheduleList
             case .lck:
-                return lckTodayViewModel.countTodayScheduleList
+                return lckTodayScheduleViewModel.countTodayScheduleList
             }
         }
         
@@ -115,10 +115,10 @@ extension ScheduleTableViewCell: UITableViewDataSource {
                     return UITableViewCell()
                 }
                 
-                let leagueScheduleInfo = worldsTodayViewModel.todayScheduleInfo(at: indexPath.row)
+                let leagueScheduleInfo = worldsTodayScheduleViewModel.todayScheduleInfo(at: indexPath.row)
                 
                 cell.configureUI()
-                cell.update(leagueScheduleTableViewCellModel: leagueScheduleInfo!)
+                cell.update(leagueScheduleInfo: leagueScheduleInfo!)
                 
                 return cell
                 
@@ -127,17 +127,17 @@ extension ScheduleTableViewCell: UITableViewDataSource {
                     return UITableViewCell()
                 }
                 
-                let leagueScheduleInfo = lckTodayViewModel.todayScheduleInfo(at: indexPath.row)
+                let leagueScheduleInfo = lckTodayScheduleViewModel.todayScheduleInfo(at: indexPath.row)
                 
                 cell.configureUI()
-                cell.update(leagueScheduleTableViewCellModel: leagueScheduleInfo!)
+                cell.update(leagueScheduleInfo: leagueScheduleInfo!)
                 
                 return cell
             }
         }
         
         else {
-            if !worldsTodayViewModel.hasTodayData && !lckTodayViewModel.hasTodayData {
+            if !worldsTodayScheduleViewModel.hasTodayData && !lckTodayScheduleViewModel.hasTodayData {
                 guard let cell = tableView.dequeueReusableCell(
                     withIdentifier: NoScheduleTableViewCell.identifier,
                     for: indexPath
@@ -145,6 +145,8 @@ extension ScheduleTableViewCell: UITableViewDataSource {
                     return UITableViewCell()
                 }
                 
+//                cell.selectionStyle = .none
+//                cell.separatorInset = .zero
                 cell.configureCell()
                 
                 return cell
@@ -186,7 +188,7 @@ extension ScheduleTableViewCell: UITableViewDataSource {
 
 extension ScheduleTableViewCell: UITableViewDelegate {
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        if !worldsTodayViewModel.hasTodayData && !lckTodayViewModel.hasTodayData {
+        if !worldsTodayScheduleViewModel.hasTodayData && !lckTodayScheduleViewModel.hasTodayData {
             return 150
         }
         

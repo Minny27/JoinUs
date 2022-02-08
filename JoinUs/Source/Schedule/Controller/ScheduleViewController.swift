@@ -10,9 +10,11 @@ import UIKit
 class ScheduleViewController: UIViewController {
     
     // MARK: - Properties
-    
     let monthCollectionViewModel = MonthCollectionViewModel()
-    let lckMonthViewModel = LeagueScheduleTableViewModel(leagueType: .lck)
+    let lckMonthScheduleViewModel = LeagueScheduleTableViewModel(leagueType: .lck)
+    
+    var selectedMonth: String = DateFormatter().dateToString(date: Date(), dateFormat: .month)
+    var monthlyTableViewCellType: Int = 0
     
     let containerView: UIView = {
         let view = UIView()
@@ -39,11 +41,11 @@ class ScheduleViewController: UIViewController {
             collectionViewLayout: flowlayout
         )
         collectionView.backgroundColor = .white
-        
+        collectionView.showsHorizontalScrollIndicator = false
         return collectionView
     }()
     
-    let scheduleTableView: UITableView = {
+    let monthlyScheduleTableView: UITableView = {
         let tableview = UITableView()
         tableview.separatorInset = UIEdgeInsets(
             top: 0,
@@ -52,13 +54,14 @@ class ScheduleViewController: UIViewController {
             right: 0
         )
         tableview.separatorStyle = .none
+        tableview.selectionFollowsFocus = false
+        tableview.showsHorizontalScrollIndicator = false
         
         if #available(iOS 15.0, *) {
             tableview.sectionHeaderTopPadding = .zero
         } else {
             // Fallback on earlier versions
         }
-        
         return tableview
     }()
     
@@ -69,11 +72,11 @@ class ScheduleViewController: UIViewController {
         
         configureUI()
         
-        lckMonthViewModel.fetchMonthData()
+        lckMonthScheduleViewModel.fetchMonthData()
 
-        lckMonthViewModel.monthScheduleList.bind { _ in
+        lckMonthScheduleViewModel.monthScheduleList.bind { _ in
             DispatchQueue.main.async {
-                self.scheduleTableView.reloadData()
+                self.monthlyScheduleTableView.reloadData()
             }
         }
     }
@@ -82,32 +85,35 @@ class ScheduleViewController: UIViewController {
         view.backgroundColor = .white
         view.addSubview(containerView)
         view.addSubview(monthCollectionView)
-        view.addSubview(scheduleTableView)
+        view.addSubview(monthlyScheduleTableView)
         containerView.addSubview(titleLabel)
         
         monthCollectionView.register(
             MonthCollectionViewCell.self,
             forCellWithReuseIdentifier: MonthCollectionViewCell.identifier
         )
-        scheduleTableView.register(
+        monthlyScheduleTableView.register(
+            DailyScheduleTitle.self,
+            forCellReuseIdentifier: DailyScheduleTitle.identifier
+        )
+        monthlyScheduleTableView.register(
             LeagueScheduleTableViewCell.self,
             forCellReuseIdentifier: LeagueScheduleTableViewCell.identifier
         )
-        
-        scheduleTableView.register(
+        monthlyScheduleTableView.register(
             NoScheduleTableViewCell.self,
             forCellReuseIdentifier: NoScheduleTableViewCell.identifier
         )
         
         monthCollectionView.dataSource = self
         monthCollectionView.delegate = self
-        scheduleTableView.dataSource = self
-        scheduleTableView.delegate = self
+        monthlyScheduleTableView.dataSource = self
+        monthlyScheduleTableView.delegate = self
         
         containerView.translatesAutoresizingMaskIntoConstraints = false
         titleLabel.translatesAutoresizingMaskIntoConstraints = false
         monthCollectionView.translatesAutoresizingMaskIntoConstraints = false
-        scheduleTableView.translatesAutoresizingMaskIntoConstraints = false
+        monthlyScheduleTableView.translatesAutoresizingMaskIntoConstraints = false
         
         NSLayoutConstraint.activate([
             containerView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
@@ -115,20 +121,20 @@ class ScheduleViewController: UIViewController {
             containerView.rightAnchor.constraint(equalTo: view.rightAnchor),
             containerView.heightAnchor.constraint(equalToConstant: 100),
             
-            titleLabel.leftAnchor.constraint(equalTo: containerView.leftAnchor, constant: 10),
+            titleLabel.leftAnchor.constraint(equalTo: containerView.leftAnchor, constant: 16),
             titleLabel.bottomAnchor.constraint(equalTo: containerView.bottomAnchor),
-            titleLabel.rightAnchor.constraint(equalTo: containerView.rightAnchor, constant: -10),
+            titleLabel.rightAnchor.constraint(equalTo: containerView.rightAnchor, constant: -16),
             titleLabel.heightAnchor.constraint(equalToConstant: 25),
             
             monthCollectionView.topAnchor.constraint(equalTo: titleLabel.bottomAnchor, constant: 10),
-            monthCollectionView.leftAnchor.constraint(equalTo: view.leftAnchor, constant: 10),
-            monthCollectionView.rightAnchor.constraint(equalTo: view.rightAnchor, constant: -10),
+            monthCollectionView.leftAnchor.constraint(equalTo: view.leftAnchor, constant: 16),
+            monthCollectionView.rightAnchor.constraint(equalTo: view.rightAnchor, constant: -16),
             monthCollectionView.heightAnchor.constraint(equalToConstant: 50),
             
-            scheduleTableView.topAnchor.constraint(equalTo: monthCollectionView.bottomAnchor, constant: 10),
-            scheduleTableView.leftAnchor.constraint(equalTo: view.leftAnchor, constant: 10),
-            scheduleTableView.bottomAnchor.constraint(equalTo: view.bottomAnchor),
-            scheduleTableView.rightAnchor.constraint(equalTo: view.rightAnchor, constant: -10)
+            monthlyScheduleTableView.topAnchor.constraint(equalTo: monthCollectionView.bottomAnchor, constant: 10),
+            monthlyScheduleTableView.leftAnchor.constraint(equalTo: view.leftAnchor, constant: 16),
+            monthlyScheduleTableView.bottomAnchor.constraint(equalTo: view.bottomAnchor),
+            monthlyScheduleTableView.rightAnchor.constraint(equalTo: view.rightAnchor, constant: -16)
         ])
     }
 }
@@ -145,10 +151,7 @@ extension ScheduleViewController: UICollectionViewDataSource {
         _ collectionView: UICollectionView,
         cellForItemAt indexPath: IndexPath
     ) -> UICollectionViewCell {
-        guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: MonthCollectionViewCell.identifier, for: indexPath) as? MonthCollectionViewCell else {
-            
-            return UICollectionViewCell()
-        }
+        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: MonthCollectionViewCell.identifier, for: indexPath) as! MonthCollectionViewCell
         
         let monthInfo = monthCollectionViewModel.monthInfo(at: indexPath.row)
         
@@ -167,6 +170,12 @@ extension ScheduleViewController: UICollectionViewDelegateFlowLayout {
     ) -> CGSize {
         return CGSize(width: 40, height: 30)
     }
+    
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        let monthCellInfo = monthCollectionViewModel.monthInfo(at: indexPath.row)
+        selectedMonth = String(monthCellInfo.month.replacingOccurrences(of: "월", with: ""))
+        monthlyScheduleTableView.reloadData()
+    }
 }
 
 extension ScheduleViewController: UITableViewDataSource {
@@ -174,37 +183,58 @@ extension ScheduleViewController: UITableViewDataSource {
         _ tableView: UITableView,
         numberOfRowsInSection section: Int
     ) -> Int {
-        if lckMonthViewModel.hasMonthData {
-            return lckMonthViewModel.countMonthScheduleList
+        if lckMonthScheduleViewModel.hasMonthData[Int(selectedMonth)!] {
+            return lckMonthScheduleViewModel.countMonthlyScheduleList(month: selectedMonth)
         }
-        
         return 1
     }
 
     func tableView(
         _ tableView: UITableView,
         cellForRowAt indexPath: IndexPath
-    ) -> UITableViewCell {
-        if lckMonthViewModel.hasMonthData {
-            scheduleTableView.separatorStyle = .singleLine
+    ) -> UITableViewCell {        
+        if lckMonthScheduleViewModel.hasMonthData[Int(selectedMonth)!] {
+            monthlyScheduleTableView.separatorStyle = .singleLine
             
-            guard let cell = tableView.dequeueReusableCell(
-                withIdentifier: LeagueScheduleTableViewCell.identifier,
-                for: indexPath
-            ) as? LeagueScheduleTableViewCell else {
-                return UITableViewCell()
+            if indexPath.row ==
+                lckMonthScheduleViewModel.monthlySchedule.value![selectedMonth]!.count - 1 ||  lckMonthScheduleViewModel.monthlySchedule.value![selectedMonth]![indexPath.row].homeTeam != lckMonthScheduleViewModel.monthlySchedule.value![selectedMonth]![indexPath.row + 1].homeTeam {
+                
+                let cell = tableView.dequeueReusableCell(
+                    withIdentifier: LeagueScheduleTableViewCell.identifier,
+                    for: indexPath
+                ) as! LeagueScheduleTableViewCell
+                
+                let leagueScheduleInfo = lckMonthScheduleViewModel.monthScheduleInfo(month: selectedMonth, index: indexPath.row)!
+                
+                cell.configureUI()
+                cell.update(leagueScheduleInfo: leagueScheduleInfo)
+                return cell
             }
             
-            let leagueScheduleInfo = lckMonthViewModel.monthScheduleInfo(at: indexPath.row)
-            
-            cell.configureUI()
-            cell.update(leagueScheduleTableViewCellModel: leagueScheduleInfo!)
-            
-            return cell
+            else {
+                let cell = tableView.dequeueReusableCell(
+                    withIdentifier: DailyScheduleTitle.identifier,
+                    for: indexPath
+                ) as! DailyScheduleTitle
+                
+                let leagueScheduleInfo = lckMonthScheduleViewModel.monthScheduleInfo(month: selectedMonth, index: indexPath.row)
+                
+                cell.configureCell()
+                cell.update(schedule: leagueScheduleInfo!)
+                return cell
+            }
         }
         
         else {
-            return NoScheduleTableViewCell()
+            let cell = tableView.dequeueReusableCell(
+                withIdentifier: NoScheduleTableViewCell.identifier,
+                for: indexPath
+            ) as! NoScheduleTableViewCell
+            
+//            cell.selectionStyle = .none
+            cell.configureCell()
+            
+            return cell
         }
     }
 }
@@ -214,6 +244,9 @@ extension ScheduleViewController: UITableViewDelegate {
         _ tableView: UITableView,
         heightForRowAt indexPath: IndexPath
     ) -> CGFloat {
+        if !lckMonthScheduleViewModel.hasMonthData[Int(selectedMonth)!] {
+            return 100
+        }
         return 50
     }
 }

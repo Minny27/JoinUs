@@ -39,7 +39,7 @@ final class HomeTableViewSectionHeader: UIView {
             TitleView.rightAnchor.constraint(equalTo: rightAnchor),
             TitleView.bottomAnchor.constraint(equalTo: bottomAnchor),
             
-            TitleLabel.leftAnchor.constraint(equalTo: TitleView.leftAnchor, constant: 10),
+            TitleLabel.leftAnchor.constraint(equalTo: TitleView.leftAnchor, constant: 16),
             TitleLabel.rightAnchor.constraint(equalTo: TitleView.rightAnchor),
             TitleLabel.centerYAnchor.constraint(equalTo: TitleView.centerYAnchor),
             TitleLabel.heightAnchor.constraint(equalToConstant: 20)

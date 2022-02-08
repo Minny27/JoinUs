@@ -143,7 +143,7 @@ final class LeagueScheduleTableViewCell: UITableViewCell {
         awayTeamWins.translatesAutoresizingMaskIntoConstraints = false
         
         NSLayoutConstraint.activate([
-            leftDataView.leftAnchor.constraint(equalTo: contentView.leftAnchor, constant: 20),
+            leftDataView.leftAnchor.constraint(equalTo: contentView.leftAnchor, constant: 12),
             leftDataView.widthAnchor.constraint(equalToConstant: 80),
             leftDataView.heightAnchor.constraint(equalToConstant: 20),
             leftDataView.centerYAnchor.constraint(equalTo: contentView.centerYAnchor),
@@ -210,27 +210,27 @@ final class LeagueScheduleTableViewCell: UITableViewCell {
         ])
     }   
     
-    func update(leagueScheduleTableViewCellModel: LeagueScheduleTableViewCellModel) {
-        timeLabel.text = leagueScheduleTableViewCellModel.time
-        statusLabel.text = MatchStatusType(rawValue: leagueScheduleTableViewCellModel.status)!.convertKorean()
-        statusLabel.textColor = MatchStatusType(rawValue: leagueScheduleTableViewCellModel.status)!.statusColor()
-        statusLabel.layer.borderColor = MatchStatusType(rawValue: leagueScheduleTableViewCellModel.status)!.statusColor().cgColor
-        versusLabel.text = leagueScheduleTableViewCellModel.versus
-        homeTeam.text = leagueScheduleTableViewCellModel.homeTeam
+    func update(leagueScheduleInfo: LeagueScheduleTableViewCellModel) {
+        timeLabel.text = leagueScheduleInfo.time
+        statusLabel.text = MatchStatusType(rawValue: leagueScheduleInfo.status)!.convertKorean()
+        statusLabel.textColor = MatchStatusType(rawValue: leagueScheduleInfo.status)!.statusColor()
+        statusLabel.layer.borderColor = MatchStatusType(rawValue: leagueScheduleInfo.status)!.statusColor().cgColor
+        versusLabel.text = leagueScheduleInfo.versus
+        homeTeam.text = leagueScheduleInfo.homeTeam
         setTeamImage(
-            teamImageUrl: leagueScheduleTableViewCellModel.homeTeamImageUrl,
+            teamImageUrl: leagueScheduleInfo.homeTeamImageUrl,
             teamImageView: homeTeamImageView
         )
-        homeTeamWins.text = leagueScheduleTableViewCellModel.status == "not_started" ? "" : String(leagueScheduleTableViewCellModel.homeTeamWinCount)
-        awayTeam.text = leagueScheduleTableViewCellModel.awayTeam
+        homeTeamWins.text = leagueScheduleInfo.status == "not_started" ? "" : String(leagueScheduleInfo.homeTeamWinCount)
+        awayTeam.text = leagueScheduleInfo.awayTeam
         setTeamImage(
-            teamImageUrl: leagueScheduleTableViewCellModel.awayTeamImageUrl,
+            teamImageUrl: leagueScheduleInfo.awayTeamImageUrl,
             teamImageView: awayTeamImageView
         )
-        awayTeamWins.text = leagueScheduleTableViewCellModel.status == "not_started" ? "" : String(leagueScheduleTableViewCellModel.awayTeamWinCount)
+        awayTeamWins.text = leagueScheduleInfo.status == "not_started" ? "" : String(leagueScheduleInfo.awayTeamWinCount)
         
-        if let winnerId = leagueScheduleTableViewCellModel.winnerId {
-            if winnerId == leagueScheduleTableViewCellModel.homeTeamId {
+        if let winnerId = leagueScheduleInfo.winnerId {
+            if winnerId == leagueScheduleInfo.homeTeamId {
                 homeTeamWins.textColor = .black
                 awayTeamWins.textColor = .darkGray
             }

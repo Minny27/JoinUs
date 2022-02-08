@@ -8,7 +8,7 @@
 import Foundation
 
 struct ReceivedScheduleModel: Codable {
-    var scheduledAt: Date
+    var originalScheduledAt: Date
     var games: [Game]
     var id: Int
     var league: League

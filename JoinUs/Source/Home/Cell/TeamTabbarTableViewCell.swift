@@ -45,9 +45,9 @@ final class TeamTabbarTableViewCell: UITableViewCell {
         
         NSLayoutConstraint.activate([
             teamTabbarCollectionView.topAnchor.constraint(equalTo: contentView.topAnchor),
-            teamTabbarCollectionView.leftAnchor.constraint(equalTo: contentView.leftAnchor, constant: 10),
+            teamTabbarCollectionView.leftAnchor.constraint(equalTo: contentView.leftAnchor, constant: 16),
             teamTabbarCollectionView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor),
-            teamTabbarCollectionView.rightAnchor.constraint(equalTo: contentView.rightAnchor, constant: -10)
+            teamTabbarCollectionView.rightAnchor.constraint(equalTo: contentView.rightAnchor, constant: -16)
         ])
     }
 }
