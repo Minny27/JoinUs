@@ -13,16 +13,20 @@ class DailyScheduleTitle: UITableViewCell {
     let titleLabel: UILabel = {
         let label = UILabel()
         label.font = .boldSystemFont(ofSize: 18)
+        label.textAlignment = .left
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()
     
     func configureCell() {
+        contentView.backgroundColor = .systemGray6
         contentView.addSubview(titleLabel)
         
         NSLayoutConstraint.activate([
+            titleLabel.topAnchor.constraint(equalTo: contentView.topAnchor),
             titleLabel.leftAnchor.constraint(equalTo: contentView.leftAnchor, constant: 12),
-            titleLabel.centerYAnchor.constraint(equalTo: contentView.centerYAnchor)
+            titleLabel.bottomAnchor.constraint(equalTo: contentView.bottomAnchor),
+            titleLabel.rightAnchor.constraint(equalTo: contentView.rightAnchor, constant: -12),
         ])
     }
 
