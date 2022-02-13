@@ -13,7 +13,7 @@ class ScheduleViewController: UIViewController {
     let monthCollectionViewModel = MonthCollectionViewModel()
     let lckMonthScheduleViewModel = LeagueScheduleTableViewModel(leagueType: .lck)
     
-    var selectedMonth: String = DateFormatter().dateToString(date: Date(), dateFormat: .month)
+    var selectedMonth: Int = Int(DateFormatter().dateToString(date: Date(), dateFormat: .month))!
     var monthlyTableViewCellType: Int = 0
     
     let containerView: UIView = {
@@ -47,15 +47,8 @@ class ScheduleViewController: UIViewController {
     
     let monthlyScheduleTableView: UITableView = {
         let tableview = UITableView()
-        tableview.separatorInset = UIEdgeInsets(
-            top: 0,
-            left: 0,
-            bottom: 0,
-            right: 0
-        )
-        tableview.separatorStyle = .none
-        tableview.selectionFollowsFocus = false
-        tableview.showsHorizontalScrollIndicator = false
+        tableview.separatorInset = .zero
+        tableview.showsVerticalScrollIndicator = false
         
         if #available(iOS 15.0, *) {
             tableview.sectionHeaderTopPadding = .zero
@@ -73,8 +66,8 @@ class ScheduleViewController: UIViewController {
         configureUI()
         
         lckMonthScheduleViewModel.fetchMonthData()
-
-        lckMonthScheduleViewModel.monthScheduleList.bind { _ in
+        
+        self.lckMonthScheduleViewModel.monthlyScheduleList.bind { _ in
             DispatchQueue.main.async {
                 self.monthlyScheduleTableView.reloadData()
             }
@@ -173,7 +166,7 @@ extension ScheduleViewController: UICollectionViewDelegateFlowLayout {
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         let monthCellInfo = monthCollectionViewModel.monthInfo(at: indexPath.row)
-        selectedMonth = String(monthCellInfo.month.replacingOccurrences(of: "월", with: ""))
+        selectedMonth = Int(monthCellInfo.month.replacingOccurrences(of: "월", with: ""))!
         monthlyScheduleTableView.reloadData()
     }
 }
@@ -183,21 +176,24 @@ extension ScheduleViewController: UITableViewDataSource {
         _ tableView: UITableView,
         numberOfRowsInSection section: Int
     ) -> Int {
-        if lckMonthScheduleViewModel.hasMonthData[Int(selectedMonth)!] {
+        if lckMonthScheduleViewModel.hasMonthData[selectedMonth] {
             return lckMonthScheduleViewModel.countMonthlyScheduleList(month: selectedMonth)
         }
-        return 1
+        
+        else {
+            return 1
+        }
     }
-
+    
     func tableView(
         _ tableView: UITableView,
         cellForRowAt indexPath: IndexPath
-    ) -> UITableViewCell {        
-        if lckMonthScheduleViewModel.hasMonthData[Int(selectedMonth)!] {
-            monthlyScheduleTableView.separatorStyle = .singleLine
+    ) -> UITableViewCell {
+        if lckMonthScheduleViewModel.hasMonthData[selectedMonth] {
+            monthlyScheduleTableView.separatorColor = .lightGray
             
             if indexPath.row ==
-                lckMonthScheduleViewModel.monthlySchedule.value![selectedMonth]!.count - 1 ||  lckMonthScheduleViewModel.monthlySchedule.value![selectedMonth]![indexPath.row].homeTeam != lckMonthScheduleViewModel.monthlySchedule.value![selectedMonth]![indexPath.row + 1].homeTeam {
+                lckMonthScheduleViewModel.monthlyScheduleList.value![selectedMonth].count - 1 ||  lckMonthScheduleViewModel.monthlyScheduleList.value![selectedMonth][indexPath.row].homeTeam != lckMonthScheduleViewModel.monthlyScheduleList.value![selectedMonth][indexPath.row + 1].homeTeam {
                 
                 let cell = tableView.dequeueReusableCell(
                     withIdentifier: LeagueScheduleTableViewCell.identifier,
@@ -206,6 +202,7 @@ extension ScheduleViewController: UITableViewDataSource {
                 
                 let leagueScheduleInfo = lckMonthScheduleViewModel.monthScheduleInfo(month: selectedMonth, index: indexPath.row)!
                 
+                cell.selectionStyle = .none
                 cell.configureUI()
                 cell.update(leagueScheduleInfo: leagueScheduleInfo)
                 return cell
@@ -219,6 +216,7 @@ extension ScheduleViewController: UITableViewDataSource {
                 
                 let leagueScheduleInfo = lckMonthScheduleViewModel.monthScheduleInfo(month: selectedMonth, index: indexPath.row)
                 
+                cell.selectionStyle = .none
                 cell.configureCell()
                 cell.update(schedule: leagueScheduleInfo!)
                 return cell
@@ -226,12 +224,14 @@ extension ScheduleViewController: UITableViewDataSource {
         }
         
         else {
+            monthlyScheduleTableView.separatorColor = .clear
+            
             let cell = tableView.dequeueReusableCell(
                 withIdentifier: NoScheduleTableViewCell.identifier,
                 for: indexPath
             ) as! NoScheduleTableViewCell
             
-//            cell.selectionStyle = .none
+            cell.selectionStyle = .none
             cell.configureCell()
             
             return cell
@@ -244,7 +244,7 @@ extension ScheduleViewController: UITableViewDelegate {
         _ tableView: UITableView,
         heightForRowAt indexPath: IndexPath
     ) -> CGFloat {
-        if !lckMonthScheduleViewModel.hasMonthData[Int(selectedMonth)!] {
+        if !lckMonthScheduleViewModel.hasMonthData[selectedMonth] {
             return 100
         }
         return 50
