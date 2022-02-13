@@ -9,25 +9,13 @@ import Foundation
 
 final class LeagueScheduleTableViewModel {
     private let dateFormatter = DateFormatter()
-    private let pageNumberList: [String] = ["1", "2"]
+    private let thisYear = DateFormatter().dateToString(date: Date(), dateFormat: .year)
+    private var urls: [URL] = []
+    private var monthlySetOfDate: [Set<String>] = Array(repeating: Set<String>(), count: 13)
     private var leagueType: RequestLeagueType
-    private var numberOfMonthlyMatches: [Int] = [0,0,0,0,0,0,0,0,0,0,0,0,0]
-    private var setOfDate: [String: Set<String>] = [
-        "01": Set<String>(), "02": Set<String>(), "03": Set<String>(), "04": Set<String>(),
-        "05": Set<String>(), "06": Set<String>(), "07": Set<String>(), "08": Set<String>(),
-        "09": Set<String>(), "10": Set<String>(), "11": Set<String>(), "12": Set<String>()
-    ]
     
     var todayScheduleList: Observable<[LeagueScheduleTableViewCellModel]> = Observable([])
-    var monthScheduleList: Observable<[LeagueScheduleTableViewCellModel]> = Observable([])
-    var monthlySchedule: Observable<[String: [LeagueScheduleTableViewCellModel]]> = Observable([
-        "01": [LeagueScheduleTableViewCellModel](), "02": [LeagueScheduleTableViewCellModel](),
-        "03": [LeagueScheduleTableViewCellModel](), "04": [LeagueScheduleTableViewCellModel](),
-        "05": [LeagueScheduleTableViewCellModel](), "06": [LeagueScheduleTableViewCellModel](),
-        "07": [LeagueScheduleTableViewCellModel](), "08": [LeagueScheduleTableViewCellModel](),
-        "09": [LeagueScheduleTableViewCellModel](), "10": [LeagueScheduleTableViewCellModel](),
-        "11": [LeagueScheduleTableViewCellModel](), "12": [LeagueScheduleTableViewCellModel]()
-    ])
+    var monthlyScheduleList: Observable<[[LeagueScheduleTableViewCellModel]]> = Observable(Array(repeating: [LeagueScheduleTableViewCellModel](), count: 13))
     var hasTodayData: Bool = true
     var hasMonthData: [Bool] = [true,true,true,true,true,true,true,true,true,true,true,true,true]
     
@@ -39,20 +27,20 @@ final class LeagueScheduleTableViewModel {
         self.leagueType = leagueType
     }
     
-    func countMonthlyScheduleList(month: String) -> Int {
-        return monthlySchedule.value?[month]!.count ?? 0 + numberOfMonthlyMatches[Int(month)!]
+    func countMonthlyScheduleList(month: Int) -> Int {
+        return monthlyScheduleList.value?[month].count ?? 0 + monthlySetOfDate[month].count
     }
     
     func todayScheduleInfo(at index: Int) -> LeagueScheduleTableViewCellModel? {
         return todayScheduleList.value?[index]
     }
     
-    func monthScheduleInfo(month: String, index: Int) -> LeagueScheduleTableViewCellModel? {
-        return monthlySchedule.value?[month]![index]
+    func monthScheduleInfo(month: Int, index: Int) -> LeagueScheduleTableViewCellModel? {
+        return monthlyScheduleList.value?[month][index]
     }
     
     func fetchTodayData() {
-        NetworkManger().getScheduleData(scheduleUrl: self.leagueType.todayScheduleUrl) { receivedScheduleModel in
+        NetworkManager().getTodaySchedule(url: leagueType.todayScheduleUrl) { receivedScheduleModel in
             self.todayScheduleList.value = receivedScheduleModel.compactMap({ schedule in
                 self.extractScehduleData(schedule: schedule)
             })
@@ -64,49 +52,37 @@ final class LeagueScheduleTableViewModel {
     }
     
     func fetchMonthData() {
-        let todayYear = dateFormatter.dateToString(date: Date(), dateFormat: .year)
-        
-        self.pageNumberList.forEach { pageNumber in
-            RequestLeagueType.pageNumber = pageNumber
-            NetworkManger().getScheduleData(scheduleUrl: self.leagueType.totalScheduleUrl) { receivedScheduleModel in
-                self.monthScheduleList.value = receivedScheduleModel.compactMap({ schedule in
-                    self.extractScehduleData(schedule: schedule)
-                }).sorted(by: { ($0.date, $0.time) < ($1.date, $1.time) })
+        setUrls()
+        NetworkManager().getMonthSchedule(urls: urls) { receivedScheduleModel in
+            for schedule in receivedScheduleModel.sorted(by: {
+                $0.originalScheduledAt < $1.originalScheduledAt }) {
                 
-                for schedule in self.monthScheduleList.value! {
-                    if todayYear != schedule.year {
-                        break
-                    }
-                    
-                    // 경기가 있는 월에 경기수 증가 시키기
-                    let month = Int(schedule.month)!
-                    self.numberOfMonthlyMatches[month] += 1
-                    
-                    // 월별 경기 넣기
-                    if self.setOfDate[schedule.month]!.contains(schedule.date) {
-                        self.monthlySchedule.value![schedule.month]!.append(schedule)
-                    }
-                    
-                    else {
-                        self.setOfDate[schedule.month]!.insert(schedule.date)
-                        self.monthlySchedule.value![schedule.month]!.append(schedule)
-                        self.monthlySchedule.value![schedule.month]!.append(schedule)
-                    }
+                let schedule = self.extractScehduleData(schedule: schedule)
+                
+                if self.thisYear != schedule.year {
+                    continue
                 }
                 
-//                print(self.numberOfMonthlyMatches)
-//                print(self.monthlySchedule.value!["02"])
-                // 월마다 데이터가 없으면 해당 월 false
-                self.monthlySchedule.value?.forEach({ key, value in
-                    if self.monthlySchedule.value![key]!.count <= 0 {
-                        self.hasMonthData[Int(key)!] = false
-                        print("\(key): \(self.hasMonthData[Int(key)!])")
-                    }
-                })
+                let month = Int(schedule.month)!
+                
+                if !self.monthlySetOfDate[month].contains(schedule.date) {
+                    self.monthlySetOfDate[month].insert(schedule.date)
+                    self.monthlyScheduleList.value?[month].append(schedule)
+                    self.monthlyScheduleList.value?[month].append(schedule)
+                }
+                
+                else {
+                    self.monthlyScheduleList.value?[month].append(schedule)
+                }
+            }
+            
+            for month in 1..<13 {
+                if self.monthlyScheduleList.value![month].count <= 0 {
+                    self.hasMonthData[month] = false
+                }
             }
         }
     }
-        
     
     func extractScehduleData(schedule: ReceivedScheduleModel) -> LeagueScheduleTableViewCellModel {
         let leagueImage = schedule.league.imageUrl
@@ -182,5 +158,15 @@ final class LeagueScheduleTableViewModel {
         let awayTeam = nameArray2[1].replacingOccurrences(of: " ", with: "")
         
         return (homeTeam, awayTeam)
+    }
+    
+    func setUrls() {
+        // page 1
+        RequestLeagueType.pageNumber = "1"
+        urls.append(leagueType.totalScheduleUrl!)
+        
+        // page 2
+        RequestLeagueType.pageNumber = "2"
+        urls.append(leagueType.totalScheduleUrl!)
     }
 }

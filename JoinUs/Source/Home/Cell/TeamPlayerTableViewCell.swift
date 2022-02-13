@@ -25,6 +25,7 @@ final class TeamPlayerTableViewCell: UITableViewCell {
         collectionView.layer.borderWidth = 2
         collectionView.layer.cornerRadius = 10
         collectionView.layer.borderColor = UIColor.systemGray3.cgColor
+        collectionView.showsVerticalScrollIndicator = false
         
         return collectionView
     }()

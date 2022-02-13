@@ -26,15 +26,15 @@ enum RequestLeagueType {
     private var todayScheduleUrlQuery: String {
         switch self {
         case .worlds:
-            return RequestLeagueType.worldsLeagueQuery + "&filter[begin_at]=2021-10-05"
-            + RequestLeagueType.todaySortQuery
-//            return RequestLeagueType.worldsLeagueQuery + RequestLeagueType.DayQuery
+//            return RequestLeagueType.worldsLeagueQuery + "&filter[begin_at]=2021-10-05"
 //            + RequestLeagueType.todaySortQuery
+            return RequestLeagueType.worldsLeagueQuery + RequestLeagueType.DayQuery
+            + RequestLeagueType.todaySortQuery
         case .lck:
-            return RequestLeagueType.lckLeagueQuery + "&filter[begin_at]=2022-01-01"
-            + RequestLeagueType.todaySortQuery
-//            return RequestLeagueType.lckLeagueQuery + RequestLeagueType.DayQuery
+//            return RequestLeagueType.lckLeagueQuery + "&filter[begin_at]=2022-01-01"
 //            + RequestLeagueType.todaySortQuery
+            return RequestLeagueType.lckLeagueQuery + RequestLeagueType.DayQuery
+            + RequestLeagueType.todaySortQuery
         }
     }
     
