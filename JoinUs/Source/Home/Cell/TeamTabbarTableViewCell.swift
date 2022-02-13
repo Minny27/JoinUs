@@ -24,6 +24,7 @@ final class TeamTabbarTableViewCell: UITableViewCell {
             collectionViewLayout: flowLayout
         )
         collectionView.backgroundColor = .white
+        collectionView.showsHorizontalScrollIndicator = false
         
         return collectionView
     }()

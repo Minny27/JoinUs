@@ -16,13 +16,8 @@ final class ScheduleTableViewCell: UITableViewCell {
     
     var leagueScheduleTableView: UITableView = {
         let tableView = UITableView()
-        tableView.separatorStyle = .none
-        tableView.separatorInset = UIEdgeInsets(
-            top: 0,
-            left: 0,
-            bottom: 0,
-            right: 0
-        )
+        tableView.separatorInset = .zero
+        tableView.showsVerticalScrollIndicator = false
         
         if #available(iOS 15.0, *) {
             tableView.sectionHeaderTopPadding = .zero
@@ -106,7 +101,7 @@ extension ScheduleTableViewCell: UITableViewDataSource {
         cellForRowAt indexPath: IndexPath
     ) -> UITableViewCell {
         if let leagueType = leagueType {
-            leagueScheduleTableView.separatorStyle = .singleLine
+            leagueScheduleTableView.separatorColor = .lightGray
             let leagueScheduleTableViewSectionType = LeagueScheduleTableViewSectionType(rawValue: leagueType)!
             
             switch leagueScheduleTableViewSectionType {
@@ -117,6 +112,7 @@ extension ScheduleTableViewCell: UITableViewDataSource {
                 
                 let leagueScheduleInfo = worldsTodayScheduleViewModel.todayScheduleInfo(at: indexPath.row)
                 
+                cell.selectionStyle = .none
                 cell.configureUI()
                 cell.update(leagueScheduleInfo: leagueScheduleInfo!)
                 
@@ -129,6 +125,7 @@ extension ScheduleTableViewCell: UITableViewDataSource {
                 
                 let leagueScheduleInfo = lckTodayScheduleViewModel.todayScheduleInfo(at: indexPath.row)
                 
+                cell.selectionStyle = .none
                 cell.configureUI()
                 cell.update(leagueScheduleInfo: leagueScheduleInfo!)
                 
@@ -138,6 +135,8 @@ extension ScheduleTableViewCell: UITableViewDataSource {
         
         else {
             if !worldsTodayScheduleViewModel.hasTodayData && !lckTodayScheduleViewModel.hasTodayData {
+                leagueScheduleTableView.separatorColor = .clear
+                
                 guard let cell = tableView.dequeueReusableCell(
                     withIdentifier: NoScheduleTableViewCell.identifier,
                     for: indexPath
@@ -145,8 +144,7 @@ extension ScheduleTableViewCell: UITableViewDataSource {
                     return UITableViewCell()
                 }
                 
-//                cell.selectionStyle = .none
-//                cell.separatorInset = .zero
+                cell.selectionStyle = .none
                 cell.configureCell()
                 
                 return cell
