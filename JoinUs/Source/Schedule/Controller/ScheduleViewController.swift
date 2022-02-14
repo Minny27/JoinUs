@@ -190,7 +190,7 @@ extension ScheduleViewController: UITableViewDataSource {
         cellForRowAt indexPath: IndexPath
     ) -> UITableViewCell {
         if lckMonthScheduleViewModel.hasMonthData[selectedMonth] {
-            monthlyScheduleTableView.separatorColor = .lightGray
+            monthlyScheduleTableView.separatorColor = .systemGray3
             
             if indexPath.row ==
                 lckMonthScheduleViewModel.monthlyScheduleList.value![selectedMonth].count - 1 ||  lckMonthScheduleViewModel.monthlyScheduleList.value![selectedMonth][indexPath.row].homeTeam != lckMonthScheduleViewModel.monthlyScheduleList.value![selectedMonth][indexPath.row + 1].homeTeam {

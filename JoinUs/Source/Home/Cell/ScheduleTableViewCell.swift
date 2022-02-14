@@ -101,7 +101,7 @@ extension ScheduleTableViewCell: UITableViewDataSource {
         cellForRowAt indexPath: IndexPath
     ) -> UITableViewCell {
         if let leagueType = leagueType {
-            leagueScheduleTableView.separatorColor = .lightGray
+            leagueScheduleTableView.separatorColor = .systemGray3
             let leagueScheduleTableViewSectionType = LeagueScheduleTableViewSectionType(rawValue: leagueType)!
             
             switch leagueScheduleTableViewSectionType {
