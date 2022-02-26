@@ -7,8 +7,8 @@
 
 import UIKit
 
-class NoScheduleTableViewCell: UITableViewCell {
-    static let identifier = "noScheduleTableViewCell"
+class NoTodayScheduleTableViewCell: UITableViewCell {
+    static let identifier = "NoTodayScheduleTableViewCell"
     
     let noticeLabel: UILabel = {
         let label = UILabel()

@@ -35,8 +35,8 @@ final class ScheduleTableViewCell: UITableViewCell {
         )
         
         leagueScheduleTableView.register(
-            NoScheduleTableViewCell.self,
-            forCellReuseIdentifier: NoScheduleTableViewCell.identifier
+            NoTodayScheduleTableViewCell.self,
+            forCellReuseIdentifier: NoTodayScheduleTableViewCell.identifier
         )
         
         leagueScheduleTableView.dataSource = self
@@ -138,9 +138,9 @@ extension ScheduleTableViewCell: UITableViewDataSource {
                 leagueScheduleTableView.separatorColor = .clear
                 
                 guard let cell = tableView.dequeueReusableCell(
-                    withIdentifier: NoScheduleTableViewCell.identifier,
+                    withIdentifier: NoTodayScheduleTableViewCell.identifier,
                     for: indexPath
-                ) as? NoScheduleTableViewCell else {
+                ) as? NoTodayScheduleTableViewCell else {
                     return UITableViewCell()
                 }
                 
