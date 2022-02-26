@@ -18,13 +18,13 @@ protocol CustomPastScrollOffsetXDelegate: AnyObject {
 final class CustomMonthBar: UIView {
     
     // MARK: - Properties
+    let monthCollectionViewModel = MonthCollectionViewModel()
+    weak var customMonthBarDelegate: CustomMonthBarDelegate?
+    weak var customPastScrollOffsetXDeleagte: CustomPastScrollOffsetXDelegate?
     var selectedMonthIndexPath = IndexPath(
         item: Int(DateFormatter().dateToString(date: Date(), dateFormat: .month))!,
         section: 0
     )
-    let monthCollectionViewModel = MonthCollectionViewModel()
-    weak var customMonthBarDelegate: CustomMonthBarDelegate?
-    weak var customPastScrollOffsetXDeleagte: CustomPastScrollOffsetXDelegate?
     var indicatorViewLeftConstraint: NSLayoutConstraint!
     var indicatorViewWidthConstraint: NSLayoutConstraint!
     
