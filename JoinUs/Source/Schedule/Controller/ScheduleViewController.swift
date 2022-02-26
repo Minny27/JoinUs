@@ -6,17 +6,16 @@
 //
 
 import UIKit
+import RxSwift
 
 class ScheduleViewController: UIViewController {
     
     // MARK: - Properties
-    private let thisMonth = Int(DateFormatter().dateToString(date: Date(), dateFormat: .month))!
-    private let thisMonthIndexPath = IndexPath(
-        item: Int(DateFormatter().dateToString(date: Date(), dateFormat: .month))!,
+    let lckMonthScheduleViewModel = LeagueScheduleTableViewModel(leagueType: .lck)
+    var selectedMonthIndexPath = IndexPath(
+        item: Int(DateFormatter().dateToString(date: Date(), dateFormat: .month))! - 1,
         section: 0
     )
-    let lckMonthScheduleViewModel = LeagueScheduleTableViewModel(leagueType: .lck)
-    var selectedMonthIndexPath = IndexPath(item: 0, section: 0)
     var pastScrollOffsetX: CGFloat = 0
     
     let containerView: UIView = {
@@ -65,6 +64,12 @@ class ScheduleViewController: UIViewController {
         self.lckMonthScheduleViewModel.monthlyScheduleList.bind { _ in
             DispatchQueue.main.async {
                 self.pageMonthCollectionView.reloadData()
+                
+                self.pageMonthCollectionView.scrollToItem(
+                    at: self.selectedMonthIndexPath,
+                    at: .centeredHorizontally,
+                    animated: true
+                )
             }
         }
     }
@@ -169,7 +174,11 @@ extension ScheduleViewController: UICollectionViewDelegate {
         
         if selectedMonthIndexPath.row < 11 && CGFloat(selectedMonthIndexPath.row) < targetContentOffset.pointee.x / pageMonthCollectionView.frame.width {
             let nextIndexPath = IndexPath(item: selectedMonthIndexPath.row + 1, section: 0)
-            customMonthBar.monthCollectionView.selectItem(at: nextIndexPath, animated: true, scrollPosition: .centeredHorizontally)
+            customMonthBar.monthCollectionView.selectItem(
+                at: nextIndexPath,
+                animated: true,
+                scrollPosition: .centeredHorizontally
+            )
             pageMonthCollectionView.scrollToItem(at: nextIndexPath, at: .centeredHorizontally, animated: true)
             selectedMonthIndexPath = nextIndexPath
             customMonthBar.selectedMonthIndexPath = selectedMonthIndexPath
@@ -177,7 +186,11 @@ extension ScheduleViewController: UICollectionViewDelegate {
 
         else if selectedMonthIndexPath.row > 0 && CGFloat(selectedMonthIndexPath.row) > targetContentOffset.pointee.x / pageMonthCollectionView.frame.width {
             let pastIndexPath = IndexPath(item: selectedMonthIndexPath.row - 1, section: 0)
-            customMonthBar.monthCollectionView.selectItem(at: pastIndexPath, animated: true, scrollPosition: .centeredHorizontally)
+            customMonthBar.monthCollectionView.selectItem(
+                at: pastIndexPath,
+                animated: true,
+                scrollPosition: .centeredHorizontally
+            )
             pageMonthCollectionView.scrollToItem(at: pastIndexPath, at: .centeredHorizontally, animated: true)
             selectedMonthIndexPath = pastIndexPath
             customMonthBar.selectedMonthIndexPath = selectedMonthIndexPath
