@@ -10,15 +10,18 @@ import UIKit
 class ScheduleViewController: UIViewController {
     
     // MARK: - Properties
-    let monthCollectionViewModel = MonthCollectionViewModel()
+    private let thisMonth = Int(DateFormatter().dateToString(date: Date(), dateFormat: .month))!
+    private let thisMonthIndexPath = IndexPath(
+        item: Int(DateFormatter().dateToString(date: Date(), dateFormat: .month))!,
+        section: 0
+    )
     let lckMonthScheduleViewModel = LeagueScheduleTableViewModel(leagueType: .lck)
-    
-    var selectedMonth: Int = Int(DateFormatter().dateToString(date: Date(), dateFormat: .month))!
-    var monthlyTableViewCellType: Int = 0
+    var selectedMonthIndexPath = IndexPath(item: 0, section: 0)
+    var pastScrollOffsetX: CGFloat = 0
     
     let containerView: UIView = {
         let view = UIView()
-        
+        view.translatesAutoresizingMaskIntoConstraints = false
         return view
     }()
     
@@ -28,11 +31,13 @@ class ScheduleViewController: UIViewController {
         label.font = .boldSystemFont(ofSize: 25)
         label.textAlignment = .left
         label.textColor = .black
-        
+        label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()
     
-    let monthCollectionView: UICollectionView = {
+    let customMonthBar = CustomMonthBar()
+    
+    let pageMonthCollectionView: UICollectionView = {
         let flowlayout = UICollectionViewFlowLayout()
         flowlayout.scrollDirection = .horizontal
         
@@ -40,118 +45,143 @@ class ScheduleViewController: UIViewController {
             frame: .zero,
             collectionViewLayout: flowlayout
         )
-        collectionView.backgroundColor = .white
         collectionView.showsHorizontalScrollIndicator = false
+        collectionView.translatesAutoresizingMaskIntoConstraints = false
         return collectionView
     }()
     
-    let monthlyScheduleTableView: UITableView = {
-        let tableview = UITableView()
-        tableview.separatorInset = .zero
-        tableview.showsVerticalScrollIndicator = false
-        
-        if #available(iOS 15.0, *) {
-            tableview.sectionHeaderTopPadding = .zero
-        } else {
-            // Fallback on earlier versions
-        }
-        return tableview
-    }()
-    
     // MARK: - LifeCycles
-    
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        configureUI()
+        view.backgroundColor = .white
+        
+        setupTitle()
+        setupCustomTabBar()
+        setupPageMonthCollectionView()
         
         lckMonthScheduleViewModel.fetchMonthData()
         
         self.lckMonthScheduleViewModel.monthlyScheduleList.bind { _ in
             DispatchQueue.main.async {
-                self.monthlyScheduleTableView.reloadData()
+                self.pageMonthCollectionView.reloadData()
             }
         }
     }
-    
-    func configureUI() {
-        view.backgroundColor = .white
+        
+    func setupTitle() {
         view.addSubview(containerView)
-        view.addSubview(monthCollectionView)
-        view.addSubview(monthlyScheduleTableView)
+        containerView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor).isActive = true
+        containerView.leftAnchor.constraint(equalTo: view.leftAnchor, constant: 16).isActive = true
+        containerView.rightAnchor.constraint(equalTo: view.rightAnchor, constant: -16).isActive = true
+        containerView.heightAnchor.constraint(equalToConstant: 100).isActive = true
+        
         containerView.addSubview(titleLabel)
+        titleLabel.leftAnchor.constraint(equalTo: containerView.leftAnchor).isActive = true
+        titleLabel.bottomAnchor.constraint(equalTo: containerView.bottomAnchor).isActive = true
+        titleLabel.rightAnchor.constraint(equalTo: containerView.rightAnchor).isActive = true
+        titleLabel.heightAnchor.constraint(equalToConstant: 25).isActive = true
+    }
+    
+    func setupCustomTabBar() {
+        view.addSubview(customMonthBar)
+        customMonthBar.customMonthBarDelegate = self
+        customMonthBar.customPastScrollOffsetXDeleagte = self
+        customMonthBar.translatesAutoresizingMaskIntoConstraints = false
+        customMonthBar.topAnchor.constraint(equalTo: containerView.bottomAnchor).isActive = true
+        customMonthBar.leftAnchor.constraint(equalTo: view.leftAnchor, constant: 16).isActive = true
+        customMonthBar.rightAnchor.constraint(equalTo: view.rightAnchor, constant: -16).isActive = true
+        customMonthBar.heightAnchor.constraint(equalToConstant: 60).isActive = true
+    }
+    
+    func setupPageMonthCollectionView() {
+        view.addSubview(pageMonthCollectionView)
         
-        monthCollectionView.register(
-            MonthCollectionViewCell.self,
-            forCellWithReuseIdentifier: MonthCollectionViewCell.identifier
-        )
-        monthlyScheduleTableView.register(
-            DailyScheduleTitle.self,
-            forCellReuseIdentifier: DailyScheduleTitle.identifier
-        )
-        monthlyScheduleTableView.register(
-            LeagueScheduleTableViewCell.self,
-            forCellReuseIdentifier: LeagueScheduleTableViewCell.identifier
-        )
-        monthlyScheduleTableView.register(
-            NoScheduleTableViewCell.self,
-            forCellReuseIdentifier: NoScheduleTableViewCell.identifier
+        pageMonthCollectionView.register(
+            SchedulePageCollectionViewCell.self,
+            forCellWithReuseIdentifier: SchedulePageCollectionViewCell.identifier
         )
         
-        monthCollectionView.dataSource = self
-        monthCollectionView.delegate = self
-        monthlyScheduleTableView.dataSource = self
-        monthlyScheduleTableView.delegate = self
+        pageMonthCollectionView.register(
+            NoMonthScheduleCollectionViewCell.self,
+            forCellWithReuseIdentifier: NoMonthScheduleCollectionViewCell.identifier
+        )
         
-        containerView.translatesAutoresizingMaskIntoConstraints = false
-        titleLabel.translatesAutoresizingMaskIntoConstraints = false
-        monthCollectionView.translatesAutoresizingMaskIntoConstraints = false
-        monthlyScheduleTableView.translatesAutoresizingMaskIntoConstraints = false
+        pageMonthCollectionView.dataSource = self
+        pageMonthCollectionView.delegate = self
         
-        NSLayoutConstraint.activate([
-            containerView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
-            containerView.leftAnchor.constraint(equalTo: view.leftAnchor),
-            containerView.rightAnchor.constraint(equalTo: view.rightAnchor),
-            containerView.heightAnchor.constraint(equalToConstant: 100),
-            
-            titleLabel.leftAnchor.constraint(equalTo: containerView.leftAnchor, constant: 16),
-            titleLabel.bottomAnchor.constraint(equalTo: containerView.bottomAnchor),
-            titleLabel.rightAnchor.constraint(equalTo: containerView.rightAnchor, constant: -16),
-            titleLabel.heightAnchor.constraint(equalToConstant: 25),
-            
-            monthCollectionView.topAnchor.constraint(equalTo: titleLabel.bottomAnchor, constant: 10),
-            monthCollectionView.leftAnchor.constraint(equalTo: view.leftAnchor, constant: 16),
-            monthCollectionView.rightAnchor.constraint(equalTo: view.rightAnchor, constant: -16),
-            monthCollectionView.heightAnchor.constraint(equalToConstant: 50),
-            
-            monthlyScheduleTableView.topAnchor.constraint(equalTo: monthCollectionView.bottomAnchor, constant: 10),
-            monthlyScheduleTableView.leftAnchor.constraint(equalTo: view.leftAnchor, constant: 16),
-            monthlyScheduleTableView.bottomAnchor.constraint(equalTo: view.bottomAnchor),
-            monthlyScheduleTableView.rightAnchor.constraint(equalTo: view.rightAnchor, constant: -16)
-        ])
+        pageMonthCollectionView.topAnchor.constraint(equalTo: customMonthBar.bottomAnchor).isActive = true
+        pageMonthCollectionView.leftAnchor.constraint(equalTo: view.leftAnchor, constant: 16).isActive = true
+        pageMonthCollectionView.bottomAnchor.constraint(equalTo: view.bottomAnchor).isActive = true
+        pageMonthCollectionView.rightAnchor.constraint(equalTo: view.rightAnchor, constant: -16).isActive = true
+    }
+}
+
+extension ScheduleViewController: CustomMonthBarDelegate {
+    func customMonthBar(scroll index: Int) {
+        selectedMonthIndexPath = IndexPath(item: index, section: 0)
+        customMonthBar.monthCollectionView.scrollToItem(at: selectedMonthIndexPath, at: .centeredHorizontally, animated: true)
+        pageMonthCollectionView.scrollToItem(at: selectedMonthIndexPath, at: .centeredHorizontally, animated: true)
+    }
+}
+
+extension ScheduleViewController: CustomPastScrollOffsetXDelegate {
+    func customPastScrollOffsetXD(offsetX pastScrollOffsetX: CGFloat) {
+        self.pastScrollOffsetX = pastScrollOffsetX
     }
 }
 
 extension ScheduleViewController: UICollectionViewDataSource {
-    public func collectionView(
-        _ collectionView: UICollectionView,
-        numberOfItemsInSection section: Int
-    ) -> Int {
-        return monthCollectionViewModel.countMonthList
+    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+        return 12
     }
     
-    public func collectionView(
-        _ collectionView: UICollectionView,
-        cellForItemAt indexPath: IndexPath
-    ) -> UICollectionViewCell {
-        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: MonthCollectionViewCell.identifier, for: indexPath) as! MonthCollectionViewCell
+    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+        if lckMonthScheduleViewModel.hasMonthData[indexPath.row + 1] {
+            let cell = collectionView.dequeueReusableCell(
+                withReuseIdentifier: SchedulePageCollectionViewCell.identifier,
+                for: indexPath
+            ) as! SchedulePageCollectionViewCell
+            cell.lckMonthScheduleList = lckMonthScheduleViewModel.monthlyScheduleList.value![indexPath.row + 1]
+            cell.setupMonthScheduleTableView()
+            return cell
+        }
+                
+        else {
+            let cell = collectionView.dequeueReusableCell(
+                withReuseIdentifier: NoMonthScheduleCollectionViewCell.identifier,
+                for: indexPath
+            ) as! NoMonthScheduleCollectionViewCell
+            cell.setupCell()
+            return cell
+        }
+    }
+}
+
+extension ScheduleViewController: UICollectionViewDelegate {
+    func scrollViewDidScroll(_ scrollView: UIScrollView) {
+        let selectedX = 60 * CGFloat(selectedMonthIndexPath.row) - pastScrollOffsetX
+        customMonthBar.indicatorViewLeftConstraint.constant = selectedX
+    }
+
+    func scrollViewWillEndDragging(_ scrollView: UIScrollView, withVelocity velocity: CGPoint, targetContentOffset: UnsafeMutablePointer<CGPoint>) {
+        pageMonthCollectionView.selectItem(at: selectedMonthIndexPath, animated: true, scrollPosition: .centeredHorizontally)
         
-        let monthInfo = monthCollectionViewModel.monthInfo(at: indexPath.row)
-        
-        cell.configureCell()
-        cell.update(monthInfo: monthInfo)
-        
-        return cell
+        if selectedMonthIndexPath.row < 11 && CGFloat(selectedMonthIndexPath.row) < targetContentOffset.pointee.x / pageMonthCollectionView.frame.width {
+            let nextIndexPath = IndexPath(item: selectedMonthIndexPath.row + 1, section: 0)
+            customMonthBar.monthCollectionView.selectItem(at: nextIndexPath, animated: true, scrollPosition: .centeredHorizontally)
+            pageMonthCollectionView.scrollToItem(at: nextIndexPath, at: .centeredHorizontally, animated: true)
+            selectedMonthIndexPath = nextIndexPath
+            customMonthBar.selectedMonthIndexPath = selectedMonthIndexPath
+        }
+
+        else if selectedMonthIndexPath.row > 0 && CGFloat(selectedMonthIndexPath.row) > targetContentOffset.pointee.x / pageMonthCollectionView.frame.width {
+            let pastIndexPath = IndexPath(item: selectedMonthIndexPath.row - 1, section: 0)
+            customMonthBar.monthCollectionView.selectItem(at: pastIndexPath, animated: true, scrollPosition: .centeredHorizontally)
+            pageMonthCollectionView.scrollToItem(at: pastIndexPath, at: .centeredHorizontally, animated: true)
+            selectedMonthIndexPath = pastIndexPath
+            customMonthBar.selectedMonthIndexPath = selectedMonthIndexPath
+        }
     }
 }
 
@@ -161,92 +191,6 @@ extension ScheduleViewController: UICollectionViewDelegateFlowLayout {
         layout collectionViewLayout: UICollectionViewLayout,
         sizeForItemAt indexPath: IndexPath
     ) -> CGSize {
-        return CGSize(width: 40, height: 30)
-    }
-    
-    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        let monthCellInfo = monthCollectionViewModel.monthInfo(at: indexPath.row)
-        selectedMonth = Int(monthCellInfo.month.replacingOccurrences(of: "월", with: ""))!
-        monthlyScheduleTableView.reloadData()
-    }
-}
-
-extension ScheduleViewController: UITableViewDataSource {
-    func tableView(
-        _ tableView: UITableView,
-        numberOfRowsInSection section: Int
-    ) -> Int {
-        if lckMonthScheduleViewModel.hasMonthData[selectedMonth] {
-            return lckMonthScheduleViewModel.countMonthlyScheduleList(month: selectedMonth)
-        }
-        
-        else {
-            return 1
-        }
-    }
-    
-    func tableView(
-        _ tableView: UITableView,
-        cellForRowAt indexPath: IndexPath
-    ) -> UITableViewCell {
-        if lckMonthScheduleViewModel.hasMonthData[selectedMonth] {
-            monthlyScheduleTableView.separatorColor = .lightGray
-            
-            if indexPath.row ==
-                lckMonthScheduleViewModel.monthlyScheduleList.value![selectedMonth].count - 1 ||  lckMonthScheduleViewModel.monthlyScheduleList.value![selectedMonth][indexPath.row].homeTeam != lckMonthScheduleViewModel.monthlyScheduleList.value![selectedMonth][indexPath.row + 1].homeTeam {
-                
-                let cell = tableView.dequeueReusableCell(
-                    withIdentifier: LeagueScheduleTableViewCell.identifier,
-                    for: indexPath
-                ) as! LeagueScheduleTableViewCell
-                
-                let leagueScheduleInfo = lckMonthScheduleViewModel.monthScheduleInfo(month: selectedMonth, index: indexPath.row)!
-                
-                cell.selectionStyle = .none
-                cell.configureUI()
-                cell.update(leagueScheduleInfo: leagueScheduleInfo)
-                return cell
-            }
-            
-            else {
-                let cell = tableView.dequeueReusableCell(
-                    withIdentifier: DailyScheduleTitle.identifier,
-                    for: indexPath
-                ) as! DailyScheduleTitle
-                
-                let leagueScheduleInfo = lckMonthScheduleViewModel.monthScheduleInfo(month: selectedMonth, index: indexPath.row)
-                
-                cell.selectionStyle = .none
-                cell.configureCell()
-                cell.update(schedule: leagueScheduleInfo!)
-                return cell
-            }
-        }
-        
-        else {
-            monthlyScheduleTableView.separatorColor = .clear
-            
-            let cell = tableView.dequeueReusableCell(
-                withIdentifier: NoScheduleTableViewCell.identifier,
-                for: indexPath
-            ) as! NoScheduleTableViewCell
-            
-            cell.selectionStyle = .none
-            cell.configureCell()
-            
-            return cell
-        }
-    }
-}
-
-extension ScheduleViewController: UITableViewDelegate {
-    func tableView(
-        _ tableView: UITableView,
-        heightForRowAt indexPath: IndexPath
-    ) -> CGFloat {
-        if !lckMonthScheduleViewModel.hasMonthData[selectedMonth] {
-            return 100
-        }
-        return 50
+        return CGSize(width: pageMonthCollectionView.frame.width, height: pageMonthCollectionView.frame.height)
     }
 }

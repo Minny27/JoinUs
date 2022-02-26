@@ -12,17 +12,27 @@ final class MonthCollectionViewCell: UICollectionViewCell {
     
     let monthLabel: UILabel = {
         let label = UILabel()
+        label.font = .boldSystemFont(ofSize: 18)
         label.textAlignment = .center
-        label.layer.borderWidth = 0.3
-        label.layer.cornerRadius = 10
-        
+        label.textColor = .black
+        label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()
     
-    func configureCell() {
+    override var isHighlighted: Bool {
+        didSet {
+            monthLabel.textColor = isHighlighted ? .purple : .black
+        }
+    }
+    
+    override var isSelected: Bool {
+        didSet {
+            monthLabel.textColor = isSelected ? .purple : .black
+        }
+    }
+    
+    func setupCell() {
         contentView.addSubview(monthLabel)
-        
-        monthLabel.translatesAutoresizingMaskIntoConstraints = false
         
         NSLayoutConstraint.activate([
             monthLabel.topAnchor.constraint(equalTo: contentView.topAnchor),

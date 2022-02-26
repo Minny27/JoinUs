@@ -31,6 +31,6 @@ class DailyScheduleTitle: UITableViewCell {
     }
 
     func update(schedule: LeagueScheduleTableViewCellModel) {
-        titleLabel.text = schedule.date.replacingOccurrences(of: "-", with: "월") + "일"
+        titleLabel.text = schedule.date.replacingOccurrences(of: "-", with: "월 ") + "일"
     }
 }

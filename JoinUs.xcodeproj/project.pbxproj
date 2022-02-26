@@ -83,7 +83,7 @@
 		5622EF9127412D60001E1C35 /* MonthCollectionViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5622EF9027412D60001E1C35 /* MonthCollectionViewModel.swift */; };
 		5622EF9327412E40001E1C35 /* MonthCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5622EF9227412E40001E1C35 /* MonthCollectionViewCell.swift */; };
 		56256B3A2795038B00C17466 /* RequestLeagueType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 56256B392795038B00C17466 /* RequestLeagueType.swift */; };
-		56256B3C2795A68F00C17466 /* NoScheduleTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 56256B3B2795A68F00C17466 /* NoScheduleTableViewCell.swift */; };
+		56256B3C2795A68F00C17466 /* NoTodayScheduleTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 56256B3B2795A68F00C17466 /* NoTodayScheduleTableViewCell.swift */; };
 		562DB968271E93DF00EC6ABE /* HomeTableViewSectionHeader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 562DB967271E93DF00EC6ABE /* HomeTableViewSectionHeader.swift */; };
 		563CB60C2759F31A00905C10 /* PlayerCollectionViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 563CB60B2759F31A00905C10 /* PlayerCollectionViewModel.swift */; };
 		56418AA0273CF0A5005BEF2E /* LeagueScheduleTableViewSectionType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 56418A9F273CF0A5005BEF2E /* LeagueScheduleTableViewSectionType.swift */; };
@@ -104,12 +104,15 @@
 		564EC2042709D63800DCA9E6 /* HomeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 564EC2032709D63800DCA9E6 /* HomeViewController.swift */; };
 		564EC2092709D63900DCA9E6 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 564EC2082709D63900DCA9E6 /* Assets.xcassets */; };
 		564EC20C2709D63900DCA9E6 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 564EC20A2709D63900DCA9E6 /* LaunchScreen.storyboard */; };
+		564FCB0E27BA9211008B329D /* CustomMonthBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 564FCB0D27BA9211008B329D /* CustomMonthBar.swift */; };
+		564FCB1027BA9D20008B329D /* NoMonthScheduleCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 564FCB0F27BA9D20008B329D /* NoMonthScheduleCollectionViewCell.swift */; };
 		56555F6E273670AA00A8A53D /* Observable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 56555F6D273670AA00A8A53D /* Observable.swift */; };
 		565BC1892766D7D5000C4A33 /* PlayerDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 565BC1882766D7D5000C4A33 /* PlayerDetailViewController.swift */; };
 		565CA24427229FC500669E8F /* LeagueScheduleTableViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 565CA24327229FC500669E8F /* LeagueScheduleTableViewModel.swift */; };
 		56630872276F0DD7006A1DD4 /* Coordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 56630871276F0DD7006A1DD4 /* Coordinator.swift */; };
 		5677F5A6273A018900BACF0B /* HomeTableViewSectionType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5677F5A5273A018900BACF0B /* HomeTableViewSectionType.swift */; };
 		56789D4527170186001B4784 /* TabBarController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 56789D4427170186001B4784 /* TabBarController.swift */; };
+		56AABF6227BBDD3200E4BE41 /* SchedulePageCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 56AABF6127BBDD3200E4BE41 /* SchedulePageCollectionViewCell.swift */; };
 		56AC6676274E1BD900CC2BF1 /* CrawlManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 56AC6675274E1BD900CC2BF1 /* CrawlManager.swift */; };
 		56B1A720274F1F7D00C91BB8 /* Standings.swift in Sources */ = {isa = PBXBuildFile; fileRef = 56B1A71F274F1F7D00C91BB8 /* Standings.swift */; };
 		56B1A722274F409C00C91BB8 /* StandingsVIewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 56B1A721274F409C00C91BB8 /* StandingsVIewModel.swift */; };
@@ -216,7 +219,7 @@
 		5622EF9027412D60001E1C35 /* MonthCollectionViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MonthCollectionViewModel.swift; sourceTree = "<group>"; };
 		5622EF9227412E40001E1C35 /* MonthCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MonthCollectionViewCell.swift; sourceTree = "<group>"; };
 		56256B392795038B00C17466 /* RequestLeagueType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RequestLeagueType.swift; sourceTree = "<group>"; };
-		56256B3B2795A68F00C17466 /* NoScheduleTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NoScheduleTableViewCell.swift; sourceTree = "<group>"; };
+		56256B3B2795A68F00C17466 /* NoTodayScheduleTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NoTodayScheduleTableViewCell.swift; sourceTree = "<group>"; };
 		562DB967271E93DF00EC6ABE /* HomeTableViewSectionHeader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeTableViewSectionHeader.swift; sourceTree = "<group>"; };
 		563CB60B2759F31A00905C10 /* PlayerCollectionViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlayerCollectionViewModel.swift; sourceTree = "<group>"; };
 		56418A9F273CF0A5005BEF2E /* LeagueScheduleTableViewSectionType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LeagueScheduleTableViewSectionType.swift; sourceTree = "<group>"; };
@@ -239,12 +242,15 @@
 		564EC2082709D63900DCA9E6 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		564EC20B2709D63900DCA9E6 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		564EC20D2709D63900DCA9E6 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		564FCB0D27BA9211008B329D /* CustomMonthBar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomMonthBar.swift; sourceTree = "<group>"; };
+		564FCB0F27BA9D20008B329D /* NoMonthScheduleCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NoMonthScheduleCollectionViewCell.swift; sourceTree = "<group>"; };
 		56555F6D273670AA00A8A53D /* Observable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Observable.swift; sourceTree = "<group>"; };
 		565BC1882766D7D5000C4A33 /* PlayerDetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlayerDetailViewController.swift; sourceTree = "<group>"; };
 		565CA24327229FC500669E8F /* LeagueScheduleTableViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LeagueScheduleTableViewModel.swift; sourceTree = "<group>"; };
 		56630871276F0DD7006A1DD4 /* Coordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Coordinator.swift; sourceTree = "<group>"; };
 		5677F5A5273A018900BACF0B /* HomeTableViewSectionType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeTableViewSectionType.swift; sourceTree = "<group>"; };
 		56789D4427170186001B4784 /* TabBarController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabBarController.swift; sourceTree = "<group>"; };
+		56AABF6127BBDD3200E4BE41 /* SchedulePageCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SchedulePageCollectionViewCell.swift; sourceTree = "<group>"; };
 		56AC6675274E1BD900CC2BF1 /* CrawlManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CrawlManager.swift; sourceTree = "<group>"; };
 		56B1A71F274F1F7D00C91BB8 /* Standings.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Standings.swift; sourceTree = "<group>"; };
 		56B1A721274F409C00C91BB8 /* StandingsVIewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StandingsVIewModel.swift; sourceTree = "<group>"; };
@@ -540,6 +546,14 @@
 			path = JoinUs;
 			sourceTree = "<group>";
 		};
+		564FCB0C27BA91C3008B329D /* View */ = {
+			isa = PBXGroup;
+			children = (
+				564FCB0D27BA9211008B329D /* CustomMonthBar.swift */,
+			);
+			path = View;
+			sourceTree = "<group>";
+		};
 		56630870276F0DC8006A1DD4 /* Coordinator */ = {
 			isa = PBXGroup;
 			children = (
@@ -553,8 +567,8 @@
 			children = (
 				56C7853827703CAA00940A2D /* Model */,
 				56C7853927703CB200940A2D /* ViewModel */,
-				56C7853C27703D1400940A2D /* View */,
 				56C7853A27703CB800940A2D /* Cell */,
+				56C7853C27703D1400940A2D /* View */,
 				56C7853B27703CC000940A2D /* Controller */,
 			);
 			path = Home;
@@ -566,6 +580,7 @@
 				56C7854027703D9700940A2D /* Model */,
 				56C7853F27703D9500940A2D /* ViewModel */,
 				56C7853E27703D9300940A2D /* Cell */,
+				564FCB0C27BA91C3008B329D /* View */,
 				56C7853D27703D8F00940A2D /* Controller */,
 			);
 			path = Schedule;
@@ -634,7 +649,7 @@
 				56FC0C7B270CAB1800E1FE3B /* TeamTabbarCollectionViewCell.swift */,
 				56BFFC1427210025007A1826 /* TeamPlayerTableViewCell.swift */,
 				5605BB9827157FBF00A9811A /* TeamPlayerCollectionViewCell.swift */,
-				56256B3B2795A68F00C17466 /* NoScheduleTableViewCell.swift */,
+				56256B3B2795A68F00C17466 /* NoTodayScheduleTableViewCell.swift */,
 			);
 			path = Cell;
 			sourceTree = "<group>";
@@ -668,7 +683,9 @@
 			isa = PBXGroup;
 			children = (
 				5622EF9227412E40001E1C35 /* MonthCollectionViewCell.swift */,
+				56AABF6127BBDD3200E4BE41 /* SchedulePageCollectionViewCell.swift */,
 				560E525F27AF93F5009CBA3F /* DailyScheduleTitle.swift */,
+				564FCB0F27BA9D20008B329D /* NoMonthScheduleCollectionViewCell.swift */,
 			);
 			path = Cell;
 			sourceTree = "<group>";
@@ -1025,7 +1042,7 @@
 				56C2CEB4271D63DF005691C6 /* ScheduleTableViewCell.swift in Sources */,
 				5646AC282750D47D009F295A /* NewsTableViewModel.swift in Sources */,
 				56555F6E273670AA00A8A53D /* Observable.swift in Sources */,
-				56256B3C2795A68F00C17466 /* NoScheduleTableViewCell.swift in Sources */,
+				56256B3C2795A68F00C17466 /* NoTodayScheduleTableViewCell.swift in Sources */,
 				56B1A720274F1F7D00C91BB8 /* Standings.swift in Sources */,
 				5642CD092755EC250017F78B /* PopUpViewController.swift in Sources */,
 				56DE7C752734BAEA0093C9AE /* League.swift in Sources */,
@@ -1046,6 +1063,7 @@
 				565BC1892766D7D5000C4A33 /* PlayerDetailViewController.swift in Sources */,
 				56B1A722274F409C00C91BB8 /* StandingsVIewModel.swift in Sources */,
 				564B3D962750D0DE00A62E4C /* News.swift in Sources */,
+				56AABF6227BBDD3200E4BE41 /* SchedulePageCollectionViewCell.swift in Sources */,
 				56DE7C782734BAF60093C9AE /* Opponents.swift in Sources */,
 				56DE7C6F2734BAC60093C9AE /* Game.swift in Sources */,
 				564EC2022709D63800DCA9E6 /* SceneDelegate.swift in Sources */,
@@ -1079,7 +1097,9 @@
 				5605BB952715636500A9811A /* TeamType.swift in Sources */,
 				5646AC2A2750D4BD009F295A /* NewsTableViewCell.swift in Sources */,
 				5605BB9927157FBF00A9811A /* TeamPlayerCollectionViewCell.swift in Sources */,
+				564FCB0E27BA9211008B329D /* CustomMonthBar.swift in Sources */,
 				56E9F0C22739600500E7A901 /* LeagueScheduleTableViewSectionHeader.swift in Sources */,
+				564FCB1027BA9D20008B329D /* NoMonthScheduleCollectionViewCell.swift in Sources */,
 				56DE7C7B2734BAFD0093C9AE /* Opponent.swift in Sources */,
 				56E26B9227193CD5007C9EE0 /* PlayerViewController.swift in Sources */,
 				5677F5A6273A018900BACF0B /* HomeTableViewSectionType.swift in Sources */,
