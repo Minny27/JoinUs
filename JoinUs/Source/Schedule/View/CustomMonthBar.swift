@@ -7,20 +7,12 @@
 
 import UIKit
 
-protocol CustomMonthBarDelegate: AnyObject {
-    func customMonthBar(scroll index: Int)
-}
-
-protocol CustomPastScrollOffsetXDelegate: AnyObject {
-    func customPastScrollOffsetXD(offsetX pastScrollOffsetX: CGFloat)
-}
-
 final class CustomMonthBar: UIView {
     
     // MARK: - Properties
     let monthCollectionViewModel = MonthCollectionViewModel()
-    weak var customMonthBarDelegate: CustomMonthBarDelegate?
-    weak var customPastScrollOffsetXDeleagte: CustomPastScrollOffsetXDelegate?
+    weak var customTabBarDelegate: CustomTabBarDelegate?
+    
     var selectedMonthIndexPath = IndexPath(
         item: Int(DateFormatter().dateToString(date: Date(), dateFormat: .month))!,
         section: 0
@@ -112,7 +104,7 @@ extension CustomMonthBar: UICollectionViewDelegate {
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         selectedMonthIndexPath = indexPath
-        customMonthBarDelegate?.customMonthBar(scroll: indexPath.row)
+        customTabBarDelegate?.customTabBarIndex(scroll: selectedMonthIndexPath.row)
     }
     
     func collectionView(_ collectionView: UICollectionView, didDeselectItemAt indexPath: IndexPath) {
@@ -122,7 +114,7 @@ extension CustomMonthBar: UICollectionViewDelegate {
     
     func scrollViewDidScroll(_ scrollView: UIScrollView) {
         let selectedCell = monthCollectionView.cellForItem(at: selectedMonthIndexPath)
-        customPastScrollOffsetXDeleagte?.customPastScrollOffsetXD(offsetX: scrollView.contentOffset.x)
+        customTabBarDelegate?.pastScrollOffsetX(offsetX: scrollView.contentOffset.x)
 
         // 셀이 보일 경우, 선택된 월과 동일한 위치 유지
         if let selectedCell = selectedCell {
@@ -132,7 +124,7 @@ extension CustomMonthBar: UICollectionViewDelegate {
     
     
     func scrollViewWillEndDragging(_ scrollView: UIScrollView, withVelocity velocity: CGPoint, targetContentOffset: UnsafeMutablePointer<CGPoint>) {
-        customPastScrollOffsetXDeleagte?.customPastScrollOffsetXD(offsetX: targetContentOffset.pointee.x)
+        customTabBarDelegate?.pastScrollOffsetX(offsetX: targetContentOffset.pointee.x)
     }
 }
 

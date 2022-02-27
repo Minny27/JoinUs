@@ -90,8 +90,7 @@ class ScheduleViewController: UIViewController {
     
     func setupCustomTabBar() {
         view.addSubview(customMonthBar)
-        customMonthBar.customMonthBarDelegate = self
-        customMonthBar.customPastScrollOffsetXDeleagte = self
+        customMonthBar.customTabBarDelegate = self
         customMonthBar.translatesAutoresizingMaskIntoConstraints = false
         customMonthBar.topAnchor.constraint(equalTo: containerView.bottomAnchor).isActive = true
         customMonthBar.leftAnchor.constraint(equalTo: view.leftAnchor, constant: 16).isActive = true
@@ -122,19 +121,23 @@ class ScheduleViewController: UIViewController {
     }
 }
 
-extension ScheduleViewController: CustomMonthBarDelegate {
-    func customMonthBar(scroll index: Int) {
+extension ScheduleViewController: CustomTabBarDelegate {
+    func customTabBarIndex(scroll index: Int) {
         selectedMonthIndexPath = IndexPath(item: index, section: 0)
         customMonthBar.monthCollectionView.scrollToItem(at: selectedMonthIndexPath, at: .centeredHorizontally, animated: true)
         pageMonthCollectionView.scrollToItem(at: selectedMonthIndexPath, at: .centeredHorizontally, animated: true)
     }
-}
-
-extension ScheduleViewController: CustomPastScrollOffsetXDelegate {
-    func customPastScrollOffsetXD(offsetX pastScrollOffsetX: CGFloat) {
+    
+    func pastScrollOffsetX(offsetX pastScrollOffsetX: CGFloat) {
         self.pastScrollOffsetX = pastScrollOffsetX
     }
 }
+
+//extension ScheduleViewController: CustomPastScrollOffsetXDelegate {
+//    func customPastScrollOffsetX(offsetX pastScrollOffsetX: CGFloat) {
+//        self.pastScrollOffsetX = pastScrollOffsetX
+//    }
+//}
 
 extension ScheduleViewController: UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
@@ -174,24 +177,24 @@ extension ScheduleViewController: UICollectionViewDelegate {
         
         if selectedMonthIndexPath.row < 11 && CGFloat(selectedMonthIndexPath.row) < targetContentOffset.pointee.x / pageMonthCollectionView.frame.width {
             let nextIndexPath = IndexPath(item: selectedMonthIndexPath.row + 1, section: 0)
+            pageMonthCollectionView.scrollToItem(at: nextIndexPath, at: .centeredHorizontally, animated: true)
             customMonthBar.monthCollectionView.selectItem(
                 at: nextIndexPath,
                 animated: true,
                 scrollPosition: .centeredHorizontally
             )
-            pageMonthCollectionView.scrollToItem(at: nextIndexPath, at: .centeredHorizontally, animated: true)
             selectedMonthIndexPath = nextIndexPath
             customMonthBar.selectedMonthIndexPath = selectedMonthIndexPath
         }
 
         else if selectedMonthIndexPath.row > 0 && CGFloat(selectedMonthIndexPath.row) > targetContentOffset.pointee.x / pageMonthCollectionView.frame.width {
             let pastIndexPath = IndexPath(item: selectedMonthIndexPath.row - 1, section: 0)
+            pageMonthCollectionView.scrollToItem(at: pastIndexPath, at: .centeredHorizontally, animated: true)
             customMonthBar.monthCollectionView.selectItem(
                 at: pastIndexPath,
                 animated: true,
                 scrollPosition: .centeredHorizontally
             )
-            pageMonthCollectionView.scrollToItem(at: pastIndexPath, at: .centeredHorizontally, animated: true)
             selectedMonthIndexPath = pastIndexPath
             customMonthBar.selectedMonthIndexPath = selectedMonthIndexPath
         }
