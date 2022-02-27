@@ -76,8 +76,8 @@ class PlayerViewController: UIViewController {
         containerView.addSubview(titleLabel)
         
         playerCollectionView.register(
-            TeamPlayerCollectionViewCell.self,
-            forCellWithReuseIdentifier: TeamPlayerCollectionViewCell.identifier
+            PlayerCollectionViewCell.self,
+            forCellWithReuseIdentifier: PlayerCollectionViewCell.identifier
         )
         
         playerCollectionView.dataSource = self
@@ -136,15 +136,15 @@ extension PlayerViewController: UICollectionViewDataSource {
         cellForItemAt indexPath: IndexPath
     ) -> UICollectionViewCell {
         guard let cell = collectionView.dequeueReusableCell(
-            withReuseIdentifier: TeamPlayerCollectionViewCell.identifier,
+            withReuseIdentifier: PlayerCollectionViewCell.identifier,
             for: indexPath
-        ) as? TeamPlayerCollectionViewCell else {
+        ) as? PlayerCollectionViewCell else {
             return UICollectionViewCell()
         }
                 
         let playerInfo = playerCollectionViewModel.playerInfo(at: indexPath.row)
         
-        cell.configureUI()
+        cell.setupCell()
         cell.update(playerInfo: playerInfo)
                 
         return cell
