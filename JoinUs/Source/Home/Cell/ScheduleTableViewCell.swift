@@ -92,7 +92,6 @@ extension ScheduleTableViewCell: UITableViewDataSource {
                 return lckTodayScheduleViewModel.countTodayScheduleList
             }
         }
-        
         return 1
     }
     
@@ -113,9 +112,8 @@ extension ScheduleTableViewCell: UITableViewDataSource {
                 let leagueScheduleInfo = worldsTodayScheduleViewModel.todayScheduleInfo(at: indexPath.row)
                 
                 cell.selectionStyle = .none
-                cell.configureUI()
+                cell.setupCell()
                 cell.update(leagueScheduleInfo: leagueScheduleInfo!)
-                
                 return cell
                 
             case .lck:
@@ -126,9 +124,8 @@ extension ScheduleTableViewCell: UITableViewDataSource {
                 let leagueScheduleInfo = lckTodayScheduleViewModel.todayScheduleInfo(at: indexPath.row)
                 
                 cell.selectionStyle = .none
-                cell.configureUI()
+                cell.setupCell()
                 cell.update(leagueScheduleInfo: leagueScheduleInfo!)
-                
                 return cell
             }
         }
@@ -146,7 +143,6 @@ extension ScheduleTableViewCell: UITableViewDataSource {
                 
                 cell.selectionStyle = .none
                 cell.configureCell()
-                
                 return cell
             }
             
@@ -168,18 +164,15 @@ extension ScheduleTableViewCell: UITableViewDataSource {
                 let worldsSectionHeader = LeagueScheduleTableViewSectionHeader()
                 worldsSectionHeader.configureUI()
                 worldsSectionHeader.update(leagueScheduleTableViewSectionType: .worlds)
-                
                 return worldsSectionHeader
                 
             case .lck:
                 let lckSectionHeader = LeagueScheduleTableViewSectionHeader()
                 lckSectionHeader.configureUI()
                 lckSectionHeader.update(leagueScheduleTableViewSectionType: .lck)
-                
                 return lckSectionHeader
             }
         }
-        
         return UIView()
     }
 }
@@ -187,9 +180,8 @@ extension ScheduleTableViewCell: UITableViewDataSource {
 extension ScheduleTableViewCell: UITableViewDelegate {
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         if !worldsTodayScheduleViewModel.hasTodayData && !lckTodayScheduleViewModel.hasTodayData {
-            return 150
+            return 100
         }
-        
         return 50
     }
 }
