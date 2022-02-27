@@ -111,9 +111,7 @@ final class LeagueScheduleTableViewCell: UITableViewCell {
         return label
     }()
     
-    func configureUI() {
-        contentView.backgroundColor = .white
-        
+    func setupCell() {
         contentView.addSubview(leftDataView)
         contentView.addSubview(homeTeamView)
         contentView.addSubview(versusView)
