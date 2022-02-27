@@ -18,19 +18,19 @@ class HomeViewController: UIViewController {
         label.font = .boldSystemFont(ofSize: 30)
         label.textAlignment = .center
         label.textColor = .black
-        
         return label
     }()
     
     var homeTableView: UITableView = {
         let tableView = UITableView()
+        tableView.separatorStyle = .none
+        tableView.allowsSelection = false
 
         if #available(iOS 15.0, *) {
             tableView.sectionHeaderTopPadding = .zero
         } else {
             // Fallback on earlier versions
         }
-        
         return tableView
     }()
     
@@ -55,12 +55,8 @@ class HomeViewController: UIViewController {
             forCellReuseIdentifier: ScheduleTableViewCell.identifier
         )
         homeTableView.register(
-            TeamTabbarTableViewCell.self,
-            forCellReuseIdentifier: TeamTabbarTableViewCell.identifier
-        )
-        homeTableView.register(
-            TeamPlayerTableViewCell.self,
-            forCellReuseIdentifier: TeamPlayerTableViewCell.identifier
+            TeamPlayerPagerView.self,
+            forCellReuseIdentifier: TeamPlayerPagerView.identifier
         )
         
         homeTableView.dataSource = self
@@ -94,62 +90,32 @@ extension HomeViewController: UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        if section == 0 {
-            return 1
-        }
-        
-        else {
-            return 2
-        }
+        return 1
     }
     
     func tableView(
         _ tableView: UITableView,
         cellForRowAt indexPath: IndexPath
     ) -> UITableViewCell {
-        let homeTableViewSectionType = HomeTableViewSectionType(rawValue: indexPath.section)!
+        let cellType = HomeTableViewSectionType(rawValue: indexPath.section)!
         
-        switch homeTableViewSectionType {
+        switch cellType {
         case .schedule:
-            guard let cell = tableView.dequeueReusableCell(
+            let cell = tableView.dequeueReusableCell(
                 withIdentifier: ScheduleTableViewCell.identifier,
                 for: indexPath
-            ) as? ScheduleTableViewCell else {
-                return UITableViewCell()
-            }
+            ) as! ScheduleTableViewCell
             
             cell.configureCell()
-            
             return cell
+        case .teamPlayer:
+            let cell = tableView.dequeueReusableCell(
+                withIdentifier: TeamPlayerPagerView.identifier,
+                for: indexPath
+            ) as! TeamPlayerPagerView
             
-        case .player:
-            let cellType = HomeTableViewSectionType.cellType(rawValue: indexPath.row)!
-            
-            switch cellType {
-            case .team:
-                guard let cell = tableView.dequeueReusableCell(
-                    withIdentifier: TeamTabbarTableViewCell.identifier,
-                    for: indexPath
-                ) as? TeamTabbarTableViewCell else {
-                    return UITableViewCell()
-                }
-                
-                cell.configureCell()
-                
-                return cell
-                
-            case .players:
-                guard let cell = tableView.dequeueReusableCell(
-                    withIdentifier: TeamPlayerTableViewCell.identifier,
-                    for: indexPath
-                ) as? TeamPlayerTableViewCell else {
-                    return UITableViewCell()
-                }
-                
-                cell.configureCell()
-                
-                return cell
-            }
+            cell.setupUI()
+            return cell
         }
     }
     
@@ -157,20 +123,18 @@ extension HomeViewController: UITableViewDataSource {
         _ tableView: UITableView,
         viewForHeaderInSection section: Int
     ) -> UIView? {
-        let homeTableViewSectionType = HomeTableViewSectionType(rawValue: section)!
+        let cellType = HomeTableViewSectionType(rawValue: section)!
         
-        switch homeTableViewSectionType {
+        switch cellType {
         case .schedule:
             let scheduleSectionHeader = HomeTableViewSectionHeader()
-            scheduleSectionHeader.configureUI()
+            scheduleSectionHeader.setupSectionHeader()
             scheduleSectionHeader.update(homeTableViewSectionType: .schedule)
-            
             return scheduleSectionHeader
-        case .player:
+        case .teamPlayer:
             let playerSectionHeader = HomeTableViewSectionHeader()
-            playerSectionHeader.configureUI()
-            playerSectionHeader.update(homeTableViewSectionType: .player)
-            
+            playerSectionHeader.setupSectionHeader()
+            playerSectionHeader.update(homeTableViewSectionType: .teamPlayer)
             return playerSectionHeader
         }
     }
@@ -182,15 +146,13 @@ extension HomeViewController: UITableViewDelegate {
         _ tableView: UITableView,
         heightForRowAt indexPath: IndexPath
     ) -> CGFloat {
-        if indexPath.section == 1 {
-            if indexPath.row == 0 {
-                return 40
-            }
-            else {
-                return 240
-            }
+        let cellType = HomeTableViewSectionType(rawValue: indexPath.section)!
+        
+        switch cellType {
+        case .schedule:
+            return 190
+        case .teamPlayer:
+            return 337
         }
-
-        return 250
     }
 }

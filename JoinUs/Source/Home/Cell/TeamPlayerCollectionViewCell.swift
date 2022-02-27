@@ -1,94 +1,93 @@
 //
-//  PlayerCollectionViewCell.swift
+//  PlayerTableViewCell.swift
 //  JoinUs
 //
-//  Created by SeungMin on 2021/10/12.
+//  Created by SeungMin on 2021/10/21.
 //
 
 import UIKit
 
 final class TeamPlayerCollectionViewCell: UICollectionViewCell {
-    static let identifier = "playerCollectionViewCell"
+    static let identifier = "TeamPlayerPageViewCell"
     
-    let containerView: UIView = {
-        let view = UIView()
-        view.layer.borderWidth = 2
-        view.layer.cornerRadius = 5
-        view.layer.borderColor = UIColor.systemBlue.cgColor
-        
-        return view
+    var playerList = [Player]()
+    
+    let teamPlayerCollectionView: UICollectionView = {
+        let flowlayout = UICollectionViewFlowLayout()
+        flowlayout.scrollDirection = .vertical
+        flowlayout.minimumLineSpacing = 20
+
+        let collectionView = UICollectionView(
+            frame: .zero,
+            collectionViewLayout: flowlayout
+        )
+        collectionView.showsVerticalScrollIndicator = false
+        collectionView.translatesAutoresizingMaskIntoConstraints = false
+        return collectionView
     }()
     
-    let playerImageView: UIImageView = {
-        let imageView = UIImageView()
+    func setupCell() {
+        contentView.addSubview(teamPlayerCollectionView)
         
-        return imageView
-    }()
-    
-    let playerRoleLabel: UILabel = {
-        let label = UILabel()
-        label.font = .boldSystemFont(ofSize: 12)
-        label.textColor = .lightGray
-        label.textAlignment = .center
+        teamPlayerCollectionView.register(
+            PlayerCollectionViewCell.self,
+            forCellWithReuseIdentifier: PlayerCollectionViewCell.identifier
+        )
         
-        return label
-    }()
-    
-    let playerGameIdLabel: UILabel = {
-        let label = UILabel()
-        label.font = .boldSystemFont(ofSize: 13)
-        label.textColor = .black
-        label.textAlignment = .center
+        teamPlayerCollectionView.dataSource = self
+        teamPlayerCollectionView.delegate = self
         
-        return label
-    }()
-    
-    override init(frame: CGRect) {
-        super.init(frame: frame)
+        teamPlayerCollectionView.topAnchor.constraint(equalTo: contentView.topAnchor).isActive = true
+        teamPlayerCollectionView.leftAnchor.constraint(equalTo: contentView.leftAnchor).isActive = true
+        teamPlayerCollectionView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor).isActive = true
+        teamPlayerCollectionView.rightAnchor.constraint(equalTo: contentView.rightAnchor).isActive = true
         
-        configureUI()
+        if playerList.count > 0 {
+            teamPlayerCollectionView.reloadData()
+        }
+    }
+}
+
+extension TeamPlayerCollectionViewCell: UICollectionViewDataSource {
+    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+        return playerList.count
     }
     
-    required init?(coder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
+    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+        let cell = collectionView.dequeueReusableCell(
+            withReuseIdentifier: PlayerCollectionViewCell.identifier,
+            for: indexPath
+        ) as! PlayerCollectionViewCell
+                
+        let playerInfo = playerList[indexPath.row]
+        
+        cell.update(playerInfo: playerInfo)
+        return cell
+    }
+}
+
+extension TeamPlayerCollectionViewCell: UICollectionViewDelegate {
+//    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+//        <#code#>
+//    }
+//    
+//    func collectionView(_ collectionView: UICollectionView, didDeselectItemAt indexPath: IndexPath) {
+//        <#code#>
+//    }
+}
+
+extension TeamPlayerCollectionViewCell: UICollectionViewDelegateFlowLayout {
+    func collectionView(
+        _ collectionView: UICollectionView,
+        layout collectionViewLayout: UICollectionViewLayout,
+        sizeForItemAt indexPath: IndexPath
+    ) -> CGSize {
+        return CGSize(width: (teamPlayerCollectionView.frame.width - 40) / 3, height: 131)
     }
     
-    func configureUI() {
-        contentView.addSubview(containerView)
-        containerView.addSubview(playerImageView)
-        containerView.addSubview(playerRoleLabel)
-        containerView.addSubview(playerGameIdLabel)
-        
-        containerView.translatesAutoresizingMaskIntoConstraints = false
-        playerImageView.translatesAutoresizingMaskIntoConstraints = false
-        playerRoleLabel.translatesAutoresizingMaskIntoConstraints = false
-        playerGameIdLabel.translatesAutoresizingMaskIntoConstraints = false
-        
-        NSLayoutConstraint.activate([
-            containerView.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 10),
-            containerView.leftAnchor.constraint(equalTo: contentView.leftAnchor, constant: 10),
-            containerView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -10),
-            containerView.rightAnchor.constraint(equalTo: contentView.rightAnchor, constant: -10),
-            
-            playerImageView.topAnchor.constraint(equalTo: containerView.topAnchor, constant: 10),
-            playerImageView.leftAnchor.constraint(equalTo: containerView.leftAnchor, constant: 5),
-            playerImageView.bottomAnchor.constraint(equalTo: containerView.bottomAnchor, constant: -40),
-            playerImageView.rightAnchor.constraint(equalTo: containerView.rightAnchor, constant: -5),
-            
-            playerRoleLabel.topAnchor.constraint(equalTo: playerImageView.bottomAnchor, constant: 3),
-            playerRoleLabel.centerXAnchor.constraint(equalTo: containerView.centerXAnchor),
-            playerRoleLabel.heightAnchor.constraint(equalToConstant: 10),
-            
-            playerGameIdLabel.topAnchor.constraint(equalTo: playerRoleLabel.bottomAnchor, constant: 2),
-            playerGameIdLabel.centerXAnchor.constraint(equalTo: containerView.centerXAnchor),
-            playerGameIdLabel.heightAnchor.constraint(equalToConstant: 15)
-        ])
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumInteritemSpacingForSectionAt section: Int) -> CGFloat {
+        return 0
     }
     
-    func update(playerInfo: Player) {
-        playerImageView.image = UIImage(named: playerInfo.imageString)
-        playerRoleLabel.text = playerInfo.role
-        playerGameIdLabel.text = playerInfo.gameId
-        containerView.layer.borderColor = playerInfo.teamColor.cgColor
-    }
+    
 }

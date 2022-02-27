@@ -11,7 +11,7 @@ final class HomeTableViewSectionHeader: UIView {
     let TitleView: UIView = {
         let view = UIView()
         view.backgroundColor = .white
-        
+        view.translatesAutoresizingMaskIntoConstraints = false
         return view
     }()
     
@@ -20,18 +20,15 @@ final class HomeTableViewSectionHeader: UIView {
         label.font = .boldSystemFont(ofSize: 18)
         label.textColor = .black
         label.textAlignment = .left
-       
+        label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()
     
-    func configureUI() {
+    func setupSectionHeader() {
         backgroundColor = .systemGray6
         
         addSubview(TitleView)
         TitleView.addSubview(TitleLabel)
-        
-        TitleView.translatesAutoresizingMaskIntoConstraints = false
-        TitleLabel.translatesAutoresizingMaskIntoConstraints = false
         
         NSLayoutConstraint.activate([
             TitleView.topAnchor.constraint(equalTo: topAnchor, constant: 20),

@@ -90,7 +90,7 @@ extension SchedulePageCollectionViewCell: UITableViewDataSource {
                 print(lckMonthScheduleList[indexPath.row])
                 
                 cell.selectionStyle = .none
-                cell.configureUI()
+                cell.setupCell()
                 cell.update(leagueScheduleInfo: leagueScheduleInfo)
                 return cell
             }

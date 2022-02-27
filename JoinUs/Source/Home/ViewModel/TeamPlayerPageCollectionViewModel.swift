@@ -8,7 +8,7 @@
 import Foundation
 import UIKit
 
-final class TeamPlayerCollectionViewModel {
+final class TeamPlayerPageCollectionViewModel {
   let teamPlayerList: [[Player]] = [
     [Player("DK", "ShowMaker", "ShowMaker.jpg", "MID", .systemGreen, "허수", "2000년 7월 22일 (21세)", "대한민국"),
      Player("DK", "Canyon", "Canyon.jpg", "JGL", .systemGreen, "김건부", "2001년 6월 18일 (20세)", "대한민국"),
@@ -22,11 +22,11 @@ final class TeamPlayerCollectionViewModel {
      Player("HLE", "Morgan", "Morgan.jpg", "TOP", .systemOrange, "박기태", "2001년 9월 26일 (20세)", "대한민국"),
      Player("HLE", "Willer", "Willer.jpg", "JGL", .systemOrange, "김정현", "2003년 4월 24일 (18세)", "대한민국"),
     ],
-    [Player("T1", "Faker", "Faker.jpg", "MID", .systemRed, "이상혁", "1996년 5월 7일 (25세)", "대한민국"),
-     Player("T1", "Canna", "Canna.jpg", "TOP", .systemRed, "김창동", "2000년 2월 11일 (21세)", "대한민국"),
-     Player("T1", "Keria", "Keria.jpg", "SUP", .systemRed, "류민석", "2002년 10월 14일 (19세)", "대한민국"),
-     Player("T1", "Gumayusi", "Gumayusi.jpg", "BOT", .systemRed, "이민형", "2002년 2월 6일 (19세)", "대한민국"),
-     Player("T1", "Oner", "Oner.jpg", "JGL", .systemRed, "문현준", "2002년 12월 24일 (18세)", "대한민국"),
+    [Player("T1", "Faker", "Faker.jpg", "MID", .red, "이상혁", "1996년 5월 7일 (25세)", "대한민국"),
+     Player("T1", "Canna", "Canna.jpg", "TOP", .red, "김창동", "2000년 2월 11일 (21세)", "대한민국"),
+     Player("T1", "Keria", "Keria.jpg", "SUP", .red, "류민석", "2002년 10월 14일 (19세)", "대한민국"),
+     Player("T1", "Gumayusi", "Gumayusi.jpg", "BOT", .red, "이민형", "2002년 2월 6일 (19세)", "대한민국"),
+     Player("T1", "Oner", "Oner.jpg", "JGL", .red, "문현준", "2002년 12월 24일 (18세)", "대한민국"),
     ],
     [Player("GenG", "Bdd", "Bdd.jpg", "MID", .brown, "곽보성", "1999년 3월 1일 (22세)", "대한민국"),
      Player("GenG", "Ruler", "Ruler.jpg", "BOT", .brown, "박재혁", "1998년 12월 29일 (22세)", "대한민국"),

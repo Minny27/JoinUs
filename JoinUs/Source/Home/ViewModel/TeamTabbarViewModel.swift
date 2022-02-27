@@ -9,16 +9,16 @@ import Foundation
 
 final class TeamTabbarViewModel{
     let teamList: [Team] = [
-        Team("담원기아", "DK.jpg"),
-        Team("한화생명", "HLE.jpg"),
-        Team("T1", "T1.jpg"),
-        Team("젠지", "GenG.jpg"),
-        Team("농심", "NS.jpg"),
-        Team("리브샌박", "Liiv.jpg"),
-        Team("아프리카", "Afreeca.jpg"),
-        Team("프레딧", "Fredit.jpg"),
-        Team("KT", "KT.jpg"),
-        Team("DRX", "DRX.jpg"),
+        Team("담원기아", "DK.jpg", .systemGreen),
+        Team("한화생명", "HLE.jpg", .orange),
+        Team("T1", "T1.jpg", .red),
+        Team("젠지", "GenG.jpg", .brown),
+        Team("농심", "NS.jpg", .systemRed),
+        Team("리브샌박", "Liiv.jpg", .systemYellow),
+        Team("아프리카", "Afreeca.jpg", .systemTeal),
+        Team("프레딧", "Fredit.jpg", .systemGreen),
+        Team("KT", "KT.jpg", .orange),
+        Team("DRX", "DRX.jpg", .link),
     ]
     
     var countTeamList: Int{
