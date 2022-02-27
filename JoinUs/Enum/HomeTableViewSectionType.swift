@@ -10,18 +10,13 @@ import UIKit
 
 enum HomeTableViewSectionType: Int {
     case schedule
-    case player
-    
-    enum cellType: Int {
-        case team
-        case players
-    }
+    case teamPlayer
     
     func title() -> String {
         switch self { 
         case .schedule:
             return "✪ Today's Match"
-        case .player:
+        case .teamPlayer:
             return "✪ LCK Player"
         }
     }
