@@ -6,7 +6,6 @@
 //
 
 import UIKit
-import RxSwift
 
 class ScheduleViewController: UIViewController {
     
@@ -17,6 +16,7 @@ class ScheduleViewController: UIViewController {
         section: 0
     )
     var pastScrollOffsetX: CGFloat = 0
+    var IndicatorCenterXConstraint: NSLayoutConstraint!
     
     let containerView: UIView = {
         let view = UIView()
@@ -49,6 +49,8 @@ class ScheduleViewController: UIViewController {
         return collectionView
     }()
     
+    let customActivityIndicatorView = CustomActivityIndicatorView()
+    
     // MARK: - LifeCycles
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -58,6 +60,7 @@ class ScheduleViewController: UIViewController {
         setupTitle()
         setupCustomTabBar()
         setupPageMonthCollectionView()
+        setupLoadingView()
         
         lckMonthScheduleViewModel.fetchMonthData()
         
@@ -65,11 +68,20 @@ class ScheduleViewController: UIViewController {
             DispatchQueue.main.async {
                 self.pageMonthCollectionView.reloadData()
                 
+                // 일정 페이지 뷰가 가져온 데이터를 바인딩 한 다음, 이번 달 데이터를 보여주기
+                self.customMonthBar.monthCollectionView.selectItem(
+                    at: self.selectedMonthIndexPath,
+                    animated: true,
+                    scrollPosition: .centeredHorizontally
+                )
+                
                 self.pageMonthCollectionView.scrollToItem(
                     at: self.selectedMonthIndexPath,
                     at: .centeredHorizontally,
                     animated: true
                 )
+                
+                self.IndicatorCenterXConstraint.constant = CGFloat(self.selectedMonthIndexPath.row) * (self.pageMonthCollectionView.frame.width + 12)
             }
         }
     }
@@ -105,7 +117,6 @@ class ScheduleViewController: UIViewController {
             SchedulePageCollectionViewCell.self,
             forCellWithReuseIdentifier: SchedulePageCollectionViewCell.identifier
         )
-        
         pageMonthCollectionView.register(
             NoMonthScheduleCollectionViewCell.self,
             forCellWithReuseIdentifier: NoMonthScheduleCollectionViewCell.identifier
@@ -118,6 +129,18 @@ class ScheduleViewController: UIViewController {
         pageMonthCollectionView.leftAnchor.constraint(equalTo: view.leftAnchor, constant: 16).isActive = true
         pageMonthCollectionView.bottomAnchor.constraint(equalTo: view.bottomAnchor).isActive = true
         pageMonthCollectionView.rightAnchor.constraint(equalTo: view.rightAnchor, constant: -16).isActive = true
+        
+        pageMonthCollectionView.scrollToItem(at: selectedMonthIndexPath, at: .centeredHorizontally, animated: true)
+    }
+    
+    func setupLoadingView() {
+        pageMonthCollectionView.addSubview(customActivityIndicatorView)
+        customActivityIndicatorView.translatesAutoresizingMaskIntoConstraints = false
+        IndicatorCenterXConstraint = customActivityIndicatorView.centerXAnchor.constraint(equalTo: pageMonthCollectionView.centerXAnchor)
+        IndicatorCenterXConstraint.isActive = true
+        customActivityIndicatorView.centerYAnchor.constraint(equalTo: pageMonthCollectionView.centerYAnchor).isActive = true
+        customActivityIndicatorView.widthAnchor.constraint(equalToConstant: 80).isActive = true
+        customActivityIndicatorView.heightAnchor.constraint(equalToConstant: 80).isActive = true
     }
 }
 
@@ -133,29 +156,31 @@ extension ScheduleViewController: CustomTabBarDelegate {
     }
 }
 
-//extension ScheduleViewController: CustomPastScrollOffsetXDelegate {
-//    func customPastScrollOffsetX(offsetX pastScrollOffsetX: CGFloat) {
-//        self.pastScrollOffsetX = pastScrollOffsetX
-//    }
-//}
-
 extension ScheduleViewController: UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         return 12
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        if lckMonthScheduleViewModel.hasMonthData[indexPath.row + 1] {
+        let month = indexPath.row + 1
+        
+        if lckMonthScheduleViewModel.hasMonthData[month] {
+            if lckMonthScheduleViewModel.monthlyScheduleList.value![month].count > 0 {
+                customActivityIndicatorView.loadingView.stopAnimating()
+            }
+            
             let cell = collectionView.dequeueReusableCell(
                 withReuseIdentifier: SchedulePageCollectionViewCell.identifier,
                 for: indexPath
             ) as! SchedulePageCollectionViewCell
-            cell.lckMonthScheduleList = lckMonthScheduleViewModel.monthlyScheduleList.value![indexPath.row + 1]
+            cell.lckMonthScheduleList = lckMonthScheduleViewModel.monthlyScheduleList.value![month]
             cell.setupMonthScheduleTableView()
             return cell
         }
                 
         else {
+            customActivityIndicatorView.loadingView.stopAnimating()
+            
             let cell = collectionView.dequeueReusableCell(
                 withReuseIdentifier: NoMonthScheduleCollectionViewCell.identifier,
                 for: indexPath
