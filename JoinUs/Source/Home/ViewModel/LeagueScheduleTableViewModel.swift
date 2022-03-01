@@ -57,22 +57,22 @@ final class LeagueScheduleTableViewModel {
             for schedule in receivedScheduleModel.sorted(by: {
                 $0.originalScheduledAt < $1.originalScheduledAt }) {
                 
-                let schedule = self.extractScehduleData(schedule: schedule)
-                
-                if self.thisYear != schedule.year {
-                    continue
-                }
-                
-                let month = Int(schedule.month)!
-                
-                if !self.monthlySetOfDate[month].contains(schedule.date) {
-                    self.monthlySetOfDate[month].insert(schedule.date)
-                    self.monthlyScheduleList.value?[month].append(schedule)
-                    self.monthlyScheduleList.value?[month].append(schedule)
-                }
-                
-                else {
-                    self.monthlyScheduleList.value?[month].append(schedule)
+                if let schedule = self.extractScehduleData(schedule: schedule) {
+                    if self.thisYear != schedule.year {
+                        continue
+                    }
+                    
+                    let month = Int(schedule.month)!
+                    
+                    if !self.monthlySetOfDate[month].contains(schedule.date) {
+                        self.monthlySetOfDate[month].insert(schedule.date)
+                        self.monthlyScheduleList.value?[month].append(schedule)
+                        self.monthlyScheduleList.value?[month].append(schedule)
+                    }
+                    
+                    else {
+                        self.monthlyScheduleList.value?[month].append(schedule)
+                    }
                 }
             }
             
@@ -84,9 +84,9 @@ final class LeagueScheduleTableViewModel {
         }
     }
     
-    func extractScehduleData(schedule: ReceivedScheduleModel) -> LeagueScheduleTableViewCellModel {
-        let leagueImage = schedule.league.imageUrl
-        let league = schedule.league.name
+    func extractScehduleData(schedule: ReceivedScheduleModel) -> LeagueScheduleTableViewCellModel? {
+        guard let leagueImage = schedule.league?.imageUrl else { return nil }
+        guard let league = schedule.league?.name else { return nil }
         let year = dateFormatter.dateToString(
             date: schedule.originalScheduledAt,
             dateFormat: .year
@@ -103,27 +103,34 @@ final class LeagueScheduleTableViewModel {
             date: schedule.originalScheduledAt,
             dateFormat: .time
         ).replacingOccurrences(of: "-", with: ":")
-        let status = schedule.status
-        let versus = schedule.status == "not_started" ? "vs" :":"
-        let homeTeamId = schedule.opponents[0].opponent.id
-        let homeTeam = getTeam(totalName: schedule.name).homeTeam
-        let homeTeamImageUrl = URL(string: schedule.opponents[0].opponent.imageUrl)!
-        let awayTeamId = schedule.opponents[1].opponent.id
-        let awayTeam = getTeam(totalName: schedule.name).awayTeam
-        let awayTeamImageUrl = URL(string: schedule.opponents[1].opponent.imageUrl)!
+        guard let status = schedule.status else { return nil }
+        let versus = status == "not_started" ? "vs" :":"
+        guard let opponents = schedule.opponents else { return nil }; if opponents.count < 2 { return nil }
+        let homeTeamId = opponents[0].opponent.id
+        guard let homeTeam = getTeam(totalName: schedule.name)?.homeTeam else { return nil }
+        guard let homeTeamImageUrlString = schedule.opponents?[0].opponent.imageUrl else { return nil }
+        guard let homeTeamImageUrl = URL(string: homeTeamImageUrlString) else { return nil }
+        let awayTeamId = opponents[1].opponent.id
+        guard let awayTeam = getTeam(totalName: schedule.name)?.awayTeam else { return nil }
+        guard let awayTeamImageUrlString = schedule.opponents?[1].opponent.imageUrl else { return nil }
+        guard let awayTeamImageUrl = URL(string: awayTeamImageUrlString) else { return nil }
+        let winnerId = schedule.winnerId
         var homeTeamWinCount = 0
         var awayTeamWinCount = 0
-        let winnerId = schedule.winnerId
         
         // status: - finished, running, not_started
         if status != "not_started" {
             for index in 0..<schedule.games.count {
-                if schedule.opponents[0].opponent.id == schedule.games[index].winner.id {
-                    homeTeamWinCount += 1
-                }
-                
-                else if schedule.opponents[1].opponent.id == schedule.games[index].winner.id {
-                    awayTeamWinCount += 1
+                if let winner = schedule.games[index].winner {
+                    if let winnerId = winner.id {
+                        if homeTeamId == winnerId {
+                            homeTeamWinCount += 1
+                        }
+                        
+                        else if awayTeamId == winnerId {
+                            awayTeamWinCount += 1
+                        }
+                    }
                 }
             }
         }
@@ -151,12 +158,12 @@ final class LeagueScheduleTableViewModel {
         return scheduleTableViewCellModel
     }
     
-    func getTeam(totalName: String) -> (homeTeam: String, awayTeam: String) {
+    func getTeam(totalName: String?) -> (homeTeam: String, awayTeam: String)? {
+        guard let totalName = totalName else { return nil }
         let nameArray1 = totalName.components(separatedBy: ":")
         let nameArray2 = nameArray1[nameArray1.count - 1].components(separatedBy: "vs")
         let homeTeam = nameArray2[0].replacingOccurrences(of: " ", with: "")
         let awayTeam = nameArray2[1].replacingOccurrences(of: " ", with: "")
-        
         return (homeTeam, awayTeam)
     }
     

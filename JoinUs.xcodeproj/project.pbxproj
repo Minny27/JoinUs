@@ -125,6 +125,7 @@
 		56C71EE5273AB41E0017EE77 /* NetworkManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 56C71EE4273AB41E0017EE77 /* NetworkManager.swift */; };
 		56C7854F277048E300940A2D /* Player.swift in Sources */ = {isa = PBXBuildFile; fileRef = 56C7854E277048E300940A2D /* Player.swift */; };
 		56D630382760CA700098D8D7 /* PlayerTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 56D630372760CA700098D8D7 /* PlayerTableViewCell.swift */; };
+		56DD9A5B27CDDDBB0044538E /* CustomActivityIndicatorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 56DD9A5A27CDDDBB0044538E /* CustomActivityIndicatorView.swift */; };
 		56DE7C6F2734BAC60093C9AE /* Game.swift in Sources */ = {isa = PBXBuildFile; fileRef = 56DE7C6E2734BAC60093C9AE /* Game.swift */; };
 		56DE7C722734BADC0093C9AE /* Winner.swift in Sources */ = {isa = PBXBuildFile; fileRef = 56DE7C712734BADC0093C9AE /* Winner.swift */; };
 		56DE7C752734BAEA0093C9AE /* League.swift in Sources */ = {isa = PBXBuildFile; fileRef = 56DE7C742734BAEA0093C9AE /* League.swift */; };
@@ -265,6 +266,7 @@
 		56C71EE4273AB41E0017EE77 /* NetworkManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkManager.swift; sourceTree = "<group>"; };
 		56C7854E277048E300940A2D /* Player.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = Player.swift; path = Response/Player.swift; sourceTree = "<group>"; };
 		56D630372760CA700098D8D7 /* PlayerTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlayerTableViewCell.swift; sourceTree = "<group>"; };
+		56DD9A5A27CDDDBB0044538E /* CustomActivityIndicatorView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomActivityIndicatorView.swift; sourceTree = "<group>"; };
 		56DE7C6E2734BAC60093C9AE /* Game.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Game.swift; sourceTree = "<group>"; };
 		56DE7C712734BADC0093C9AE /* Winner.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Winner.swift; sourceTree = "<group>"; };
 		56DE7C742734BAEA0093C9AE /* League.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = League.swift; sourceTree = "<group>"; };
@@ -538,8 +540,9 @@
 			children = (
 				56C7854D2770459C00940A2D /* Source */,
 				5605BB932715631C00A9811A /* Enum */,
-				566A49AB27CB863E009CCD12 /* Protocol */,
 				5643453C2730FCDE00E7994B /* Network */,
+				566A49AB27CB863E009CCD12 /* Protocol */,
+				56DD9A5927CDDD7C0044538E /* LoadingView */,
 				56DE7C862734E67D0093C9AE /* Extension */,
 				56630870276F0DC8006A1DD4 /* Coordinator */,
 				561019C52757194C001F2C55 /* Strings */,
@@ -830,6 +833,14 @@
 			path = Model;
 			sourceTree = "<group>";
 		};
+		56DD9A5927CDDD7C0044538E /* LoadingView */ = {
+			isa = PBXGroup;
+			children = (
+				56DD9A5A27CDDDBB0044538E /* CustomActivityIndicatorView.swift */,
+			);
+			path = LoadingView;
+			sourceTree = "<group>";
+		};
 		56DE7C682734B4CB0093C9AE /* Response */ = {
 			isa = PBXGroup;
 			children = (
@@ -1054,6 +1065,7 @@
 				56630872276F0DD7006A1DD4 /* Coordinator.swift in Sources */,
 				5602F05A270D2DE00096B048 /* Team.swift in Sources */,
 				56C2CEB4271D63DF005691C6 /* ScheduleTableViewCell.swift in Sources */,
+				56DD9A5B27CDDDBB0044538E /* CustomActivityIndicatorView.swift in Sources */,
 				5646AC282750D47D009F295A /* NewsTableViewModel.swift in Sources */,
 				56555F6E273670AA00A8A53D /* Observable.swift in Sources */,
 				56256B3C2795A68F00C17466 /* NoTodayScheduleTableViewCell.swift in Sources */,

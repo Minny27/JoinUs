@@ -31,7 +31,7 @@ enum RequestLeagueType {
             return RequestLeagueType.worldsLeagueQuery + RequestLeagueType.DayQuery
             + RequestLeagueType.todaySortQuery
         case .lck:
-//            return RequestLeagueType.lckLeagueQuery + "&filter[begin_at]=2022-01-01"
+//            return RequestLeagueType.lckLeagueQuery + "&filter[begin_at]=2022-02-26"
 //            + RequestLeagueType.todaySortQuery
             return RequestLeagueType.lckLeagueQuery + RequestLeagueType.DayQuery
             + RequestLeagueType.todaySortQuery
