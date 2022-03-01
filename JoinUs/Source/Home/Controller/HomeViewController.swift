@@ -106,7 +106,7 @@ extension HomeViewController: UITableViewDataSource {
                 for: indexPath
             ) as! ScheduleTableViewCell
             
-            cell.configureCell()
+            cell.setupCell()
             return cell
         case .teamPlayer:
             let cell = tableView.dequeueReusableCell(

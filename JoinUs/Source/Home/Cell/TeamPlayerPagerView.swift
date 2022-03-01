@@ -124,7 +124,6 @@ extension TeamPlayerPagerView: UICollectionViewDelegate {
         else {
             print("선택된 셀이 없습니다!")
         }
-//        customTeamBar.indicatorViewLaftConstraint.constant = CGFloat(60 * selectedTeamIndexPath.row) - pastScrollOffsetX
     }
     
     func scrollViewWillEndDragging(_ scrollView: UIScrollView, withVelocity velocity: CGPoint, targetContentOffset: UnsafeMutablePointer<CGPoint>) {

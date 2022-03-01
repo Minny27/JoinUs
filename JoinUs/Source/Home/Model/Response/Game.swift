@@ -8,7 +8,7 @@
 import Foundation
 
 struct Game: Codable {
-    var finished: Bool
+    var finished: Bool?
     var id: Int?
-    var winner: Winner
+    var winner: Winner?
 }

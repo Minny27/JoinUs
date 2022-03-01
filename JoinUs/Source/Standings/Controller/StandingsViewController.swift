@@ -6,8 +6,6 @@
 //
 
 import UIKit
-import Alamofire
-import SwiftSoup
 
 class StandingsViewController: UIViewController {
     
@@ -18,7 +16,7 @@ class StandingsViewController: UIViewController {
     
     let containerView: UIView = {
         let view = UIView()
-        
+        view.translatesAutoresizingMaskIntoConstraints = false
         return view
     }()
     
@@ -34,13 +32,12 @@ class StandingsViewController: UIViewController {
         )
         button.titleLabel?.font = .boldSystemFont(ofSize: 12)
         button.titleLabel?.textAlignment = .center
-        
         button.addTarget(
             self,
             action: #selector(clickSeasonSelectionButton),
             for: .touchUpInside
         )
-        
+        button.translatesAutoresizingMaskIntoConstraints = false
         return button
     }()
     
@@ -50,7 +47,7 @@ class StandingsViewController: UIViewController {
         label.font = .boldSystemFont(ofSize: 25)
         label.textAlignment = .left
         label.textColor = .black
-        
+        label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()
     
@@ -62,21 +59,24 @@ class StandingsViewController: UIViewController {
             bottom: 0,
             right: 10
         )
-                
         if #available(iOS 15.0, *) {
             tableView.sectionHeaderTopPadding = .zero
         } else {
             // Fallback on earlier versions
         }
-        
+        tableView.translatesAutoresizingMaskIntoConstraints = false
         return tableView
     }()
+    
+    let customActivityIndicatorView = CustomActivityIndicatorView()
     
     // MARK: - LifeCycles
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        configureUI()
+        setupTitle()
+        setupStandingsTableView()
+        setupLoadingView()
         
         NotificationCenter.default.addObserver(
             self,
@@ -85,21 +85,37 @@ class StandingsViewController: UIViewController {
             object: nil
         )
         
+        standingsViewModel.fetchStandingsData(urlString: RequestSeason.urlPath)
+        
         standingsViewModel.standingsList.bind { _ in
             DispatchQueue.main.async {
                 self.standingsTableView.reloadData()
             }
         }
-        
-        standingsViewModel.fetchStandingsData(urlString: RequestSeason.urlPath)
     }
     
-    func configureUI() {
-        view.backgroundColor = .white
+    func setupTitle() {
         view.addSubview(containerView)
-        view.addSubview(standingsTableView)
+        containerView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor).isActive = true
+        containerView.leftAnchor.constraint(equalTo: view.leftAnchor).isActive = true
+        containerView.rightAnchor.constraint(equalTo: view.rightAnchor).isActive = true
+        containerView.heightAnchor.constraint(equalToConstant: 100).isActive = true
+        
         containerView.addSubview(seasonSelectionButton)
+        seasonSelectionButton.topAnchor.constraint(equalTo: containerView.topAnchor, constant: 15).isActive = true
+        seasonSelectionButton.rightAnchor.constraint(equalTo: containerView.rightAnchor, constant: -15).isActive = true
+        seasonSelectionButton.widthAnchor.constraint(equalToConstant: 50).isActive = true
+        seasonSelectionButton.heightAnchor.constraint(equalToConstant: 25).isActive = true
+        
         containerView.addSubview(titleLabel)
+        titleLabel.leftAnchor.constraint(equalTo: containerView.leftAnchor, constant: 10).isActive = true
+        titleLabel.bottomAnchor.constraint(equalTo: containerView.bottomAnchor).isActive = true
+        titleLabel.rightAnchor.constraint(equalTo: containerView.rightAnchor, constant: -10).isActive = true
+        titleLabel.heightAnchor.constraint(equalToConstant: 25).isActive = true
+    }
+    
+    func setupStandingsTableView() {
+        view.addSubview(standingsTableView)
         
         standingsTableView.register(
             CategoryTableViewCell.self,
@@ -112,32 +128,19 @@ class StandingsViewController: UIViewController {
         standingsTableView.dataSource = self
         standingsTableView.delegate = self
         
-        containerView.translatesAutoresizingMaskIntoConstraints = false
-        seasonSelectionButton.translatesAutoresizingMaskIntoConstraints = false
-        titleLabel.translatesAutoresizingMaskIntoConstraints = false
-        standingsTableView.translatesAutoresizingMaskIntoConstraints = false
-        
-        NSLayoutConstraint.activate([
-            containerView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
-            containerView.leftAnchor.constraint(equalTo: view.leftAnchor),
-            containerView.rightAnchor.constraint(equalTo: view.rightAnchor),
-            containerView.heightAnchor.constraint(equalToConstant: 100),
-            
-            seasonSelectionButton.topAnchor.constraint(equalTo: containerView.topAnchor, constant: 15),
-            seasonSelectionButton.rightAnchor.constraint(equalTo: containerView.rightAnchor, constant: -15),
-            seasonSelectionButton.widthAnchor.constraint(equalToConstant: 50),
-            seasonSelectionButton.heightAnchor.constraint(equalToConstant: 25),
-            
-            titleLabel.leftAnchor.constraint(equalTo: containerView.leftAnchor, constant: 10),
-            titleLabel.bottomAnchor.constraint(equalTo: containerView.bottomAnchor),
-            titleLabel.rightAnchor.constraint(equalTo: containerView.rightAnchor, constant: -10),
-            titleLabel.heightAnchor.constraint(equalToConstant: 25),
-            
-            standingsTableView.topAnchor.constraint(equalTo: containerView.bottomAnchor, constant: 10),
-            standingsTableView.leftAnchor.constraint(equalTo: view.leftAnchor),
-            standingsTableView.bottomAnchor.constraint(equalTo: view.bottomAnchor),
-            standingsTableView.rightAnchor.constraint(equalTo: view.rightAnchor)
-        ])
+        standingsTableView.topAnchor.constraint(equalTo: containerView.bottomAnchor, constant: 10).isActive = true
+        standingsTableView.leftAnchor.constraint(equalTo: view.leftAnchor).isActive = true
+        standingsTableView.bottomAnchor.constraint(equalTo: view.bottomAnchor).isActive = true
+        standingsTableView.rightAnchor.constraint(equalTo: view.rightAnchor).isActive = true
+    }
+    
+    func setupLoadingView() {
+        standingsTableView.addSubview(customActivityIndicatorView)
+        customActivityIndicatorView.translatesAutoresizingMaskIntoConstraints = false
+        customActivityIndicatorView.centerXAnchor.constraint(equalTo: standingsTableView.centerXAnchor).isActive = true
+        customActivityIndicatorView.centerYAnchor.constraint(equalTo: standingsTableView.centerYAnchor).isActive = true
+        customActivityIndicatorView.widthAnchor.constraint(equalToConstant: 80).isActive = true
+        customActivityIndicatorView.heightAnchor.constraint(equalToConstant: 80).isActive = true
     }
     
     @objc func clickSeasonSelectionButton() {
@@ -168,6 +171,10 @@ extension StandingsViewController: UITableViewDataSource {
         _ tableView: UITableView,
         cellForRowAt indexPath: IndexPath
     ) -> UITableViewCell {
+        if standingsViewModel.countStandingsList > 0 {
+            customActivityIndicatorView.loadingView.stopAnimating()
+        }
+        
         let standingsType = StandingsType(rawValue: indexPath.row)
         
         switch standingsType {
