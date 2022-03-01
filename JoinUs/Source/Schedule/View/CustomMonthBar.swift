@@ -14,7 +14,7 @@ final class CustomMonthBar: UIView {
     weak var customTabBarDelegate: CustomTabBarDelegate?
     
     var selectedMonthIndexPath = IndexPath(
-        item: Int(DateFormatter().dateToString(date: Date(), dateFormat: .month))!,
+        item: Int(DateFormatter().dateToString(date: Date(), dateFormat: .month))! - 1,
         section: 0
     )
     var indicatorViewLeftConstraint: NSLayoutConstraint!
@@ -107,11 +107,6 @@ extension CustomMonthBar: UICollectionViewDelegate {
         customTabBarDelegate?.customTabBarIndex(scroll: selectedMonthIndexPath.row)
     }
     
-    func collectionView(_ collectionView: UICollectionView, didDeselectItemAt indexPath: IndexPath) {
-        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: MonthCollectionViewCell.identifier, for: indexPath) as! MonthCollectionViewCell
-        cell.monthLabel.backgroundColor = .black
-    }
-    
     func scrollViewDidScroll(_ scrollView: UIScrollView) {
         let selectedCell = monthCollectionView.cellForItem(at: selectedMonthIndexPath)
         customTabBarDelegate?.pastScrollOffsetX(offsetX: scrollView.contentOffset.x)
@@ -122,12 +117,10 @@ extension CustomMonthBar: UICollectionViewDelegate {
         }
     }
     
-    
     func scrollViewWillEndDragging(_ scrollView: UIScrollView, withVelocity velocity: CGPoint, targetContentOffset: UnsafeMutablePointer<CGPoint>) {
         customTabBarDelegate?.pastScrollOffsetX(offsetX: targetContentOffset.pointee.x)
     }
 }
-
 
 extension CustomMonthBar: UICollectionViewDelegateFlowLayout {
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat {
