@@ -14,7 +14,7 @@ class NewsViewController: UIViewController {
     
     let containerView: UIView = {
         let view = UIView()
-        
+        view.translatesAutoresizingMaskIntoConstraints = false
         return view
     }()
     
@@ -24,7 +24,7 @@ class NewsViewController: UIViewController {
         label.font = .boldSystemFont(ofSize: 25)
         label.textAlignment = .left
         label.textColor = .black
-        
+        label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()
     
@@ -33,7 +33,7 @@ class NewsViewController: UIViewController {
         button.setTitle("인기순", for: .normal)
         button.setTitleColor(.lightGray, for: .normal)
         button.titleLabel?.font = .boldSystemFont(ofSize: 12)
-        
+        button.translatesAutoresizingMaskIntoConstraints = false
         return button
     }()
     
@@ -42,7 +42,7 @@ class NewsViewController: UIViewController {
         button.setTitle("최신순", for: .normal)
         button.setTitleColor(.lightGray, for: .normal)
         button.titleLabel?.font = .boldSystemFont(ofSize: 12)
-        
+        button.translatesAutoresizingMaskIntoConstraints = false
         return button
     }()
     
@@ -54,38 +54,62 @@ class NewsViewController: UIViewController {
             bottom: 0,
             right: 10
         )
-
         if #available(iOS 15.0, *) {
             tableView.sectionHeaderTopPadding = .zero
         } else {
             // Fallback on earlier versions
         }
-        
+        tableView.translatesAutoresizingMaskIntoConstraints = false
         return tableView
     }()
+    
+    let customActivityIndicatorView = CustomActivityIndicatorView()
     
     // MARK: - LifeCycles
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        configureUI()
+        setupTitle()
+        setupNewsTableView()
+        setupLoadingView()
+        
+        newsTableViewModel.fetchNewsData()
         
         newsTableViewModel.newsList.bind { _ in
             DispatchQueue.main.async {
                 self.newsTableView.reloadData()
             }
         }
-        
-        newsTableViewModel.fetchNewsData()
     }
     
-    func configureUI() {
-        view.backgroundColor = .white
+    func setupTitle() {
         view.addSubview(containerView)
-        view.addSubview(newsTableView)
+        containerView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor).isActive = true
+        containerView.leftAnchor.constraint(equalTo: view.leftAnchor).isActive = true
+        containerView.rightAnchor.constraint(equalTo: view.rightAnchor).isActive = true
+        containerView.heightAnchor.constraint(equalToConstant: 100).isActive = true
+        
         containerView.addSubview(titleLabel)
-        containerView.addSubview(popularityOrderButton)
+        titleLabel.leftAnchor.constraint(equalTo: containerView.leftAnchor, constant: 10).isActive = true
+        titleLabel.bottomAnchor.constraint(equalTo: containerView.bottomAnchor).isActive = true
+        titleLabel.widthAnchor.constraint(equalToConstant: 180).isActive = true
+        titleLabel.heightAnchor.constraint(equalToConstant: 25).isActive = true
+        
         containerView.addSubview(RecentOrderButton)
+        RecentOrderButton.bottomAnchor.constraint(equalTo: containerView.bottomAnchor).isActive = true
+        RecentOrderButton.rightAnchor.constraint(equalTo: containerView.rightAnchor, constant: -10).isActive = true
+        RecentOrderButton.widthAnchor.constraint(equalToConstant: 40).isActive = true
+        RecentOrderButton.heightAnchor.constraint(equalToConstant: 12).isActive = true
+        
+        containerView.addSubview(popularityOrderButton)
+        popularityOrderButton.bottomAnchor.constraint(equalTo: containerView.bottomAnchor).isActive = true
+        popularityOrderButton.rightAnchor.constraint(equalTo: RecentOrderButton.leftAnchor).isActive = true
+        popularityOrderButton.widthAnchor.constraint(equalToConstant: 40).isActive = true
+        popularityOrderButton.heightAnchor.constraint(equalToConstant: 12).isActive = true
+    }
+    
+    func setupNewsTableView() {
+        view.addSubview(newsTableView)
         
         newsTableView.register(
             NewsTableViewCell.self,
@@ -95,38 +119,19 @@ class NewsViewController: UIViewController {
         newsTableView.dataSource = self
         newsTableView.delegate = self
         
-        containerView.translatesAutoresizingMaskIntoConstraints = false
-        titleLabel.translatesAutoresizingMaskIntoConstraints = false
-        popularityOrderButton.translatesAutoresizingMaskIntoConstraints = false
-        RecentOrderButton.translatesAutoresizingMaskIntoConstraints = false
-        newsTableView.translatesAutoresizingMaskIntoConstraints = false
-        
-        NSLayoutConstraint.activate([
-            containerView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
-            containerView.leftAnchor.constraint(equalTo: view.leftAnchor),
-            containerView.rightAnchor.constraint(equalTo: view.rightAnchor),
-            containerView.heightAnchor.constraint(equalToConstant: 100),
-            
-            titleLabel.leftAnchor.constraint(equalTo: containerView.leftAnchor, constant: 10),
-            titleLabel.bottomAnchor.constraint(equalTo: containerView.bottomAnchor),
-            titleLabel.widthAnchor.constraint(equalToConstant: 180),
-            titleLabel.heightAnchor.constraint(equalToConstant: 25),
-            
-            RecentOrderButton.bottomAnchor.constraint(equalTo: containerView.bottomAnchor),
-            RecentOrderButton.rightAnchor.constraint(equalTo: containerView.rightAnchor, constant: -10),
-            RecentOrderButton.widthAnchor.constraint(equalToConstant: 40),
-            RecentOrderButton.heightAnchor.constraint(equalToConstant: 12),
-            
-            popularityOrderButton.bottomAnchor.constraint(equalTo: containerView.bottomAnchor),
-            popularityOrderButton.rightAnchor.constraint(equalTo: RecentOrderButton.leftAnchor),
-            popularityOrderButton.widthAnchor.constraint(equalToConstant: 40),
-            popularityOrderButton.heightAnchor.constraint(equalToConstant: 12),
-            
-            newsTableView.topAnchor.constraint(equalTo: containerView.bottomAnchor, constant: 20),
-            newsTableView.leftAnchor.constraint(equalTo: view.leftAnchor),
-            newsTableView.bottomAnchor.constraint(equalTo: view.bottomAnchor),
-            newsTableView.rightAnchor.constraint(equalTo: view.rightAnchor)
-        ])
+        newsTableView.topAnchor.constraint(equalTo: containerView.bottomAnchor, constant: 20).isActive = true
+        newsTableView.leftAnchor.constraint(equalTo: view.leftAnchor).isActive = true
+        newsTableView.bottomAnchor.constraint(equalTo: view.bottomAnchor).isActive = true
+        newsTableView.rightAnchor.constraint(equalTo: view.rightAnchor).isActive = true
+    }
+    
+    func setupLoadingView() {
+        view.addSubview(customActivityIndicatorView)
+        customActivityIndicatorView.translatesAutoresizingMaskIntoConstraints = false
+        customActivityIndicatorView.centerXAnchor.constraint(equalTo: newsTableView.centerXAnchor).isActive = true
+        customActivityIndicatorView.centerYAnchor.constraint(equalTo: newsTableView.centerYAnchor).isActive = true
+        customActivityIndicatorView.widthAnchor.constraint(equalToConstant: 80).isActive = true
+        customActivityIndicatorView.heightAnchor.constraint(equalToConstant: 80).isActive = true
     }
 }
 
@@ -147,6 +152,10 @@ extension NewsViewController: UITableViewDataSource {
             for: indexPath
         ) as? NewsTableViewCell else {
             return UITableViewCell()
+        }
+        
+        if newsTableViewModel.countNewsList > 0 {
+            customActivityIndicatorView.loadingView.stopAnimating()
         }
         
         let newsInfo = newsTableViewModel.newsInfo(at: indexPath.row)
