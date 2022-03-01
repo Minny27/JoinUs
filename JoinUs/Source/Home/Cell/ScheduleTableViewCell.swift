@@ -17,23 +17,26 @@ final class ScheduleTableViewCell: UITableViewCell {
     var leagueScheduleTableView: UITableView = {
         let tableView = UITableView()
         tableView.separatorInset = .zero
+        tableView.separatorColor = .clear
         tableView.showsVerticalScrollIndicator = false
         
         if #available(iOS 15.0, *) {
             tableView.sectionHeaderTopPadding = .zero
         }
         
+        tableView.translatesAutoresizingMaskIntoConstraints = false
         return tableView
     }()
     
-    func configureCell() {
+    let customActivityIndicatorView = CustomActivityIndicatorView()
+    
+    func setupLeagueScheduleTableView() {
         contentView.addSubview(leagueScheduleTableView)
         
         leagueScheduleTableView.register(
             LeagueScheduleTableViewCell.self,
             forCellReuseIdentifier: LeagueScheduleTableViewCell.identifier
         )
-        
         leagueScheduleTableView.register(
             NoTodayScheduleTableViewCell.self,
             forCellReuseIdentifier: NoTodayScheduleTableViewCell.identifier
@@ -42,15 +45,25 @@ final class ScheduleTableViewCell: UITableViewCell {
         leagueScheduleTableView.dataSource = self
         leagueScheduleTableView.delegate = self
         
-        leagueScheduleTableView.translatesAutoresizingMaskIntoConstraints = false
-        
-        NSLayoutConstraint.activate([
-            leagueScheduleTableView.topAnchor.constraint(equalTo: contentView.topAnchor),
-            leagueScheduleTableView.leftAnchor.constraint(equalTo: contentView.leftAnchor, constant: 16),
-            leagueScheduleTableView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor),
-            leagueScheduleTableView.rightAnchor.constraint(equalTo: contentView.rightAnchor, constant: -16),
-        ])
-        
+        leagueScheduleTableView.topAnchor.constraint(equalTo: contentView.topAnchor).isActive = true
+        leagueScheduleTableView.leftAnchor.constraint(equalTo: contentView.leftAnchor, constant: 16).isActive = true
+        leagueScheduleTableView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor).isActive = true
+        leagueScheduleTableView.rightAnchor.constraint(equalTo: contentView.rightAnchor, constant: -16).isActive = true
+    }
+    
+    func setupLoadingView() {
+        leagueScheduleTableView.addSubview(customActivityIndicatorView)
+        customActivityIndicatorView.translatesAutoresizingMaskIntoConstraints = false
+        customActivityIndicatorView.centerXAnchor.constraint(equalTo: leagueScheduleTableView.centerXAnchor).isActive = true
+        customActivityIndicatorView.centerYAnchor.constraint(equalTo: leagueScheduleTableView.centerYAnchor).isActive = true
+        customActivityIndicatorView.widthAnchor.constraint(equalToConstant: 80).isActive = true
+        customActivityIndicatorView.heightAnchor.constraint(equalToConstant: 80).isActive = true
+    }
+    
+    func setupCell() {
+        setupLeagueScheduleTableView()
+        setupLoadingView()
+                
         self.worldsTodayScheduleViewModel.fetchTodayData()
         self.lckTodayScheduleViewModel.fetchTodayData()
             
@@ -59,7 +72,6 @@ final class ScheduleTableViewCell: UITableViewCell {
                 if self.worldsTodayScheduleViewModel.countTodayScheduleList > 0 {
                     self.leagueType = "worlds"
                 }
-                
                 self.leagueScheduleTableView.reloadData()
             }
         }
@@ -69,7 +81,6 @@ final class ScheduleTableViewCell: UITableViewCell {
                 if self.lckTodayScheduleViewModel.countTodayScheduleList > 0 {
                     self.leagueType = "lck"
                 }
-                
                 self.leagueScheduleTableView.reloadData()
             }
         }
@@ -100,6 +111,7 @@ extension ScheduleTableViewCell: UITableViewDataSource {
         cellForRowAt indexPath: IndexPath
     ) -> UITableViewCell {
         if let leagueType = leagueType {
+            customActivityIndicatorView.loadingView.stopAnimating()
             leagueScheduleTableView.separatorColor = .systemGray3
             let leagueScheduleTableViewSectionType = LeagueScheduleTableViewSectionType(rawValue: leagueType)!
             
@@ -132,7 +144,7 @@ extension ScheduleTableViewCell: UITableViewDataSource {
         
         else {
             if !worldsTodayScheduleViewModel.hasTodayData && !lckTodayScheduleViewModel.hasTodayData {
-                leagueScheduleTableView.separatorColor = .clear
+                customActivityIndicatorView.loadingView.stopAnimating()
                 
                 guard let cell = tableView.dequeueReusableCell(
                     withIdentifier: NoTodayScheduleTableViewCell.identifier,
