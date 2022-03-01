@@ -47,7 +47,7 @@ class SchedulePageCollectionViewCell: UICollectionViewCell {
         monthScheduleTableView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor).isActive = true
         monthScheduleTableView.rightAnchor.constraint(equalTo: contentView.rightAnchor).isActive = true
         
-        if let lckMonthScheduleList = lckMonthScheduleList, monthScheduleTableView.numberOfRows(inSection: 0) == 0 {
+        if let lckMonthScheduleList = lckMonthScheduleList {
             if lckMonthScheduleList.count > 0 {
                 monthScheduleTableView.reloadData()
             }
