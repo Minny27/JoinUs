@@ -11,8 +11,17 @@ class StandingsViewController: UIViewController {
     
     // MARK: - Properties
     static var selectedSeasonIndex = 0
+    var standingsViewModel = StandingsViewModel()
     
-    let standingsViewModel = StandingsViewModel()
+    var refreshControl: UIRefreshControl = {
+        let refreshControl = UIRefreshControl()
+        refreshControl.addTarget(
+            self,
+            action: #selector(standingsRefresh),
+            for: .valueChanged
+        )
+        return refreshControl
+    }()
     
     let containerView: UIView = {
         let view = UIView()
@@ -59,6 +68,7 @@ class StandingsViewController: UIViewController {
             bottom: 0,
             right: 10
         )
+        tableView.showsVerticalScrollIndicator = false
         if #available(iOS 15.0, *) {
             tableView.sectionHeaderTopPadding = .zero
         } else {
@@ -77,21 +87,14 @@ class StandingsViewController: UIViewController {
         setupTitle()
         setupStandingsTableView()
         setupLoadingView()
-        
+        fetchData()
+                
         NotificationCenter.default.addObserver(
             self,
             selector: #selector(didDismissPopUpViewNotification(_:)),
             name: Notification.Name(Strings.didDismissPopUpViewNotification),
             object: nil
         )
-        
-        standingsViewModel.fetchStandingsData(urlString: RequestSeason.urlPath)
-        
-        standingsViewModel.standingsList.bind { _ in
-            DispatchQueue.main.async {
-                self.standingsTableView.reloadData()
-            }
-        }
     }
     
     func setupTitle() {
@@ -132,6 +135,8 @@ class StandingsViewController: UIViewController {
         standingsTableView.leftAnchor.constraint(equalTo: view.leftAnchor).isActive = true
         standingsTableView.bottomAnchor.constraint(equalTo: view.bottomAnchor).isActive = true
         standingsTableView.rightAnchor.constraint(equalTo: view.rightAnchor).isActive = true
+        
+        standingsTableView.refreshControl = refreshControl
     }
     
     func setupLoadingView() {
@@ -141,6 +146,21 @@ class StandingsViewController: UIViewController {
         customActivityIndicatorView.centerYAnchor.constraint(equalTo: standingsTableView.centerYAnchor).isActive = true
         customActivityIndicatorView.widthAnchor.constraint(equalToConstant: 80).isActive = true
         customActivityIndicatorView.heightAnchor.constraint(equalToConstant: 80).isActive = true
+    }
+    
+    func fetchData() {
+        standingsViewModel.fetchStandingsData(urlString: RequestSeason.urlPath)
+        
+        standingsViewModel.standingsList.bind { _ in
+            DispatchQueue.main.async {
+                self.standingsTableView.reloadData()
+            }
+        }
+    }
+    
+    func clearData() {
+        standingsViewModel = StandingsViewModel()
+        standingsTableView.reloadData()
     }
     
     @objc func clickSeasonSelectionButton() {
@@ -156,6 +176,11 @@ class StandingsViewController: UIViewController {
     
     @objc func didDismissPopUpViewNotification(_ notification: NSNotification) {
         standingsViewModel.fetchStandingsData(urlString: notification.userInfo!["urlString"]! as! String)
+    }
+    
+    @objc func standingsRefresh() {
+        clearData()
+        fetchData()
     }
 }
 
@@ -211,6 +236,14 @@ extension StandingsViewController: UITableViewDataSource {
 }
 
 extension StandingsViewController: UITableViewDelegate {
+    func scrollViewDidEndDragging(_ scrollView: UIScrollView, willDecelerate decelerate: Bool) {
+        if let refreshControl = standingsTableView.refreshControl {
+            if refreshControl.isRefreshing {
+                refreshControl.endRefreshing()
+            }
+        }
+    }
+    
     func tableView(
         _ tableView: UITableView,
         heightForRowAt indexPath: IndexPath
