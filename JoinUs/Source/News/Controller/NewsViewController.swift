@@ -10,7 +10,16 @@ import UIKit
 class NewsViewController: UIViewController {
     
     // MARK: - Properties
-    let newsTableViewModel = NewsTableViewModel()
+    var newsTableViewModel = NewsTableViewModel()
+    let refreshControl: UIRefreshControl = {
+        let refreshControl = UIRefreshControl()
+        refreshControl.addTarget(
+            self,
+            action: #selector(newsRefresh),
+            for: .valueChanged
+        )
+        return refreshControl
+    }()
     
     let containerView: UIView = {
         let view = UIView()
@@ -54,6 +63,7 @@ class NewsViewController: UIViewController {
             bottom: 0,
             right: 10
         )
+        tableView.showsVerticalScrollIndicator = false
         if #available(iOS 15.0, *) {
             tableView.sectionHeaderTopPadding = .zero
         } else {
@@ -72,14 +82,7 @@ class NewsViewController: UIViewController {
         setupTitle()
         setupNewsTableView()
         setupLoadingView()
-        
-        newsTableViewModel.fetchNewsData()
-        
-        newsTableViewModel.newsList.bind { _ in
-            DispatchQueue.main.async {
-                self.newsTableView.reloadData()
-            }
-        }
+        fetchData()
     }
     
     func setupTitle() {
@@ -123,6 +126,8 @@ class NewsViewController: UIViewController {
         newsTableView.leftAnchor.constraint(equalTo: view.leftAnchor).isActive = true
         newsTableView.bottomAnchor.constraint(equalTo: view.bottomAnchor).isActive = true
         newsTableView.rightAnchor.constraint(equalTo: view.rightAnchor).isActive = true
+        
+        newsTableView.refreshControl = refreshControl
     }
     
     func setupLoadingView() {
@@ -132,6 +137,26 @@ class NewsViewController: UIViewController {
         customActivityIndicatorView.centerYAnchor.constraint(equalTo: newsTableView.centerYAnchor).isActive = true
         customActivityIndicatorView.widthAnchor.constraint(equalToConstant: 80).isActive = true
         customActivityIndicatorView.heightAnchor.constraint(equalToConstant: 80).isActive = true
+    }
+    
+    func fetchData() {
+        newsTableViewModel.fetchNewsData()
+        
+        newsTableViewModel.newsList.bind { _ in
+            DispatchQueue.main.async {
+                self.newsTableView.reloadData()
+            }
+        }
+    }
+    
+    func clearData() {
+        newsTableViewModel = NewsTableViewModel()
+        newsTableView.reloadData()
+    }
+    
+    @objc func newsRefresh() {
+        clearData()
+        fetchData()
     }
 }
 
@@ -163,12 +188,19 @@ extension NewsViewController: UITableViewDataSource {
         cell.selectionStyle = .none
         cell.configureCell()
         cell.update(newsInfo: newsInfo!)
-        
         return cell
     }
 }
 
 extension NewsViewController: UITableViewDelegate {
+    func scrollViewDidEndDragging(_ scrollView: UIScrollView, willDecelerate decelerate: Bool) {
+        if let refreshControl = newsTableView.refreshControl {
+            if refreshControl.isRefreshing {
+                refreshControl.endRefreshing()
+            }
+        }
+    }
+    
     func tableView(
         _ tableView: UITableView,
         heightForRowAt indexPath: IndexPath
