@@ -10,8 +10,17 @@ import UIKit
 class SchedulePageCollectionViewCell: UICollectionViewCell {
     static let identifier = "PageMonthCollectionViewCell"
     
-    var lckMonthScheduleList: [LeagueScheduleTableViewCellModel]? = nil
-    var month: Int?
+    var lckMonthScheduleList = [LeagueScheduleTableViewCellModel]()
+    var refreshTableViewDelegate: RefreshTableViewDelegate?
+    var refreshControl: UIRefreshControl = {
+        let refreshControl = UIRefreshControl()
+        refreshControl.addTarget(
+            self,
+            action: #selector(scheduleRefresh),
+            for: .valueChanged
+        )
+        return refreshControl
+    }()
     
     let monthScheduleTableView: UITableView = {
         let tableview = UITableView()
@@ -47,11 +56,13 @@ class SchedulePageCollectionViewCell: UICollectionViewCell {
         monthScheduleTableView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor).isActive = true
         monthScheduleTableView.rightAnchor.constraint(equalTo: contentView.rightAnchor).isActive = true
         
-        if let lckMonthScheduleList = lckMonthScheduleList {
-            if lckMonthScheduleList.count > 0 {
-                monthScheduleTableView.reloadData()
-            }
-        }
+        monthScheduleTableView.refreshControl = refreshControl
+        monthScheduleTableView.reloadData()
+    }
+    
+    @objc func scheduleRefresh() {
+        lckMonthScheduleList = []
+        refreshTableViewDelegate?.refetchData()
     }
 }
 
@@ -60,13 +71,11 @@ extension SchedulePageCollectionViewCell: UITableViewDataSource {
         _ tableView: UITableView,
         numberOfRowsInSection section: Int
     ) -> Int {
-        if let lckMonthScheduleList = lckMonthScheduleList {
-            print("PageMonthCollectionViewCell - \(lckMonthScheduleList.count)개의 데이터 있음")
+        if lckMonthScheduleList.count > 0 {
             return lckMonthScheduleList.count
         }
 
         else {
-            print("PageMonthCollectionViewCell - 현재 값이 없음")
             return 0
         }
     }
@@ -75,7 +84,7 @@ extension SchedulePageCollectionViewCell: UITableViewDataSource {
         _ tableView: UITableView,
         cellForRowAt indexPath: IndexPath
     ) -> UITableViewCell {
-        if let lckMonthScheduleList = lckMonthScheduleList {
+        if lckMonthScheduleList.count > 0 {
             monthScheduleTableView.separatorColor = .systemGray3
             
             if indexPath.row ==
@@ -87,7 +96,6 @@ extension SchedulePageCollectionViewCell: UITableViewDataSource {
                 ) as! LeagueScheduleTableViewCell
                 
                 let leagueScheduleInfo = lckMonthScheduleList[indexPath.row]
-                print(lckMonthScheduleList[indexPath.row])
                 
                 cell.selectionStyle = .none
                 cell.setupCell()
@@ -117,6 +125,14 @@ extension SchedulePageCollectionViewCell: UITableViewDataSource {
 }
 
 extension SchedulePageCollectionViewCell: UITableViewDelegate {
+    func scrollViewDidEndDragging(_ scrollView: UIScrollView, willDecelerate decelerate: Bool) {
+        if let refreshControl = monthScheduleTableView.refreshControl {
+            if refreshControl.isRefreshing {
+                refreshControl.endRefreshing()
+            }
+        }
+    }
+    
     func tableView(
         _ tableView: UITableView,
         heightForRowAt indexPath: IndexPath

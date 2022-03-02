@@ -10,7 +10,7 @@ import UIKit
 class ScheduleViewController: UIViewController {
     
     // MARK: - Properties
-    let lckMonthScheduleViewModel = LeagueScheduleTableViewModel(leagueType: .lck)
+    var lckMonthScheduleViewModel = LeagueScheduleTableViewModel(leagueType: .lck)
     var selectedMonthIndexPath = IndexPath(
         item: Int(DateFormatter().dateToString(date: Date(), dateFormat: .month))! - 1,
         section: 0
@@ -55,35 +55,11 @@ class ScheduleViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        view.backgroundColor = .white
-        
         setupTitle()
         setupCustomTabBar()
         setupPageMonthCollectionView()
         setupLoadingView()
-        
-        lckMonthScheduleViewModel.fetchMonthData()
-        
-        self.lckMonthScheduleViewModel.monthlyScheduleList.bind { _ in
-            DispatchQueue.main.async {
-                self.pageMonthCollectionView.reloadData()
-                
-                // 일정 페이지 뷰가 가져온 데이터를 바인딩 한 다음, 이번 달 데이터를 보여주기
-                self.customMonthBar.monthCollectionView.selectItem(
-                    at: self.selectedMonthIndexPath,
-                    animated: true,
-                    scrollPosition: .centeredHorizontally
-                )
-                
-                self.pageMonthCollectionView.scrollToItem(
-                    at: self.selectedMonthIndexPath,
-                    at: .centeredHorizontally,
-                    animated: true
-                )
-                
-                self.IndicatorCenterXConstraint.constant = CGFloat(self.selectedMonthIndexPath.row) * (self.pageMonthCollectionView.frame.width + 12)
-            }
-        }
+        fetchData()
     }
         
     func setupTitle() {
@@ -142,6 +118,36 @@ class ScheduleViewController: UIViewController {
         customActivityIndicatorView.widthAnchor.constraint(equalToConstant: 80).isActive = true
         customActivityIndicatorView.heightAnchor.constraint(equalToConstant: 80).isActive = true
     }
+    
+    func fetchData() {
+        lckMonthScheduleViewModel.fetchMonthData()
+        
+        self.lckMonthScheduleViewModel.monthlyScheduleList.bind { _ in
+            DispatchQueue.main.async {
+                self.pageMonthCollectionView.reloadData()
+                
+                // 일정 페이지 뷰가 가져온 데이터를 바인딩 한 다음, 이번 달 데이터를 보여주기
+                self.customMonthBar.monthCollectionView.selectItem(
+                    at: self.selectedMonthIndexPath,
+                    animated: true,
+                    scrollPosition: .centeredHorizontally
+                )
+                
+                self.pageMonthCollectionView.scrollToItem(
+                    at: self.selectedMonthIndexPath,
+                    at: .centeredHorizontally,
+                    animated: true
+                )
+                
+                self.IndicatorCenterXConstraint.constant = CGFloat(self.selectedMonthIndexPath.row) * (self.pageMonthCollectionView.frame.width + 12)
+            }
+        }
+    }
+    
+    func clearData() {
+        lckMonthScheduleViewModel = LeagueScheduleTableViewModel(leagueType: .lck)
+        pageMonthCollectionView.reloadData()
+    }
 }
 
 extension ScheduleViewController: CustomTabBarDelegate {
@@ -149,10 +155,19 @@ extension ScheduleViewController: CustomTabBarDelegate {
         selectedMonthIndexPath = IndexPath(item: index, section: 0)
         customMonthBar.monthCollectionView.scrollToItem(at: selectedMonthIndexPath, at: .centeredHorizontally, animated: true)
         pageMonthCollectionView.scrollToItem(at: selectedMonthIndexPath, at: .centeredHorizontally, animated: true)
+        IndicatorCenterXConstraint.constant = CGFloat(selectedMonthIndexPath.row) * (pageMonthCollectionView.frame.width + 12)
     }
     
     func pastScrollOffsetX(offsetX pastScrollOffsetX: CGFloat) {
         self.pastScrollOffsetX = pastScrollOffsetX
+    }
+}
+
+extension ScheduleViewController: RefreshTableViewDelegate {
+    func refetchData() {
+        clearData()
+        customActivityIndicatorView.loadingView.startAnimating()
+        fetchData()
     }
 }
 
@@ -173,6 +188,7 @@ extension ScheduleViewController: UICollectionViewDataSource {
                 withReuseIdentifier: SchedulePageCollectionViewCell.identifier,
                 for: indexPath
             ) as! SchedulePageCollectionViewCell
+            cell.refreshTableViewDelegate = self
             cell.lckMonthScheduleList = lckMonthScheduleViewModel.monthlyScheduleList.value![month]
             cell.setupMonthScheduleTableView()
             return cell
