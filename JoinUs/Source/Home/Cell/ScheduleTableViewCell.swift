@@ -14,7 +14,7 @@ final class ScheduleTableViewCell: UITableViewCell {
     let lckTodayScheduleViewModel = LeagueScheduleTableViewModel(leagueType: .lck)
     var leagueType: String?
     
-    var leagueScheduleTableView: UITableView = {
+    let leagueScheduleTableView: UITableView = {
         let tableView = UITableView()
         tableView.separatorInset = .zero
         tableView.separatorColor = .clear
@@ -60,14 +60,9 @@ final class ScheduleTableViewCell: UITableViewCell {
         customActivityIndicatorView.heightAnchor.constraint(equalToConstant: 80).isActive = true
     }
     
-    func setupCell() {
-        setupLeagueScheduleTableView()
-        setupLoadingView()
-                
-        self.worldsTodayScheduleViewModel.fetchTodayData()
-        self.lckTodayScheduleViewModel.fetchTodayData()
-            
-        self.worldsTodayScheduleViewModel.todayScheduleList.bind { _ in
+    func fetchData() {
+        worldsTodayScheduleViewModel.fetchTodayData()
+        worldsTodayScheduleViewModel.todayScheduleList.bind { _ in
             DispatchQueue.main.async {
                 if self.worldsTodayScheduleViewModel.countTodayScheduleList > 0 {
                     self.leagueType = "worlds"
@@ -76,7 +71,8 @@ final class ScheduleTableViewCell: UITableViewCell {
             }
         }
         
-        self.lckTodayScheduleViewModel.todayScheduleList.bind { _ in
+        lckTodayScheduleViewModel.fetchTodayData()
+        lckTodayScheduleViewModel.todayScheduleList.bind { _ in
             DispatchQueue.main.async {
                 if self.lckTodayScheduleViewModel.countTodayScheduleList > 0 {
                     self.leagueType = "lck"
@@ -84,6 +80,12 @@ final class ScheduleTableViewCell: UITableViewCell {
                 self.leagueScheduleTableView.reloadData()
             }
         }
+    }
+    
+    func setupCell() {
+        setupLeagueScheduleTableView()
+        setupLoadingView()
+        fetchData()
     }
 }
 
