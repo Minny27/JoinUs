@@ -20,49 +20,10 @@ class NewsViewController: UIViewController {
         )
         return refreshControl
     }()
-    
-    let containerView: UIView = {
-        let view = UIView()
-        view.translatesAutoresizingMaskIntoConstraints = false
-        return view
-    }()
-    
-    let titleLabel: UILabel = {
-        let label = UILabel()
-        label.text = "✪ LOL News"
-        label.font = .boldSystemFont(ofSize: 25)
-        label.textAlignment = .left
-        label.textColor = .black
-        label.translatesAutoresizingMaskIntoConstraints = false
-        return label
-    }()
-    
-    let popularityOrderButton: UIButton = {
-        let button = UIButton()
-        button.setTitle("인기순", for: .normal)
-        button.setTitleColor(.lightGray, for: .normal)
-        button.titleLabel?.font = .boldSystemFont(ofSize: 12)
-        button.translatesAutoresizingMaskIntoConstraints = false
-        return button
-    }()
-    
-    let RecentOrderButton: UIButton = {
-        let button = UIButton()
-        button.setTitle("최신순", for: .normal)
-        button.setTitleColor(.lightGray, for: .normal)
-        button.titleLabel?.font = .boldSystemFont(ofSize: 12)
-        button.translatesAutoresizingMaskIntoConstraints = false
-        return button
-    }()
-    
+
     let newsTableView: UITableView = {
         let tableView = UITableView()
-        tableView.separatorInset = UIEdgeInsets(
-            top: 0,
-            left: 10,
-            bottom: 0,
-            right: 10
-        )
+        tableView.separatorInset = .zero
         tableView.showsVerticalScrollIndicator = false
         if #available(iOS 15.0, *) {
             tableView.sectionHeaderTopPadding = .zero
@@ -79,36 +40,14 @@ class NewsViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        setupTitle()
+        setupNavigationBar()
         setupNewsTableView()
         setupLoadingView()
         fetchData()
     }
     
-    func setupTitle() {
-        view.addSubview(containerView)
-        containerView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor).isActive = true
-        containerView.leftAnchor.constraint(equalTo: view.leftAnchor).isActive = true
-        containerView.rightAnchor.constraint(equalTo: view.rightAnchor).isActive = true
-        containerView.heightAnchor.constraint(equalToConstant: 100).isActive = true
-        
-        containerView.addSubview(titleLabel)
-        titleLabel.leftAnchor.constraint(equalTo: containerView.leftAnchor, constant: 10).isActive = true
-        titleLabel.bottomAnchor.constraint(equalTo: containerView.bottomAnchor).isActive = true
-        titleLabel.widthAnchor.constraint(equalToConstant: 180).isActive = true
-        titleLabel.heightAnchor.constraint(equalToConstant: 25).isActive = true
-        
-        containerView.addSubview(RecentOrderButton)
-        RecentOrderButton.bottomAnchor.constraint(equalTo: containerView.bottomAnchor).isActive = true
-        RecentOrderButton.rightAnchor.constraint(equalTo: containerView.rightAnchor, constant: -10).isActive = true
-        RecentOrderButton.widthAnchor.constraint(equalToConstant: 40).isActive = true
-        RecentOrderButton.heightAnchor.constraint(equalToConstant: 12).isActive = true
-        
-        containerView.addSubview(popularityOrderButton)
-        popularityOrderButton.bottomAnchor.constraint(equalTo: containerView.bottomAnchor).isActive = true
-        popularityOrderButton.rightAnchor.constraint(equalTo: RecentOrderButton.leftAnchor).isActive = true
-        popularityOrderButton.widthAnchor.constraint(equalToConstant: 40).isActive = true
-        popularityOrderButton.heightAnchor.constraint(equalToConstant: 12).isActive = true
+    func setupNavigationBar() {
+        navigationItem.title = "✪ LOL News"
     }
     
     func setupNewsTableView() {
@@ -121,13 +60,13 @@ class NewsViewController: UIViewController {
         
         newsTableView.dataSource = self
         newsTableView.delegate = self
-        
-        newsTableView.topAnchor.constraint(equalTo: containerView.bottomAnchor, constant: 20).isActive = true
-        newsTableView.leftAnchor.constraint(equalTo: view.leftAnchor).isActive = true
+
+        newsTableView.topAnchor.constraint(equalTo: view.topAnchor).isActive = true
+        newsTableView.leftAnchor.constraint(equalTo: view.leftAnchor, constant: 16).isActive = true
         newsTableView.bottomAnchor.constraint(equalTo: view.bottomAnchor).isActive = true
-        newsTableView.rightAnchor.constraint(equalTo: view.rightAnchor).isActive = true
+        newsTableView.rightAnchor.constraint(equalTo: view.rightAnchor, constant: -16).isActive = true
         
-        newsTableView.refreshControl = refreshControl
+        newsTableView.addSubview(refreshControl)
     }
     
     func setupLoadingView() {
@@ -157,6 +96,7 @@ class NewsViewController: UIViewController {
     @objc func newsRefresh() {
         clearData()
         fetchData()
+        refreshControl.endRefreshing()
     }
 }
 
@@ -186,28 +126,17 @@ extension NewsViewController: UITableViewDataSource {
         let newsInfo = newsTableViewModel.newsInfo(at: indexPath.row)
         
         cell.selectionStyle = .none
-        cell.configureCell()
+        cell.setupCell()
         cell.update(newsInfo: newsInfo!)
         return cell
+    }
+    
+    func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
+        return UIView()
     }
 }
 
 extension NewsViewController: UITableViewDelegate {
-    func scrollViewDidEndDragging(_ scrollView: UIScrollView, willDecelerate decelerate: Bool) {
-        if let refreshControl = newsTableView.refreshControl {
-            if refreshControl.isRefreshing {
-                refreshControl.endRefreshing()
-            }
-        }
-    }
-    
-    func tableView(
-        _ tableView: UITableView,
-        heightForRowAt indexPath: IndexPath
-    ) -> CGFloat {
-        return 80
-    }
-    
     func tableView(
         _ tableView: UITableView,
         didSelectRowAt indexPath: IndexPath
@@ -220,5 +149,16 @@ extension NewsViewController: UITableViewDelegate {
             newsDetailViewController,
             animated: true
         )
+    }
+    
+    func tableView(
+        _ tableView: UITableView,
+        heightForRowAt indexPath: IndexPath
+    ) -> CGFloat {
+        return 80
+    }
+    
+    func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
+        return 0
     }
 }

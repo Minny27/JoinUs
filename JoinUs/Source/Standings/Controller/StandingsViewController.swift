@@ -23,51 +23,9 @@ class StandingsViewController: UIViewController {
         return refreshControl
     }()
     
-    let containerView: UIView = {
-        let view = UIView()
-        view.translatesAutoresizingMaskIntoConstraints = false
-        return view
-    }()
-    
-    let seasonSelectionButton: UIButton = {
-        let button = UIButton()
-        button.setTitle(
-            "시즌 선택",
-            for: .normal
-        )
-        button.setTitleColor(
-            .lightGray,
-            for: .normal
-        )
-        button.titleLabel?.font = .boldSystemFont(ofSize: 12)
-        button.titleLabel?.textAlignment = .center
-        button.addTarget(
-            self,
-            action: #selector(clickSeasonSelectionButton),
-            for: .touchUpInside
-        )
-        button.translatesAutoresizingMaskIntoConstraints = false
-        return button
-    }()
-    
-    let titleLabel: UILabel = {
-        let label = UILabel()
-        label.text = "✪ LCK 순위"
-        label.font = .boldSystemFont(ofSize: 25)
-        label.textAlignment = .left
-        label.textColor = .black
-        label.translatesAutoresizingMaskIntoConstraints = false
-        return label
-    }()
-    
     let standingsTableView: UITableView = {
         let tableView = UITableView()
-        tableView.separatorInset = UIEdgeInsets(
-            top: 0,
-            left: 10,
-            bottom: 0,
-            right: 10
-        )
+        tableView.separatorInset = .zero
         tableView.showsVerticalScrollIndicator = false
         if #available(iOS 15.0, *) {
             tableView.sectionHeaderTopPadding = .zero
@@ -83,8 +41,7 @@ class StandingsViewController: UIViewController {
     // MARK: - LifeCycles
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-        setupTitle()
+        setupNavigationBar()
         setupStandingsTableView()
         setupLoadingView()
         fetchData()
@@ -97,24 +54,14 @@ class StandingsViewController: UIViewController {
         )
     }
     
-    func setupTitle() {
-        view.addSubview(containerView)
-        containerView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor).isActive = true
-        containerView.leftAnchor.constraint(equalTo: view.leftAnchor).isActive = true
-        containerView.rightAnchor.constraint(equalTo: view.rightAnchor).isActive = true
-        containerView.heightAnchor.constraint(equalToConstant: 100).isActive = true
-        
-        containerView.addSubview(seasonSelectionButton)
-        seasonSelectionButton.topAnchor.constraint(equalTo: containerView.topAnchor, constant: 15).isActive = true
-        seasonSelectionButton.rightAnchor.constraint(equalTo: containerView.rightAnchor, constant: -15).isActive = true
-        seasonSelectionButton.widthAnchor.constraint(equalToConstant: 50).isActive = true
-        seasonSelectionButton.heightAnchor.constraint(equalToConstant: 25).isActive = true
-        
-        containerView.addSubview(titleLabel)
-        titleLabel.leftAnchor.constraint(equalTo: containerView.leftAnchor, constant: 10).isActive = true
-        titleLabel.bottomAnchor.constraint(equalTo: containerView.bottomAnchor).isActive = true
-        titleLabel.rightAnchor.constraint(equalTo: containerView.rightAnchor, constant: -10).isActive = true
-        titleLabel.heightAnchor.constraint(equalToConstant: 25).isActive = true
+    func setupNavigationBar() {
+        navigationItem.title = "✪ LCK 순위"
+        navigationItem.rightBarButtonItem = UIBarButtonItem(
+            title: "시즌 선택",
+            style: .plain,
+            target: #selector(clickSeasonSelectionButton),
+            action: nil
+        )
     }
     
     func setupStandingsTableView() {
@@ -131,12 +78,12 @@ class StandingsViewController: UIViewController {
         standingsTableView.dataSource = self
         standingsTableView.delegate = self
         
-        standingsTableView.topAnchor.constraint(equalTo: containerView.bottomAnchor, constant: 10).isActive = true
-        standingsTableView.leftAnchor.constraint(equalTo: view.leftAnchor).isActive = true
+        standingsTableView.topAnchor.constraint(equalTo: view.topAnchor).isActive = true
+        standingsTableView.leftAnchor.constraint(equalTo: view.leftAnchor, constant: 16).isActive = true
         standingsTableView.bottomAnchor.constraint(equalTo: view.bottomAnchor).isActive = true
-        standingsTableView.rightAnchor.constraint(equalTo: view.rightAnchor).isActive = true
+        standingsTableView.rightAnchor.constraint(equalTo: view.rightAnchor, constant: -16).isActive = true
         
-        standingsTableView.refreshControl = refreshControl
+        standingsTableView.addSubview(refreshControl)
     }
     
     func setupLoadingView() {
@@ -164,14 +111,14 @@ class StandingsViewController: UIViewController {
     }
     
     @objc func clickSeasonSelectionButton() {
-        let popUpViewController = PopUpViewController()
-        popUpViewController.modalPresentationStyle = .overFullScreen
+//        let popUpViewController = PopUpViewController()
+//        popUpViewController.modalPresentationStyle = .overFullScreen
         
-        present(
-            popUpViewController,
-            animated: false,
-            completion: nil
-        )
+//        present(
+//            popUpViewController,
+//            animated: false,
+//            completion: nil
+//        )
     }
     
     @objc func didDismissPopUpViewNotification(_ notification: NSNotification) {
@@ -181,6 +128,7 @@ class StandingsViewController: UIViewController {
     @objc func standingsRefresh() {
         clearData()
         fetchData()
+        refreshControl.endRefreshing()
     }
 }
 
@@ -227,11 +175,15 @@ extension StandingsViewController: UITableViewDataSource {
             let standingsInfo = standingsViewModel.standingsInfo(at: indexPath.row - 1)
             
             cell.selectionStyle = .none
-            cell.configureCell()
+            cell.setupCell()
             cell.update(standingsInfo: standingsInfo!)
             
             return cell
         }
+    }
+    
+    func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
+        return UIView()
     }
 }
 
@@ -249,5 +201,9 @@ extension StandingsViewController: UITableViewDelegate {
         heightForRowAt indexPath: IndexPath
     ) -> CGFloat {
         return 50
+    }
+    
+    func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
+        return 0
     }
 }
