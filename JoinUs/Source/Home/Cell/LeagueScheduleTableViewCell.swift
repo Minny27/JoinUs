@@ -11,202 +11,139 @@ import UIKit
 final class LeagueScheduleTableViewCell: UITableViewCell {
     static let identifier = "leagueScheduleTableViewCell"
     
-    let leftDataView: UIView = {
-        let view = UIView()
-        
-        return view
-    }()
-    
     let timeLabel: UILabel = {
         let label = UILabel()
-        label.font = .boldSystemFont(ofSize: 12)
+        label.font = .boldSystemFont(ofSize: 13)
         label.textColor = .lightGray
-        label.textAlignment = .center
-        
+        label.textAlignment = .left
+        label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()
     
     let statusLabel: UILabel = {
         let label = UILabel()
-        label.font = .boldSystemFont(ofSize: 12)
+        label.font = .boldSystemFont(ofSize: 13)
         label.textAlignment = .center
         label.layer.borderWidth = 0.3
         label.layer.cornerRadius = 5
-        
+        label.translatesAutoresizingMaskIntoConstraints = false
         return label
-    }()
-    
-    let homeTeamView: UIView = {
-        let view = UIView()
-        
-        return view
     }()
     
     let homeTeam: UILabel = {
         let label = UILabel()
-        label.font = .boldSystemFont(ofSize: 12)
+        label.font = .boldSystemFont(ofSize: 13)
         label.textColor = .black
         label.textAlignment = .right
-        
+        label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()
     
     let homeTeamImageView: UIImageView = {
         let imageView = UIImageView()
-        
+        imageView.translatesAutoresizingMaskIntoConstraints = false
         return imageView
     }()
     
     let homeTeamWins: UILabel = {
         let label = UILabel()
-        label.font = .boldSystemFont(ofSize: 12)
+        label.font = .boldSystemFont(ofSize: 13)
         label.textColor = .black
         label.textAlignment = .right
-        
+        label.translatesAutoresizingMaskIntoConstraints = false
         return label
-    }()
-    
-    let versusView: UIView = {
-        let view = UIView()
-        
-        return view
     }()
     
     let versusLabel: UILabel = {
         let label = UILabel()
-        label.font = .boldSystemFont(ofSize: 12)
+        label.font = .boldSystemFont(ofSize: 13)
         label.textColor = .black
         label.textAlignment = .center
-        
+        label.translatesAutoresizingMaskIntoConstraints = false
         return label
-    }()
-    
-    let awayTeamView: UIView = {
-        let view = UIView()
-        
-        return view
     }()
     
     let awayTeam: UILabel = {
         let label = UILabel()
-        label.font = .boldSystemFont(ofSize: 12)
+        label.font = .boldSystemFont(ofSize: 13)
         label.textColor = .black
         label.textAlignment = .left
-        
+        label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()
     
     let awayTeamImageView: UIImageView = {
         let imageView = UIImageView()
-        
+        imageView.translatesAutoresizingMaskIntoConstraints = false
         return imageView
     }()
     
     let awayTeamWins: UILabel = {
         let label = UILabel()
-        label.font = .boldSystemFont(ofSize: 12)
+        label.font = .boldSystemFont(ofSize: 13)
         label.textColor = .black
         label.textAlignment = .left
-        
+        label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()
     
     func setupCell() {
-        contentView.addSubview(leftDataView)
-        contentView.addSubview(homeTeamView)
-        contentView.addSubview(versusView)
-        contentView.addSubview(awayTeamView)
-        leftDataView.addSubview(timeLabel)
-        leftDataView.addSubview(statusLabel)
-        homeTeamView.addSubview(homeTeam)
-        homeTeamView.addSubview(homeTeamImageView)
-        homeTeamView.addSubview(homeTeamWins)
-        versusView.addSubview(versusLabel)
-        awayTeamView.addSubview(awayTeam)
-        awayTeamView.addSubview(awayTeamImageView)
-        awayTeamView.addSubview(awayTeamWins)
+        let contentViewWidth = contentView.frame.width - 88
         
-        leftDataView.translatesAutoresizingMaskIntoConstraints = false
-        homeTeamView.translatesAutoresizingMaskIntoConstraints = false
-        awayTeamView.translatesAutoresizingMaskIntoConstraints = false
-        timeLabel.translatesAutoresizingMaskIntoConstraints = false
-        statusLabel.translatesAutoresizingMaskIntoConstraints = false
-        homeTeam.translatesAutoresizingMaskIntoConstraints = false
-        homeTeamImageView.translatesAutoresizingMaskIntoConstraints = false
-        homeTeamWins.translatesAutoresizingMaskIntoConstraints = false
-        versusView.translatesAutoresizingMaskIntoConstraints = false
-        versusLabel.translatesAutoresizingMaskIntoConstraints = false
-        awayTeam.translatesAutoresizingMaskIntoConstraints = false
-        awayTeamImageView.translatesAutoresizingMaskIntoConstraints = false
-        awayTeamWins.translatesAutoresizingMaskIntoConstraints = false
+        contentView.addSubview(timeLabel)
+        timeLabel.leftAnchor.constraint(equalTo: contentView.leftAnchor, constant: 12).isActive = true
+        timeLabel.centerYAnchor.constraint(equalTo: contentView.centerYAnchor).isActive = true
+        timeLabel.widthAnchor.constraint(equalToConstant: contentViewWidth * 3 / 20 + 10).isActive = true
+        timeLabel.heightAnchor.constraint(equalToConstant: 20).isActive = true
         
-        NSLayoutConstraint.activate([
-            leftDataView.leftAnchor.constraint(equalTo: contentView.leftAnchor, constant: 12),
-            leftDataView.widthAnchor.constraint(equalToConstant: 80),
-            leftDataView.heightAnchor.constraint(equalToConstant: 20),
-            leftDataView.centerYAnchor.constraint(equalTo: contentView.centerYAnchor),
-            
-            timeLabel.topAnchor.constraint(equalTo: leftDataView.topAnchor),
-            timeLabel.leftAnchor.constraint(equalTo: leftDataView.leftAnchor),
-            timeLabel.bottomAnchor.constraint(equalTo: leftDataView.bottomAnchor),
-            timeLabel.widthAnchor.constraint(equalToConstant: 40),
-            
-            statusLabel.topAnchor.constraint(equalTo: leftDataView.topAnchor),
-            statusLabel.leftAnchor.constraint(equalTo: timeLabel.rightAnchor, constant: 5),
-            statusLabel.bottomAnchor.constraint(equalTo: leftDataView.bottomAnchor),
-            statusLabel.widthAnchor.constraint(equalToConstant: 40),
-            
-            homeTeamView.leftAnchor.constraint(equalTo: leftDataView.rightAnchor),
-            homeTeamView.widthAnchor.constraint(equalToConstant: (HomeViewController.viewFrameWidth - 145) / 2),
-            homeTeamView.heightAnchor.constraint(equalToConstant: 20),
-            homeTeamView.centerYAnchor.constraint(equalTo: contentView.centerYAnchor),
-            
-            homeTeamWins.topAnchor.constraint(equalTo: homeTeamView.topAnchor),
-            homeTeamWins.bottomAnchor.constraint(equalTo: homeTeamView.bottomAnchor),
-            homeTeamWins.rightAnchor.constraint(equalTo: homeTeamView.rightAnchor),
-            homeTeamWins.widthAnchor.constraint(equalToConstant: 10),
-            
-            homeTeamImageView.topAnchor.constraint(equalTo: homeTeamView.topAnchor),
-            homeTeamImageView.bottomAnchor.constraint(equalTo: homeTeamView.bottomAnchor),
-            homeTeamImageView.rightAnchor.constraint(equalTo: homeTeamWins.leftAnchor, constant: -8),
-            homeTeamImageView.widthAnchor.constraint(equalToConstant: 20),
-            
-            homeTeam.topAnchor.constraint(equalTo: homeTeamView.topAnchor),
-            homeTeam.leftAnchor.constraint(equalTo: homeTeamView.leftAnchor),
-            homeTeam.bottomAnchor.constraint(equalTo: homeTeamView.bottomAnchor),
-            homeTeam.rightAnchor.constraint(equalTo: homeTeamImageView.leftAnchor, constant: -5),
-            
-            versusView.leftAnchor.constraint(equalTo: homeTeamView.rightAnchor),
-            versusView.widthAnchor.constraint(equalToConstant: 20),
-            versusView.heightAnchor.constraint(equalToConstant: 20),
-            versusView.centerYAnchor.constraint(equalTo: contentView.centerYAnchor),
-            
-            versusLabel.topAnchor.constraint(equalTo: versusView.topAnchor),
-            versusLabel.leftAnchor.constraint(equalTo: versusView.leftAnchor),
-            versusLabel.bottomAnchor.constraint(equalTo: versusView.bottomAnchor),
-            versusLabel.rightAnchor.constraint(equalTo: versusView.rightAnchor),
-            
-            awayTeamView.leftAnchor.constraint(equalTo: versusView.rightAnchor),
-            awayTeamView.widthAnchor.constraint(equalToConstant: (HomeViewController.viewFrameWidth - 145) / 2),
-            awayTeamView.heightAnchor.constraint(equalToConstant: 20),
-            awayTeamView.centerYAnchor.constraint(equalTo: contentView.centerYAnchor),
-            
-            awayTeamWins.topAnchor.constraint(equalTo: awayTeamView.topAnchor),
-            awayTeamWins.leftAnchor.constraint(equalTo: awayTeamView.leftAnchor),
-            awayTeamWins.bottomAnchor.constraint(equalTo: awayTeamView.bottomAnchor),
-            awayTeamWins.widthAnchor.constraint(equalToConstant: 10),
-            
-            awayTeamImageView.topAnchor.constraint(equalTo: awayTeamView.topAnchor),
-            awayTeamImageView.leftAnchor.constraint(equalTo: awayTeamWins.rightAnchor, constant: 8),
-            awayTeamImageView.bottomAnchor.constraint(equalTo: awayTeamView.bottomAnchor),
-            awayTeamImageView.widthAnchor.constraint(equalToConstant: 20),
-            
-            awayTeam.topAnchor.constraint(equalTo: awayTeamView.topAnchor),
-            awayTeam.leftAnchor.constraint(equalTo: awayTeamImageView.rightAnchor, constant: 5),
-            awayTeam.bottomAnchor.constraint(equalTo: awayTeamView.bottomAnchor),
-            awayTeam.rightAnchor.constraint(equalTo: awayTeamView.rightAnchor),
-        ])
-    }   
+        contentView.addSubview(statusLabel)
+        statusLabel.leftAnchor.constraint(equalTo: timeLabel.rightAnchor, constant: 5).isActive = true
+        statusLabel.centerYAnchor.constraint(equalTo: contentView.centerYAnchor).isActive = true
+        statusLabel.widthAnchor.constraint(equalToConstant: contentViewWidth * 3 / 20 + 10).isActive = true
+        statusLabel.heightAnchor.constraint(equalToConstant: 20).isActive = true
+        
+        contentView.addSubview(homeTeam)
+        homeTeam.leftAnchor.constraint(equalTo: statusLabel.rightAnchor, constant: 5).isActive = true
+        homeTeam.centerYAnchor.constraint(equalTo: contentView.centerYAnchor).isActive = true
+        homeTeam.widthAnchor.constraint(equalToConstant: contentViewWidth * 6 / 20 - 20).isActive = true
+        homeTeam.heightAnchor.constraint(equalToConstant: 20).isActive = true
+        
+        contentView.addSubview(homeTeamImageView)
+        homeTeamImageView.leftAnchor.constraint(equalTo: homeTeam.rightAnchor, constant: 5).isActive = true
+        homeTeamImageView.centerYAnchor.constraint(equalTo: contentView.centerYAnchor).isActive = true
+        homeTeamImageView.widthAnchor.constraint(equalToConstant: 20).isActive = true
+        homeTeamImageView.heightAnchor.constraint(equalToConstant: 20).isActive = true
+        
+        contentView.addSubview(homeTeamWins)
+        homeTeamWins.leftAnchor.constraint(equalTo: homeTeamImageView.rightAnchor, constant: 8).isActive = true
+        homeTeamWins.centerYAnchor.constraint(equalTo: contentView.centerYAnchor).isActive = true
+        homeTeamWins.widthAnchor.constraint(equalToConstant: contentViewWidth / 20 / 2 + 5).isActive = true
+        homeTeamWins.heightAnchor.constraint(equalToConstant: 20).isActive = true
+        
+        contentView.addSubview(versusLabel)
+        versusLabel.leftAnchor.constraint(equalTo: homeTeamWins.rightAnchor).isActive = true
+        versusLabel.centerYAnchor.constraint(equalTo: contentView.centerYAnchor).isActive = true
+        versusLabel.widthAnchor.constraint(equalToConstant: contentViewWidth / 20 + 10).isActive = true
+        versusLabel.heightAnchor.constraint(equalToConstant: 20).isActive = true
+        
+        contentView.addSubview(awayTeamWins)
+        awayTeamWins.leftAnchor.constraint(equalTo: versusLabel.rightAnchor).isActive = true
+        awayTeamWins.centerYAnchor.constraint(equalTo: contentView.centerYAnchor).isActive = true
+        awayTeamWins.widthAnchor.constraint(equalToConstant: contentViewWidth / 20 / 2 + 5).isActive = true
+        awayTeamWins.heightAnchor.constraint(equalToConstant: 20).isActive = true
+        
+        contentView.addSubview(awayTeamImageView)
+        awayTeamImageView.leftAnchor.constraint(equalTo: awayTeamWins.rightAnchor, constant: 8).isActive = true
+        awayTeamImageView.centerYAnchor.constraint(equalTo: contentView.centerYAnchor).isActive = true
+        awayTeamImageView.widthAnchor.constraint(equalToConstant: 20).isActive = true
+        awayTeamImageView.heightAnchor.constraint(equalToConstant: 20).isActive = true
+        
+        contentView.addSubview(awayTeam)
+        awayTeam.leftAnchor.constraint(equalTo: awayTeamImageView.rightAnchor, constant: 5).isActive = true
+        awayTeam.centerYAnchor.constraint(equalTo: awayTeamImageView.centerYAnchor).isActive = true
+        awayTeam.widthAnchor.constraint(equalToConstant: contentViewWidth * 6 / 20 - 20).isActive = true
+        awayTeam.heightAnchor.constraint(equalToConstant: 20).isActive = true
+    }
     
     func update(leagueScheduleInfo: LeagueScheduleTableViewCellModel) {
         timeLabel.text = leagueScheduleInfo.time
@@ -253,14 +190,14 @@ final class LeagueScheduleTableViewCell: UITableViewCell {
                 .cacheOriginalImage
             ]
         )
-//        {
-//            result in
-//            switch result {
-//            case .success(let value):
-//                print("Task done for: \(value.source.url?.absoluteString ?? "")")
-//            case .failure(let error):
-//                print("Job failed: \(error.localizedDescription)")
-//            }
-//        }
+        //        {
+        //            result in
+        //            switch result {
+        //            case .success(let value):
+        //                print("Task done for: \(value.source.url?.absoluteString ?? "")")
+        //            case .failure(let error):
+        //                print("Job failed: \(error.localizedDescription)")
+        //            }
+        //        }
     }
 }

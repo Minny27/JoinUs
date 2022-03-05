@@ -28,19 +28,16 @@ final class HomeTableViewSectionHeader: UIView {
         backgroundColor = .systemGray6
         
         addSubview(TitleView)
-        TitleView.addSubview(TitleLabel)
+        TitleView.topAnchor.constraint(equalTo: topAnchor, constant: 20).isActive = true
+        TitleView.leftAnchor.constraint(equalTo: leftAnchor).isActive = true
+        TitleView.rightAnchor.constraint(equalTo: rightAnchor).isActive = true
+        TitleView.bottomAnchor.constraint(equalTo: bottomAnchor).isActive = true
         
-        NSLayoutConstraint.activate([
-            TitleView.topAnchor.constraint(equalTo: topAnchor, constant: 20),
-            TitleView.leftAnchor.constraint(equalTo: leftAnchor),
-            TitleView.rightAnchor.constraint(equalTo: rightAnchor),
-            TitleView.bottomAnchor.constraint(equalTo: bottomAnchor),
-            
-            TitleLabel.leftAnchor.constraint(equalTo: TitleView.leftAnchor, constant: 16),
-            TitleLabel.rightAnchor.constraint(equalTo: TitleView.rightAnchor),
-            TitleLabel.centerYAnchor.constraint(equalTo: TitleView.centerYAnchor),
-            TitleLabel.heightAnchor.constraint(equalToConstant: 20)
-        ])
+        TitleView.addSubview(TitleLabel)
+        TitleLabel.leftAnchor.constraint(equalTo: TitleView.leftAnchor, constant: 16).isActive = true
+        TitleLabel.rightAnchor.constraint(equalTo: TitleView.rightAnchor).isActive = true
+        TitleLabel.centerYAnchor.constraint(equalTo: TitleView.centerYAnchor).isActive = true
+        TitleLabel.heightAnchor.constraint(equalToConstant: 20).isActive = true
     }
     
     func update(homeTableViewSectionType: HomeTableViewSectionType) {

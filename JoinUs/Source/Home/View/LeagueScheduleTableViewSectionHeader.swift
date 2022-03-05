@@ -32,21 +32,18 @@ final class LeagueScheduleTableViewSectionHeader: UIView {
         return label
     }()
     
-    func configureUI() {
+    func setupSectionHeader() {
         backgroundColor = .systemGray6
         
         addSubview(containerStackView)
-        containerStackView.addArrangedSubview(leagueImageView)
-        containerStackView.addArrangedSubview(leagueTitleLabel)
+        containerStackView.centerYAnchor.constraint(equalTo: centerYAnchor).isActive = true
         
-        NSLayoutConstraint.activate([
-            containerStackView.centerYAnchor.constraint(equalTo: centerYAnchor),
-            
-            leagueImageView.leftAnchor.constraint(equalTo: leftAnchor, constant: 12),
-            leagueImageView.widthAnchor.constraint(equalToConstant: 20),
-            leagueImageView.heightAnchor.constraint(equalToConstant: 20),
-
-        ])
+        containerStackView.addArrangedSubview(leagueImageView)
+        leagueImageView.leftAnchor.constraint(equalTo: leftAnchor, constant: 12).isActive = true
+        leagueImageView.widthAnchor.constraint(equalToConstant: 20).isActive = true
+        leagueImageView.heightAnchor.constraint(equalToConstant: 20).isActive = true
+        
+        containerStackView.addArrangedSubview(leagueTitleLabel)
     }
     
     func update(leagueScheduleTableViewSectionType: LeagueScheduleTableViewSectionType) {

@@ -18,22 +18,6 @@ class ScheduleViewController: UIViewController {
     var pastScrollOffsetX: CGFloat = 0
     var IndicatorCenterXConstraint: NSLayoutConstraint!
     
-    let containerView: UIView = {
-        let view = UIView()
-        view.translatesAutoresizingMaskIntoConstraints = false
-        return view
-    }()
-    
-    let titleLabel: UILabel = {
-        let label = UILabel()
-        label.text = "✪ LCK 일정"
-        label.font = .boldSystemFont(ofSize: 25)
-        label.textAlignment = .left
-        label.textColor = .black
-        label.translatesAutoresizingMaskIntoConstraints = false
-        return label
-    }()
-    
     let customMonthBar = CustomMonthBar()
     
     let pageMonthCollectionView: UICollectionView = {
@@ -55,32 +39,22 @@ class ScheduleViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        setupTitle()
+        setupNavigationBar()
         setupCustomTabBar()
         setupPageMonthCollectionView()
         setupLoadingView()
         fetchData()
     }
-        
-    func setupTitle() {
-        view.addSubview(containerView)
-        containerView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor).isActive = true
-        containerView.leftAnchor.constraint(equalTo: view.leftAnchor, constant: 16).isActive = true
-        containerView.rightAnchor.constraint(equalTo: view.rightAnchor, constant: -16).isActive = true
-        containerView.heightAnchor.constraint(equalToConstant: 100).isActive = true
-        
-        containerView.addSubview(titleLabel)
-        titleLabel.leftAnchor.constraint(equalTo: containerView.leftAnchor).isActive = true
-        titleLabel.bottomAnchor.constraint(equalTo: containerView.bottomAnchor).isActive = true
-        titleLabel.rightAnchor.constraint(equalTo: containerView.rightAnchor).isActive = true
-        titleLabel.heightAnchor.constraint(equalToConstant: 25).isActive = true
+    
+    func setupNavigationBar() {
+        navigationItem.title = "✪ LCK 일정"
     }
     
     func setupCustomTabBar() {
         view.addSubview(customMonthBar)
         customMonthBar.customTabBarDelegate = self
         customMonthBar.translatesAutoresizingMaskIntoConstraints = false
-        customMonthBar.topAnchor.constraint(equalTo: containerView.bottomAnchor).isActive = true
+        customMonthBar.topAnchor.constraint(equalTo: view.topAnchor).isActive = true
         customMonthBar.leftAnchor.constraint(equalTo: view.leftAnchor, constant: 16).isActive = true
         customMonthBar.rightAnchor.constraint(equalTo: view.rightAnchor, constant: -16).isActive = true
         customMonthBar.heightAnchor.constraint(equalToConstant: 60).isActive = true

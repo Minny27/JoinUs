@@ -39,8 +39,13 @@ class TabBarController: UITabBarController {
         let navigationController = UINavigationController(rootViewController: viewController)
         navigationController.tabBarItem.title = title
         navigationController.tabBarItem.image = UIImage(systemName: image)
-        navigationController.isNavigationBarHidden = true
-        navigationController.isToolbarHidden = true
+        
+        navigationController.navigationBar.prefersLargeTitles = true
+        navigationController.navigationBar.tintColor = .lightGray
+        navigationController.navigationBar.barTintColor = .white
+        navigationController.navigationBar.setBackgroundImage(UIImage(), for: .default)
+        navigationController.navigationBar.shadowImage = UIImage()
+        navigationController.navigationBar.isTranslucent = false
         return navigationController
     }
 }
@@ -74,7 +79,7 @@ class CustomTabBarTransition: NSObject, UIViewControllerAnimatedTransitioning {
             let toIndex = getIndex(fromViewController: toViewController) else {
                 transitionContext.completeTransition(false)
                 return
-        }
+            }
         
         let frame = transitionContext.initialFrame(for: fromViewController)
         var fromFrameEnd = frame
