@@ -22,16 +22,6 @@ class HomeViewController: UIViewController {
         return refreshControl
     }()
     
-    let homeLabel: UILabel = {
-        let label = UILabel()
-        label.text = "Join Us"
-        label.font = .boldSystemFont(ofSize: 30)
-        label.textAlignment = .center
-        label.textColor = .black
-        label.translatesAutoresizingMaskIntoConstraints = false
-        return label
-    }()
-    
     var homeTableView: UITableView = {
         let tableView = UITableView()
         tableView.separatorStyle = .none
@@ -50,19 +40,13 @@ class HomeViewController: UIViewController {
     // MARK: - LifeCycles
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-        setupTitle()
+                
+        setupNavigationBar()
         setupHomeTableView()
     }
-     
-    func setupTitle() {
-        HomeViewController.viewFrameWidth = view.frame.width
-        
-        view.addSubview(homeLabel)
-        homeLabel.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor).isActive = true
-        homeLabel.leftAnchor.constraint(equalTo: view.leftAnchor).isActive = true
-        homeLabel.rightAnchor.constraint(equalTo: view.rightAnchor).isActive = true
-        homeLabel.heightAnchor.constraint(equalToConstant: 80).isActive = true
+    
+    func setupNavigationBar() {        
+        navigationItem.title = "Join Us"
     }
     
     func setupHomeTableView() {
@@ -80,16 +64,17 @@ class HomeViewController: UIViewController {
         homeTableView.dataSource = self
         homeTableView.delegate = self
         
-        homeTableView.topAnchor.constraint(equalTo: homeLabel.bottomAnchor).isActive = true
+        homeTableView.topAnchor.constraint(equalTo: view.topAnchor).isActive = true
         homeTableView.leftAnchor.constraint(equalTo: view.leftAnchor).isActive = true
         homeTableView.bottomAnchor.constraint(equalTo: view.bottomAnchor).isActive = true
         homeTableView.rightAnchor.constraint(equalTo: view.rightAnchor).isActive = true
                                              
-        homeTableView.refreshControl = refreshControl
+        homeTableView.addSubview(refreshControl)
     }
     
     @objc func scheduleRefresh() {
         homeTableView.reloadData()
+        refreshControl.endRefreshing()
     }
 }
 
@@ -156,14 +141,6 @@ extension HomeViewController: UITableViewDataSource {
 
 // MARK: - UITableViewDelegate
 extension HomeViewController: UITableViewDelegate {
-    func scrollViewDidEndDragging(_ scrollView: UIScrollView, willDecelerate decelerate: Bool) {
-        if let refreshControl = homeTableView.refreshControl {
-            if refreshControl.isRefreshing {
-                refreshControl.endRefreshing()
-            }
-        }
-    }
-    
     func tableView(
         _ tableView: UITableView,
         heightForRowAt indexPath: IndexPath
