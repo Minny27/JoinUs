@@ -176,13 +176,13 @@ extension ScheduleTableViewCell: UITableViewDataSource {
             switch leagueScheduleTableViewSectionType {
             case .worlds:
                 let worldsSectionHeader = LeagueScheduleTableViewSectionHeader()
-                worldsSectionHeader.configureUI()
+                worldsSectionHeader.setupSectionHeader()
                 worldsSectionHeader.update(leagueScheduleTableViewSectionType: .worlds)
                 return worldsSectionHeader
                 
             case .lck:
                 let lckSectionHeader = LeagueScheduleTableViewSectionHeader()
-                lckSectionHeader.configureUI()
+                lckSectionHeader.setupSectionHeader()
                 lckSectionHeader.update(leagueScheduleTableViewSectionType: .lck)
                 return lckSectionHeader
             }
