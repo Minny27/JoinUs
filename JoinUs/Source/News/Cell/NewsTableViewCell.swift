@@ -13,19 +13,19 @@ final class NewsTableViewCell: UITableViewCell {
     
     let photoFrameView: UIView = {
         let view = UIView()
-        
+        view.translatesAutoresizingMaskIntoConstraints = false
         return view
     }()
     
     let photoImageView: UIImageView = {
         let imageView = UIImageView()
-        
+        imageView.translatesAutoresizingMaskIntoConstraints = false
         return imageView
     }()
     
     let newsDataView: UIView = {
         let view = UIView()
-        
+        view.translatesAutoresizingMaskIntoConstraints = false
         return view
     }()
     
@@ -34,7 +34,7 @@ final class NewsTableViewCell: UITableViewCell {
         label.font = .boldSystemFont(ofSize: 15)
         label.textAlignment = .left
         label.numberOfLines = 2
-        
+        label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()
     
@@ -43,49 +43,40 @@ final class NewsTableViewCell: UITableViewCell {
         label.font = .boldSystemFont(ofSize: 12)
         label.textAlignment = .left
         label.textColor = .lightGray
-        
+        label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()
     
-    func configureCell() {
+    func setupCell() {
         contentView.addSubview(photoFrameView)
-        contentView.addSubview(newsDataView)
+        photoFrameView.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 5).isActive = true
+        photoFrameView.leftAnchor.constraint(equalTo: contentView.leftAnchor).isActive = true
+        photoFrameView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -5).isActive = true
+        photoFrameView.widthAnchor.constraint(equalToConstant: 110).isActive = true
+        
         photoFrameView.addSubview(photoImageView)
+        photoImageView.topAnchor.constraint(equalTo: photoFrameView.topAnchor).isActive = true
+        photoImageView.leftAnchor.constraint(equalTo: photoFrameView.leftAnchor).isActive = true
+        photoImageView.bottomAnchor.constraint(equalTo: photoFrameView.bottomAnchor).isActive = true
+        photoImageView.widthAnchor.constraint(equalToConstant: 100).isActive = true
+        
+        contentView.addSubview(newsDataView)
+        newsDataView.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 5).isActive = true
+        newsDataView.leftAnchor.constraint(equalTo: photoFrameView.rightAnchor).isActive = true
+        newsDataView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -5).isActive = true
+        newsDataView.rightAnchor.constraint(equalTo: contentView.rightAnchor, constant: -10).isActive = true
+        
         newsDataView.addSubview(newsTitleLabel)
+        newsTitleLabel.topAnchor.constraint(equalTo: newsDataView.topAnchor).isActive = true
+        newsTitleLabel.leftAnchor.constraint(equalTo: newsDataView.leftAnchor).isActive = true
+        newsTitleLabel.rightAnchor.constraint(equalTo: newsDataView.rightAnchor).isActive = true
+        newsTitleLabel.heightAnchor.constraint(equalToConstant: 36).isActive = true
+        
         newsDataView.addSubview(newsEtcLabel)
-        
-        photoFrameView.translatesAutoresizingMaskIntoConstraints = false
-        photoImageView.translatesAutoresizingMaskIntoConstraints = false
-        newsDataView.translatesAutoresizingMaskIntoConstraints = false
-        newsTitleLabel.translatesAutoresizingMaskIntoConstraints = false
-        newsEtcLabel.translatesAutoresizingMaskIntoConstraints = false
-        
-        NSLayoutConstraint.activate([
-            photoFrameView.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 5),
-            photoFrameView.leftAnchor.constraint(equalTo: contentView.leftAnchor, constant: 10),
-            photoFrameView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -5),
-            photoFrameView.widthAnchor.constraint(equalToConstant: 110),
-            
-            photoImageView.topAnchor.constraint(equalTo: photoFrameView.topAnchor),
-            photoImageView.leftAnchor.constraint(equalTo: photoFrameView.leftAnchor),
-            photoImageView.bottomAnchor.constraint(equalTo: photoFrameView.bottomAnchor),
-            photoImageView.widthAnchor.constraint(equalToConstant: 100),
-            
-            newsDataView.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 5),
-            newsDataView.leftAnchor.constraint(equalTo: photoFrameView.rightAnchor),
-            newsDataView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -5),
-            newsDataView.rightAnchor.constraint(equalTo: contentView.rightAnchor, constant: -10),
-            
-            newsTitleLabel.topAnchor.constraint(equalTo: newsDataView.topAnchor),
-            newsTitleLabel.leftAnchor.constraint(equalTo: newsDataView.leftAnchor),
-            newsTitleLabel.rightAnchor.constraint(equalTo: newsDataView.rightAnchor),
-            newsTitleLabel.heightAnchor.constraint(equalToConstant: 36),
-            
-            newsEtcLabel.leftAnchor.constraint(equalTo: newsDataView.leftAnchor),
-            newsEtcLabel.bottomAnchor.constraint(equalTo: newsDataView.bottomAnchor),
-            newsEtcLabel.rightAnchor.constraint(equalTo: newsDataView.rightAnchor),
-            newsEtcLabel.heightAnchor.constraint(equalToConstant: 12),
-        ])
+        newsEtcLabel.leftAnchor.constraint(equalTo: newsDataView.leftAnchor).isActive = true
+        newsEtcLabel.bottomAnchor.constraint(equalTo: newsDataView.bottomAnchor).isActive = true
+        newsEtcLabel.rightAnchor.constraint(equalTo: newsDataView.rightAnchor).isActive = true
+        newsEtcLabel.heightAnchor.constraint(equalToConstant: 12).isActive = true
     }
     
     func update(newsInfo: News) {
@@ -113,14 +104,14 @@ final class NewsTableViewCell: UITableViewCell {
                 .cacheOriginalImage
             ]
         )
-//        {
-//            result in
-//            switch result {
-//            case .success(let value):
-//                print("Task done for: \(value.source.url?.absoluteString ?? "")")
-//            case .failure(let error):
-//                print("Job failed: \(error.localizedDescription)")
-//            }
-//        }
+        //        {
+        //            result in
+        //            switch result {
+        //            case .success(let value):
+        //                print("Task done for: \(value.source.url?.absoluteString ?? "")")
+        //            case .failure(let error):
+        //                print("Job failed: \(error.localizedDescription)")
+        //            }
+        //        }
     }
 }

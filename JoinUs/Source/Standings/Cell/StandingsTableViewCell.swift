@@ -13,7 +13,7 @@ final class StandingsTableViewCell: UITableViewCell {
     
     let containerView: UIView = {
         let view = UIView()
-        
+        view.translatesAutoresizingMaskIntoConstraints = false
         return view
     }()
     
@@ -21,13 +21,13 @@ final class StandingsTableViewCell: UITableViewCell {
         let label = UILabel()
         label.font = .boldSystemFont(ofSize: 17)
         label.textAlignment = .center
-        
+        label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()
     
     let teamImageView: UIImageView = {
         let imageView = UIImageView()
-        
+        imageView.translatesAutoresizingMaskIntoConstraints = false
         return imageView
     }()
     
@@ -35,7 +35,7 @@ final class StandingsTableViewCell: UITableViewCell {
         let label = UILabel()
         label.font = .boldSystemFont(ofSize: 17)
         label.textAlignment = .left
-        
+        label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()
     
@@ -43,7 +43,7 @@ final class StandingsTableViewCell: UITableViewCell {
         let label = UILabel()
         label.font = .boldSystemFont(ofSize: 17)
         label.textAlignment = .center
-        
+        label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()
         
@@ -51,7 +51,7 @@ final class StandingsTableViewCell: UITableViewCell {
         let label = UILabel()
         label.font = .boldSystemFont(ofSize: 17)
         label.textAlignment = .center
-        
+        label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()
     
@@ -59,7 +59,7 @@ final class StandingsTableViewCell: UITableViewCell {
         let label = UILabel()
         label.font = .boldSystemFont(ofSize: 17)
         label.textAlignment = .center
-        
+        label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()
     
@@ -67,70 +67,60 @@ final class StandingsTableViewCell: UITableViewCell {
         let label = UILabel()
         label.font = .boldSystemFont(ofSize: 17)
         label.textAlignment = .center
-        
+        label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()
 
-    func configureCell() {
+    func setupCell() {
+        let contentViewWidth = contentView.frame.width - 40 - 5
+        
         contentView.addSubview(containerView)
+        containerView.leftAnchor.constraint(equalTo: contentView.leftAnchor).isActive = true
+        containerView.rightAnchor.constraint(equalTo: contentView.rightAnchor).isActive = true
+        containerView.centerYAnchor.constraint(equalTo: contentView.centerYAnchor).isActive = true
+        containerView.heightAnchor.constraint(equalToConstant: 30).isActive = true
+        
         containerView.addSubview(rankingLabel)
+        rankingLabel.topAnchor.constraint(equalTo: containerView.topAnchor).isActive = true
+        rankingLabel.leftAnchor.constraint(equalTo: containerView.leftAnchor).isActive = true
+        rankingLabel.bottomAnchor.constraint(equalTo: containerView.bottomAnchor).isActive = true
+        rankingLabel.widthAnchor.constraint(equalToConstant: contentViewWidth / 10).isActive = true
+        
         containerView.addSubview(teamImageView)
+        teamImageView.topAnchor.constraint(equalTo: containerView.topAnchor).isActive = true
+        teamImageView.leftAnchor.constraint(equalTo: rankingLabel.rightAnchor).isActive = true
+        teamImageView.bottomAnchor.constraint(equalTo: containerView.bottomAnchor).isActive = true
+        teamImageView.widthAnchor.constraint(equalToConstant: 40).isActive = true
+        
         containerView.addSubview(teamLabel)
+        teamLabel.topAnchor.constraint(equalTo: containerView.topAnchor).isActive = true
+        teamLabel.leftAnchor.constraint(equalTo: teamImageView.rightAnchor, constant: 5).isActive = true
+        teamLabel.bottomAnchor.constraint(equalTo: containerView.bottomAnchor).isActive = true
+        teamLabel.widthAnchor.constraint(equalToConstant: contentViewWidth * 4 / 10).isActive = true
+        
         containerView.addSubview(winsLabel)
+        winsLabel.topAnchor.constraint(equalTo: containerView.topAnchor).isActive = true
+        winsLabel.leftAnchor.constraint(equalTo: teamLabel.rightAnchor).isActive = true
+        winsLabel.bottomAnchor.constraint(equalTo: containerView.bottomAnchor).isActive = true
+        winsLabel.widthAnchor.constraint(equalToConstant: contentViewWidth / 10).isActive = true
+        
         containerView.addSubview(losesLabel)
+        losesLabel.topAnchor.constraint(equalTo: containerView.topAnchor).isActive = true
+        losesLabel.leftAnchor.constraint(equalTo: winsLabel.rightAnchor).isActive = true
+        losesLabel.bottomAnchor.constraint(equalTo: containerView.bottomAnchor).isActive = true
+        losesLabel.widthAnchor.constraint(equalToConstant: contentViewWidth / 10).isActive = true
+        
         containerView.addSubview(winRateLabel)
+        winRateLabel.topAnchor.constraint(equalTo: containerView.topAnchor).isActive = true
+        winRateLabel.leftAnchor.constraint(equalTo: losesLabel.rightAnchor).isActive = true
+        winRateLabel.bottomAnchor.constraint(equalTo: containerView.bottomAnchor).isActive = true
+        winRateLabel.widthAnchor.constraint(equalToConstant: contentViewWidth * 2 / 10).isActive = true
+        
         containerView.addSubview(pointLabel)
-        
-        containerView.translatesAutoresizingMaskIntoConstraints = false
-        rankingLabel.translatesAutoresizingMaskIntoConstraints = false
-        teamImageView.translatesAutoresizingMaskIntoConstraints = false
-        teamLabel.translatesAutoresizingMaskIntoConstraints = false
-        winsLabel.translatesAutoresizingMaskIntoConstraints = false
-        losesLabel.translatesAutoresizingMaskIntoConstraints = false
-        winRateLabel.translatesAutoresizingMaskIntoConstraints = false
-        pointLabel.translatesAutoresizingMaskIntoConstraints = false
-        
-        NSLayoutConstraint.activate([
-            containerView.leftAnchor.constraint(equalTo: contentView.leftAnchor, constant: 10),
-            containerView.rightAnchor.constraint(equalTo: contentView.rightAnchor, constant: -10),
-            containerView.centerYAnchor.constraint(equalTo: contentView.centerYAnchor),
-            containerView.heightAnchor.constraint(equalToConstant: 30),
-            
-            rankingLabel.topAnchor.constraint(equalTo: containerView.topAnchor),
-            rankingLabel.leftAnchor.constraint(equalTo: containerView.leftAnchor),
-            rankingLabel.bottomAnchor.constraint(equalTo: containerView.bottomAnchor),
-            rankingLabel.widthAnchor.constraint(equalToConstant: (contentView.frame.width - 20) / 10 - 10),
-            
-            teamImageView.topAnchor.constraint(equalTo: containerView.topAnchor),
-            teamImageView.leftAnchor.constraint(equalTo: rankingLabel.rightAnchor),
-            teamImageView.bottomAnchor.constraint(equalTo: containerView.bottomAnchor),
-            teamImageView.widthAnchor.constraint(equalToConstant: (contentView.frame.width - 20) / 10),
-            
-            teamLabel.topAnchor.constraint(equalTo: containerView.topAnchor),
-            teamLabel.leftAnchor.constraint(equalTo: teamImageView.rightAnchor),
-            teamLabel.bottomAnchor.constraint(equalTo: containerView.bottomAnchor),
-            teamLabel.widthAnchor.constraint(equalToConstant: (contentView.frame.width - 20) / 10 * 4),
-            
-            winsLabel.topAnchor.constraint(equalTo: containerView.topAnchor),
-            winsLabel.leftAnchor.constraint(equalTo: teamLabel.rightAnchor),
-            winsLabel.bottomAnchor.constraint(equalTo: containerView.bottomAnchor),
-            winsLabel.widthAnchor.constraint(equalToConstant: (contentView.frame.width - 20) / 10),
-            
-            losesLabel.topAnchor.constraint(equalTo: containerView.topAnchor),
-            losesLabel.leftAnchor.constraint(equalTo: winsLabel.rightAnchor),
-            losesLabel.bottomAnchor.constraint(equalTo: containerView.bottomAnchor),
-            losesLabel.widthAnchor.constraint(equalToConstant: (contentView.frame.width - 20) / 10),
-            
-            winRateLabel.topAnchor.constraint(equalTo: containerView.topAnchor),
-            winRateLabel.leftAnchor.constraint(equalTo: losesLabel.rightAnchor),
-            winRateLabel.bottomAnchor.constraint(equalTo: containerView.bottomAnchor),
-            winRateLabel.widthAnchor.constraint(equalToConstant: (contentView.frame.width - 20) / 10 + 10),
-            
-            pointLabel.topAnchor.constraint(equalTo: containerView.topAnchor),
-            pointLabel.leftAnchor.constraint(equalTo: winRateLabel.rightAnchor),
-            pointLabel.bottomAnchor.constraint(equalTo: containerView.bottomAnchor),
-            pointLabel.widthAnchor.constraint(equalToConstant: (contentView.frame.width - 20) / 10),
-        ])
+        pointLabel.topAnchor.constraint(equalTo: containerView.topAnchor).isActive = true
+        pointLabel.leftAnchor.constraint(equalTo: winRateLabel.rightAnchor).isActive = true
+        pointLabel.bottomAnchor.constraint(equalTo: containerView.bottomAnchor).isActive = true
+        pointLabel.widthAnchor.constraint(equalToConstant: contentViewWidth / 10).isActive = true
     }
     
     func update(standingsInfo: Standings) {
@@ -147,10 +137,7 @@ final class StandingsTableViewCell: UITableViewCell {
     }
     
     func setTeamImage(teamImageUrl: URL, teamImageView: UIImageView) {
-        let processor = DownsamplingImageProcessor(size: CGSize(
-            width: (contentView.frame.width - 20) / 10,
-            height: contentView.frame.height - 20
-        ))
+        let processor = DownsamplingImageProcessor(size: CGSize(width: 20, height: 20))
         teamImageView.kf.indicatorType = .activity
         teamImageView.kf.setImage(
             with: teamImageUrl,
