@@ -55,7 +55,7 @@ class StandingsViewController: UIViewController {
     }
     
     func setupNavigationBar() {
-        navigationItem.title = "✪ LCK 순위"
+        navigationItem.title = "LCK 순위"
         navigationItem.rightBarButtonItem = UIBarButtonItem(
             title: "시즌 선택",
             style: .plain,

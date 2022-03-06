@@ -47,7 +47,7 @@ class NewsViewController: UIViewController {
     }
     
     func setupNavigationBar() {
-        navigationItem.title = "✪ LOL News"
+        navigationItem.title = "LOL 뉴스"
     }
     
     func setupNewsTableView() {
