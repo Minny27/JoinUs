@@ -15,7 +15,7 @@ class NewsDetailViewController: UIViewController {
     // MARK: - Properties
     let newsDetailView: WKWebView = {
         let webView = WKWebView()
-        
+        webView.translatesAutoresizingMaskIntoConstraints = false
         return webView
     }()
     
@@ -23,31 +23,17 @@ class NewsDetailViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        configureUI()
-        loadWebView(newsDetailUrlString: newsDetailUrlString)
+        setupUI()
     }
     
-    func configureUI() {
-        self.navigationController?.isNavigationBarHidden = false
-        self.navigationController?.navigationBar.tintColor = .lightGray
-        self.navigationItem.leftBarButtonItem = UIBarButtonItem(
-            image: UIImage(systemName: "arrow.left"),
-            style: .plain,
-            target: self,
-            action: #selector(clickBackButton)
-        )
-        
-        view.backgroundColor = .white
+    func setupUI() {
         view.addSubview(newsDetailView)
+        newsDetailView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor).isActive = true
+        newsDetailView.leftAnchor.constraint(equalTo: view.leftAnchor).isActive = true
+        newsDetailView.bottomAnchor.constraint(equalTo: view.bottomAnchor).isActive = true
+        newsDetailView.rightAnchor.constraint(equalTo: view.rightAnchor).isActive = true
         
-        newsDetailView.translatesAutoresizingMaskIntoConstraints = false
-        
-        NSLayoutConstraint.activate([
-            newsDetailView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
-            newsDetailView.leftAnchor.constraint(equalTo: view.leftAnchor),
-            newsDetailView.bottomAnchor.constraint(equalTo: view.bottomAnchor),
-            newsDetailView.rightAnchor.constraint(equalTo: view.rightAnchor),
-        ])
+        loadWebView(newsDetailUrlString: newsDetailUrlString)
     }
     
     func loadWebView(newsDetailUrlString: String) {
@@ -58,10 +44,5 @@ class NewsDetailViewController: UIViewController {
         
         let request = URLRequest(url: newsDetailUrl)
         newsDetailView.load(request)
-    }
-    
-    @objc func clickBackButton() {
-        self.navigationController?.isNavigationBarHidden = true
-        self.navigationController?.popViewController(animated: true)
     }
 }

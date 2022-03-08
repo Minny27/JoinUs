@@ -47,7 +47,7 @@ class ScheduleViewController: UIViewController {
     }
     
     func setupNavigationBar() {
-        navigationItem.title = "✪ LCK 일정"
+        navigationItem.title = "LCK 일정"
     }
     
     func setupCustomTabBar() {

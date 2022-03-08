@@ -13,6 +13,7 @@ final class TeamPlayerPagerView: UITableViewCell {
     let teamPlayerPageCollectionViewModel = TeamPlayerPageCollectionViewModel()
     var selectedTeamIndexPath = IndexPath(item: 0, section: 0)
     var pastScrollOffsetX: CGFloat = 0
+    var presentPlayerDetailVCDelegate: PresentPlayerDetailVCDelegate?
     
     let customTeamBar = CustomTeamBar()
     
@@ -71,6 +72,12 @@ final class TeamPlayerPagerView: UITableViewCell {
     }
 }
 
+extension TeamPlayerPagerView: SendPlayerDetailVCDelegate {
+    func sendPlayerDetailVC(viewController: UIViewController) {
+        presentPlayerDetailVCDelegate?.presentPlayerDetailVC(viewController: viewController)
+    }
+}
+
 extension TeamPlayerPagerView: CustomTabBarDelegate {
     func customTabBarIndex(scroll index: Int) {
         selectedTeamIndexPath = IndexPath(item: index, section: 0)
@@ -109,8 +116,8 @@ extension TeamPlayerPagerView: UICollectionViewDataSource {
         
         cell.playerList = teamPlayerListInfo
         cell.setupCell()
+        cell.sendPlayerDetailVCDelegate = self
         return cell
-        
     }
 }
 
@@ -143,6 +150,7 @@ extension TeamPlayerPagerView: UICollectionViewDelegate {
             teamPlayerPageCollectionView.scrollToItem(at: nextIndexPath, at: .centeredHorizontally, animated: true)
             selectedTeamIndexPath = nextIndexPath
             customTeamBar.selectedTeamIndexPath = selectedTeamIndexPath
+            TeamPlayerCollectionViewCell.selectedTeamIndex = selectedTeamIndexPath.row
         }
         
         else if selectedTeamIndexPath.row > 0 && CGFloat(selectedTeamIndexPath.row) > targetContentOffset.pointee.x / teamPlayerPageCollectionView.frame.width {
@@ -155,6 +163,7 @@ extension TeamPlayerPagerView: UICollectionViewDelegate {
             teamPlayerPageCollectionView.scrollToItem(at: pastIndexPath, at: .centeredHorizontally, animated: true)
             selectedTeamIndexPath = pastIndexPath
             customTeamBar.selectedTeamIndexPath = selectedTeamIndexPath
+            TeamPlayerCollectionViewCell.selectedTeamIndex = selectedTeamIndexPath.row
         }
         
         else {

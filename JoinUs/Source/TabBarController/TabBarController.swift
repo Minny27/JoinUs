@@ -27,7 +27,6 @@ class TabBarController: UITabBarController {
             createTabBarItem(title: "Schedule", image: "calendar", viewController: ScheduleViewController()),
             createTabBarItem(title: "Rank", image: "crown", viewController: StandingsViewController()),
             createTabBarItem(title: "News", image: "newspaper", viewController: NewsViewController()),
-            createTabBarItem(title: "Player", image: "person", viewController: PlayerViewController()),
         ]
     }
     
