@@ -78,6 +78,20 @@ class HomeViewController: UIViewController {
     }
 }
 
+extension HomeViewController: PresentPlayerDetailVCDelegate {
+    func presentPlayerDetailVC(viewController detilVC: UIViewController) {
+        detilVC.navigationItem.title = "선수 정보"
+
+        let navi = UINavigationController(rootViewController: detilVC)
+        navi.navigationBar.prefersLargeTitles = true
+        navi.navigationBar.tintColor = .gray
+        navigationController?.navigationBar.setBackgroundImage(UIImage(), for: .default)
+        navigationController?.navigationBar.shadowImage = UIImage()
+        navigationController?.navigationBar.isTranslucent = false
+        navigationController?.present(navi, animated: true, completion  : nil)
+    }
+}
+
 // MARK: - UITableViewDataSource
 extension HomeViewController: UITableViewDataSource {
     func numberOfSections(in tableView: UITableView) -> Int {
@@ -114,6 +128,7 @@ extension HomeViewController: UITableViewDataSource {
             ) as! TeamPlayerPagerView
             
             cell.setupUI()
+            cell.presentPlayerDetailVCDelegate = self
             return cell
         }
     }

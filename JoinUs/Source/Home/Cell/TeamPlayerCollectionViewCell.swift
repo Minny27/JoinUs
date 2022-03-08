@@ -9,8 +9,11 @@ import UIKit
 
 final class TeamPlayerCollectionViewCell: UICollectionViewCell {
     static let identifier = "TeamPlayerPageViewCell"
+    static var selectedTeamIndex = 0
     
+    let teamPlayerPageCollectionViewModel = TeamPlayerPageCollectionViewModel()
     var playerList = [Player]()
+    var sendPlayerDetailVCDelegate: SendPlayerDetailVCDelegate?
     
     let teamPlayerCollectionView: UICollectionView = {
         let flowlayout = UICollectionViewFlowLayout()
@@ -67,13 +70,13 @@ extension TeamPlayerCollectionViewCell: UICollectionViewDataSource {
 }
 
 extension TeamPlayerCollectionViewCell: UICollectionViewDelegate {
-//    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-//        <#code#>
-//    }
-//    
-//    func collectionView(_ collectionView: UICollectionView, didDeselectItemAt indexPath: IndexPath) {
-//        <#code#>
-//    }
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        let playerDetailViewController = PlayerDetailViewController()
+        let playerInfo = teamPlayerPageCollectionViewModel.teamPlayerInfo(teamIndex: TeamPlayerCollectionViewCell.selectedTeamIndex, playerIndex: indexPath.row)
+        playerDetailViewController.playerInfo = playerInfo
+
+        sendPlayerDetailVCDelegate?.sendPlayerDetailVC(viewController: playerDetailViewController)
+    }
 }
 
 extension TeamPlayerCollectionViewCell: UICollectionViewDelegateFlowLayout {
