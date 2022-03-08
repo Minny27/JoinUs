@@ -26,7 +26,7 @@ final class TeamBarCollectionViewCell: UICollectionViewCell {
     
     let teamLabel: UILabel = {
         let label = UILabel()
-        label.font = .boldSystemFont(ofSize: 14)
+        label.font = .boldSystemFont(ofSize: 15)
         label.textColor = .black
         label.textAlignment = .left
         label.translatesAutoresizingMaskIntoConstraints = false
