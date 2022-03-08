@@ -10,8 +10,9 @@ import UIKit
 final class CustomTeamBar: UIView {
     
     let teamBarViewmodel = TeamTabbarViewModel()
-    let teamBarCellWidth = [80, 75, 50, 55, 55, 80, 75, 65, 50, 60]
-    weak var customTabBarDelegate: CustomTabBarDelegate?
+    let teamBarCellWidth = [55, 60, 85, 70, 60, 75, 60, 55, 85, 85]
+    
+    var customTabBarDelegate: CustomTabBarDelegate?
     var selectedTeamIndexPath = IndexPath(item: 0, section: 0)
     var indicatorViewLaftConstraint: NSLayoutConstraint!
     var indicatorViewWidthConstraint: NSLayoutConstraint!
@@ -69,7 +70,7 @@ final class CustomTeamBar: UIView {
         indicatorViewLaftConstraint = indicatorView.leftAnchor.constraint(equalTo: leftAnchor)
         indicatorViewLaftConstraint.isActive = true
         indicatorView.bottomAnchor.constraint(equalTo: bottomAnchor).isActive = true
-        indicatorViewWidthConstraint = indicatorView.widthAnchor.constraint(equalToConstant: 80)
+        indicatorViewWidthConstraint = indicatorView.widthAnchor.constraint(equalToConstant: CGFloat(teamBarCellWidth[0]))
         indicatorViewWidthConstraint.isActive = true
         indicatorView.heightAnchor.constraint(equalToConstant: 5).isActive = true
     }
@@ -105,6 +106,7 @@ extension CustomTeamBar: UICollectionViewDelegate {
     ) {
         selectedTeamIndexPath = indexPath
         customTabBarDelegate?.customTabBarIndex(scroll: selectedTeamIndexPath.row)
+        TeamPlayerCollectionViewCell.selectedTeamIndex = indexPath.row
     }
     
     func scrollViewDidScroll(_ scrollView: UIScrollView) {
