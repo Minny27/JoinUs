@@ -14,6 +14,7 @@ final class PlayerCollectionViewCell: UICollectionViewCell {
         let stackView = UIStackView()
         stackView.axis = .vertical
         stackView.spacing = 3
+        stackView.alignment = .center
         stackView.translatesAutoresizingMaskIntoConstraints = false
         return stackView
     }()
@@ -24,10 +25,25 @@ final class PlayerCollectionViewCell: UICollectionViewCell {
         return imageView
     }()
     
+    let roleStackView: UIStackView = {
+        let stackView = UIStackView()
+        stackView.axis = .horizontal
+        stackView.spacing = 5
+        stackView.alignment = .center
+        stackView.translatesAutoresizingMaskIntoConstraints = false
+        return stackView
+    }()
+    
+    let playerRoleImageView: UIImageView = {
+        let imageView = UIImageView()
+        imageView.translatesAutoresizingMaskIntoConstraints = false
+        return imageView
+    }()
+    
     let playerRoleLabel: UILabel = {
         let label = UILabel()
         label.font = .boldSystemFont(ofSize: 12)
-        label.textColor = .lightGray
+        label.textColor = .systemBrown
         label.textAlignment = .center
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
@@ -63,13 +79,20 @@ final class PlayerCollectionViewCell: UICollectionViewCell {
         playerImageView.widthAnchor.constraint(equalToConstant: 80).isActive = true
         playerImageView.heightAnchor.constraint(equalToConstant: 80).isActive = true
         
-        playerStackView.addArrangedSubview(playerRoleLabel)
+        playerStackView.addArrangedSubview(roleStackView)
+        roleStackView.addArrangedSubview(playerRoleImageView)
+        playerRoleImageView.widthAnchor.constraint(equalToConstant: 12).isActive = true
+        playerRoleImageView.heightAnchor.constraint(equalToConstant: 12).isActive = true
+        
+        roleStackView.addArrangedSubview(playerRoleLabel)
+        
         playerStackView.addArrangedSubview(playerGameIdLabel)
     }
     
     func update(playerInfo: Player) {
         contentView.layer.borderColor = playerInfo.teamColor.cgColor
         playerImageView.image = UIImage(named: playerInfo.imageString)
+        playerRoleImageView.image = UIImage(named: playerInfo.role)
         playerRoleLabel.text = playerInfo.role
         playerGameIdLabel.text = playerInfo.gameId
     }

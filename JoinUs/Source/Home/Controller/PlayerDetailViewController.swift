@@ -52,6 +52,11 @@ class PlayerDetailViewController: UIViewController {
         )
         
         playerDetailTableView.register(
+            PlayerFrontDataCell.self,
+            forCellReuseIdentifier: PlayerFrontDataCell.identifier
+        )
+        
+        playerDetailTableView.register(
             PlayerDetailCell.self,
             forCellReuseIdentifier: PlayerDetailCell.identifier
         )
@@ -63,7 +68,6 @@ class PlayerDetailViewController: UIViewController {
         playerDetailTableView.leftAnchor.constraint(equalTo: view.leftAnchor, constant: 16).isActive = true
         playerDetailTableView.rightAnchor.constraint(equalTo: view.rightAnchor, constant: -16).isActive = true
         playerDetailTableView.heightAnchor.constraint(equalToConstant: 572).isActive = true
-
     }
     
     @objc func clickCancelButton() {
@@ -85,66 +89,95 @@ extension PlayerDetailViewController: UITableViewDataSource {
     ) -> UITableViewCell {
         guard let playerInfo = playerInfo else { return UITableViewCell() }
         
-        let playerDetailDataType = PlayerDetailDataType(rawValue: indexPath.row)
-        switch playerDetailDataType {
+        let playerDetailCategoryType = PlayerDetailCategoryType(rawValue: indexPath.row)!
+        switch playerDetailCategoryType {
         case .image:
             let cell = tableView.dequeueReusableCell(
                 withIdentifier: PlayerImageCell.identifier,
                 for: indexPath
             ) as! PlayerImageCell
-            
             cell.setupCell()
             cell.update(playerInfo: playerInfo)
             return cell
             
-        case .none:
+        case .team:
+            let cell = tableView.dequeueReusableCell(
+                withIdentifier: PlayerFrontDataCell.identifier,
+                for: indexPath
+            ) as! PlayerFrontDataCell
+            cell.setupCell()
+            cell.update(
+                category: playerDetailCategoryType.category,
+                imageString: playerInfo.team,
+                teamColor: playerInfo.teamColor,
+                description: playerInfo.team
+            )
+            return cell
+            
+        case .role:
+            let cell = tableView.dequeueReusableCell(
+                withIdentifier: PlayerFrontDataCell.identifier,
+                for: indexPath
+            ) as! PlayerFrontDataCell
+            cell.setupCell()
+            cell.update(
+                category: playerDetailCategoryType.category,
+                imageString: playerInfo.role,
+                teamColor: playerInfo.teamColor,
+                description: playerInfo.role
+            )
+            return cell
+            
+        case .nickName:
             let cell = tableView.dequeueReusableCell(
                 withIdentifier: PlayerDetailCell.identifier,
                 for: indexPath
             ) as! PlayerDetailCell
             cell.setupCell()
+            cell.update(
+                category: playerDetailCategoryType.category,
+                description: playerInfo.gameId,
+                teamColor: playerInfo.teamColor
+            )
+            return cell
             
-            let playerDetailCategoryType =  PlayerDetailCategoryType(rawValue: indexPath.row)!
-            switch playerDetailCategoryType {
-            case .image:
-                break
-            case .team:
-                cell.update(
-                    category: playerDetailCategoryType.category,
-                    description: playerInfo.team,
-                    teamColor: playerInfo.teamColor
-                )
-            case .role:
-                cell.update(
-                    category: playerDetailCategoryType.category,
-                    description: playerInfo.role,
-                    teamColor: playerInfo.teamColor
-                )
-            case .nickName:
-                cell.update(
-                    category: playerDetailCategoryType.category,
-                    description: playerInfo.gameId,
-                    teamColor: playerInfo.teamColor
-                )
-            case .name:
-                cell.update(
-                    category: playerDetailCategoryType.category,
-                    description: playerInfo.name,
-                    teamColor: playerInfo.teamColor
-                )
-            case .birth:
-                cell.update(
-                    category: playerDetailCategoryType.category,
-                    description: playerInfo.birth,
-                    teamColor: playerInfo.teamColor
-                )
-            case .nationality:
-                cell.update(
-                    category: playerDetailCategoryType.category,
-                    description: playerInfo.nationality,
-                    teamColor: playerInfo.teamColor
-                )
-            }
+        case .name:
+            let cell = tableView.dequeueReusableCell(
+                withIdentifier: PlayerDetailCell.identifier,
+                for: indexPath
+            ) as! PlayerDetailCell
+            cell.setupCell()
+            cell.update(
+                category: playerDetailCategoryType.category,
+                description: playerInfo.name,
+                teamColor: playerInfo.teamColor
+            )
+            return cell
+            
+        case .birth:
+            let cell = tableView.dequeueReusableCell(
+                withIdentifier: PlayerDetailCell.identifier,
+                for: indexPath
+            ) as! PlayerDetailCell
+            cell.setupCell()
+            cell.update(
+                category: playerDetailCategoryType.category,
+                description: playerInfo.birth,
+                teamColor: playerInfo.teamColor
+            )
+            return cell
+            
+        case .nationality:
+            let cell = tableView.dequeueReusableCell(
+                withIdentifier: PlayerDetailCell.identifier,
+                for: indexPath
+            ) as! PlayerDetailCell
+            cell.setupCell()
+            cell.update(
+                category: playerDetailCategoryType.category,
+                description: playerInfo.nationality,
+                teamColor: playerInfo.teamColor
+            )
             return cell
         }
     }
@@ -160,11 +193,11 @@ extension PlayerDetailViewController: UITableViewDelegate {
         heightForRowAt
         indexPath: IndexPath
     ) -> CGFloat {
-        let playerDetailDataType = PlayerDetailDataType(rawValue: indexPath.row)
-        switch playerDetailDataType {
+        let playerDetailCategoryType = PlayerDetailCategoryType(rawValue: indexPath.row)
+        switch playerDetailCategoryType {
         case .image:
             return 250
-        case .none:
+        default:
             return 50
         }
     }

@@ -142,13 +142,10 @@ extension NewsViewController: UITableViewDelegate {
         didSelectRowAt indexPath: IndexPath
     ) {
         let newsDetailViewController = NewsDetailViewController()
-        
+        newsDetailViewController.navigationItem.title = "뉴스"
         newsDetailViewController.newsDetailUrlString = newsTableViewModel.newsInfo(at: indexPath.row)!.detailUrlString
         
-        self.navigationController?.pushViewController(
-            newsDetailViewController,
-            animated: true
-        )
+        self.navigationController?.pushViewController(newsDetailViewController, animated: true)
     }
     
     func tableView(

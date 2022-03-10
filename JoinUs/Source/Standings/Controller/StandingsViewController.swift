@@ -41,17 +41,11 @@ class StandingsViewController: UIViewController {
     // MARK: - LifeCycles
     override func viewDidLoad() {
         super.viewDidLoad()
+        
         setupNavigationBar()
         setupStandingsTableView()
         setupLoadingView()
         fetchData()
-                
-        NotificationCenter.default.addObserver(
-            self,
-            selector: #selector(didDismissPopUpViewNotification(_:)),
-            name: Notification.Name(Strings.didDismissPopUpViewNotification),
-            object: nil
-        )
     }
     
     func setupNavigationBar() {
@@ -59,8 +53,8 @@ class StandingsViewController: UIViewController {
         navigationItem.rightBarButtonItem = UIBarButtonItem(
             title: "시즌 선택",
             style: .plain,
-            target: #selector(clickSeasonSelectionButton),
-            action: nil
+            target: self,
+            action: #selector(clickSeasonSelectionButton)
         )
     }
     
@@ -77,7 +71,7 @@ class StandingsViewController: UIViewController {
         
         standingsTableView.dataSource = self
         standingsTableView.delegate = self
-        
+                
         standingsTableView.topAnchor.constraint(equalTo: view.topAnchor).isActive = true
         standingsTableView.leftAnchor.constraint(equalTo: view.leftAnchor, constant: 16).isActive = true
         standingsTableView.bottomAnchor.constraint(equalTo: view.bottomAnchor).isActive = true
@@ -89,8 +83,9 @@ class StandingsViewController: UIViewController {
     func setupLoadingView() {
         standingsTableView.addSubview(customActivityIndicatorView)
         customActivityIndicatorView.translatesAutoresizingMaskIntoConstraints = false
-        customActivityIndicatorView.centerXAnchor.constraint(equalTo: standingsTableView.centerXAnchor).isActive = true
-        customActivityIndicatorView.centerYAnchor.constraint(equalTo: standingsTableView.centerYAnchor).isActive = true
+        
+        customActivityIndicatorView.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
+        customActivityIndicatorView.centerYAnchor.constraint(equalTo: view.centerYAnchor).isActive = true
         customActivityIndicatorView.widthAnchor.constraint(equalToConstant: 80).isActive = true
         customActivityIndicatorView.heightAnchor.constraint(equalToConstant: 80).isActive = true
     }
@@ -111,24 +106,25 @@ class StandingsViewController: UIViewController {
     }
     
     @objc func clickSeasonSelectionButton() {
-//        let popUpViewController = PopUpViewController()
-//        popUpViewController.modalPresentationStyle = .overFullScreen
+        let seasonSectionViewController = SeasonSectionViewController()
+        seasonSectionViewController.navigationItem.title = "시즌 선택"
+        seasonSectionViewController.selectionSeasonDelegate = self
         
-//        present(
-//            popUpViewController,
-//            animated: false,
-//            completion: nil
-//        )
-    }
-    
-    @objc func didDismissPopUpViewNotification(_ notification: NSNotification) {
-        standingsViewModel.fetchStandingsData(urlString: notification.userInfo!["urlString"]! as! String)
+        navigationController?.pushViewController(seasonSectionViewController, animated: true)
     }
     
     @objc func standingsRefresh() {
+        refreshControl.endRefreshing()
+        customActivityIndicatorView.loadingView.startAnimating()
         clearData()
         fetchData()
-        refreshControl.endRefreshing()
+    }
+}
+
+extension StandingsViewController: SelectionSeasonDelegate {
+    func selectionSeason() {
+        customActivityIndicatorView.loadingView.startAnimating()
+        standingsRefresh()
     }
 }
 
@@ -187,15 +183,7 @@ extension StandingsViewController: UITableViewDataSource {
     }
 }
 
-extension StandingsViewController: UITableViewDelegate {
-    func scrollViewDidEndDragging(_ scrollView: UIScrollView, willDecelerate decelerate: Bool) {
-        if let refreshControl = standingsTableView.refreshControl {
-            if refreshControl.isRefreshing {
-                refreshControl.endRefreshing()
-            }
-        }
-    }
-    
+extension StandingsViewController: UITableViewDelegate {    
     func tableView(
         _ tableView: UITableView,
         heightForRowAt indexPath: IndexPath
