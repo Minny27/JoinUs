@@ -20,7 +20,7 @@ final class TeamPlayerPageCollectionViewModel {
      Player("GenG", "Peanut", "Peanut.png", "JUG", .brown, "한왕호", "1998년 2월 3일 (24세)", "대한민국"),
      Player("GenG", "Doran", "Doran.png", "TOP", .brown, "최현준", "2000년 7월 22일 (21세)", "대한민국"),
      Player("GenG", "Ruler", "Ruler.png", "BOT", .brown, "박재혁", "1998년 12월 29일 (23세)", "대한민국"),
-     Player("GenG", "Lehends", "Lehends.png", "JGL", .brown, "손시우", "1998년 12월 24일 (23세)", "대한민국")
+     Player("GenG", "Lehends", "Lehends.png", "SUP", .brown, "손시우", "1998년 12월 24일 (23세)", "대한민국")
     ],
     [Player("DK", "ShowMaker", "ShowMaker.png", "MID", .systemGreen, "허수", "2000년 7월 22일 (21세)", "대한민국"),
      Player("DK", "Canyon", "Canyon.png", "JUG", .systemGreen, "김건부", "2001년 6월 18일 (20세)", "대한민국"),
