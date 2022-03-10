@@ -200,6 +200,7 @@ extension ScheduleViewController: UICollectionViewDelegate {
             )
             selectedMonthIndexPath = nextIndexPath
             customMonthBar.selectedMonthIndexPath = selectedMonthIndexPath
+            IndicatorCenterXConstraint.constant = CGFloat(self.selectedMonthIndexPath.row) * (self.pageMonthCollectionView.frame.width + 12)
         }
 
         else if selectedMonthIndexPath.row > 0 && CGFloat(selectedMonthIndexPath.row) > targetContentOffset.pointee.x / pageMonthCollectionView.frame.width {
@@ -212,6 +213,7 @@ extension ScheduleViewController: UICollectionViewDelegate {
             )
             selectedMonthIndexPath = pastIndexPath
             customMonthBar.selectedMonthIndexPath = selectedMonthIndexPath
+            IndicatorCenterXConstraint.constant = CGFloat(self.selectedMonthIndexPath.row) * (self.pageMonthCollectionView.frame.width + 12)
         }
     }
 }
