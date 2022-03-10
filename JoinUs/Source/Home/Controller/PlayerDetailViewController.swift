@@ -15,10 +15,10 @@ class PlayerDetailViewController: UIViewController {
     let playerDetailTableView: UITableView = {
         let tableView = UITableView()
         tableView.separatorInset = .zero
-        tableView.separatorColor = .black
-        tableView.allowsSelection = false
         tableView.layer.borderWidth = 2
         tableView.layer.cornerRadius = 10
+        tableView.backgroundColor = .white
+        tableView.allowsSelection = false
         tableView.showsVerticalScrollIndicator = false
         tableView.translatesAutoresizingMaskIntoConstraints = false
         return tableView
@@ -67,7 +67,14 @@ class PlayerDetailViewController: UIViewController {
         playerDetailTableView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor).isActive = true
         playerDetailTableView.leftAnchor.constraint(equalTo: view.leftAnchor, constant: 16).isActive = true
         playerDetailTableView.rightAnchor.constraint(equalTo: view.rightAnchor, constant: -16).isActive = true
-        playerDetailTableView.heightAnchor.constraint(equalToConstant: 572).isActive = true
+
+        if view.frame.height > 720 {
+            playerDetailTableView.heightAnchor.constraint(equalToConstant: 572).isActive = true
+        }
+        
+        else {
+            playerDetailTableView.bottomAnchor.constraint(equalTo: view.bottomAnchor).isActive = true
+        }
     }
     
     @objc func clickCancelButton() {
