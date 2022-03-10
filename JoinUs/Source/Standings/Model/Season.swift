@@ -9,13 +9,13 @@ import Foundation
 
 struct Season {
     let year: String
-    let seasonName: String
+    let season: String
     
     init(
         year: String,
-        seasonName: String
+        season: String
     ) {
         self.year = year
-        self.seasonName = seasonName
+        self.season = season
     }
 }
