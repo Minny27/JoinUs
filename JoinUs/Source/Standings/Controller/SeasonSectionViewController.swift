@@ -16,6 +16,7 @@ class SeasonSectionViewController: UIViewController {
     let seasonSectionTableView: UITableView = {
         let tableView = UITableView()
         tableView.separatorStyle = .none
+        tableView.backgroundColor = .white
         tableView.showsVerticalScrollIndicator = false
         tableView.translatesAutoresizingMaskIntoConstraints = false
 
