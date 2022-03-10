@@ -12,8 +12,8 @@ final class TeamPlayerCollectionViewCell: UICollectionViewCell {
     static var selectedTeamIndex = 0
     
     let teamPlayerPageCollectionViewModel = TeamPlayerPageCollectionViewModel()
+    weak var sendPlayerDetailVCDelegate: SendPlayerDetailVCDelegate?
     var playerList = [Player]()
-    var sendPlayerDetailVCDelegate: SendPlayerDetailVCDelegate?
     
     let teamPlayerCollectionView: UICollectionView = {
         let flowlayout = UICollectionViewFlowLayout()
@@ -91,6 +91,4 @@ extension TeamPlayerCollectionViewCell: UICollectionViewDelegateFlowLayout {
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumInteritemSpacingForSectionAt section: Int) -> CGFloat {
         return 0
     }
-    
-    
 }

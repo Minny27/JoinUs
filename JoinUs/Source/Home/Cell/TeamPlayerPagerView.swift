@@ -11,9 +11,9 @@ final class TeamPlayerPagerView: UITableViewCell {
     static let identifier = "TeamPlayerPagerView"
 
     let teamPlayerPageCollectionViewModel = TeamPlayerPageCollectionViewModel()
+    weak var presentPlayerDetailVCDelegate: PresentPlayerDetailVCDelegate?
     var selectedTeamIndexPath = IndexPath(item: 0, section: 0)
     var pastScrollOffsetX: CGFloat = 0
-    var presentPlayerDetailVCDelegate: PresentPlayerDetailVCDelegate?
     
     let customTeamBar = CustomTeamBar()
     
