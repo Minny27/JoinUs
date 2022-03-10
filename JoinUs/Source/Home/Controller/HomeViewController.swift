@@ -74,7 +74,6 @@ class HomeViewController: UIViewController {
     
     @objc func scheduleRefresh() {
         homeTableView.reloadData()
-        refreshControl.endRefreshing()
     }
 }
 
@@ -85,9 +84,9 @@ extension HomeViewController: PresentPlayerDetailVCDelegate {
         let navi = UINavigationController(rootViewController: detilVC)
         navi.navigationBar.prefersLargeTitles = true
         navi.navigationBar.tintColor = .gray
-        navigationController?.navigationBar.setBackgroundImage(UIImage(), for: .default)
-        navigationController?.navigationBar.shadowImage = UIImage()
-        navigationController?.navigationBar.isTranslucent = false
+        navi.overrideUserInterfaceStyle = .light
+        navi.navigationBar.setBackgroundImage(UIImage(), for: .default)
+        navi.navigationBar.shadowImage = UIImage()
         navigationController?.present(navi, animated: true, completion  : nil)
     }
 }
@@ -156,6 +155,14 @@ extension HomeViewController: UITableViewDataSource {
 
 // MARK: - UITableViewDelegate
 extension HomeViewController: UITableViewDelegate {
+    func scrollViewDidEndDragging(_ scrollView: UIScrollView, willDecelerate decelerate: Bool) {
+        if refreshControl.isRefreshing {
+            DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + 1) {
+                self.refreshControl.endRefreshing()
+            }
+        }
+    }
+    
     func tableView(
         _ tableView: UITableView,
         heightForRowAt indexPath: IndexPath

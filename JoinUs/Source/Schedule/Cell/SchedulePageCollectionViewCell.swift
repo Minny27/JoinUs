@@ -25,6 +25,7 @@ class SchedulePageCollectionViewCell: UICollectionViewCell {
     let monthScheduleTableView: UITableView = {
         let tableview = UITableView()
         tableview.separatorInset = .zero
+        tableview.separatorStyle = .none
         tableview.showsVerticalScrollIndicator = false
 
         if #available(iOS 15.0, *) {
@@ -85,7 +86,7 @@ extension SchedulePageCollectionViewCell: UITableViewDataSource {
         cellForRowAt indexPath: IndexPath
     ) -> UITableViewCell {
         if lckMonthScheduleList.count > 0 {
-            monthScheduleTableView.separatorColor = .systemGray3
+            monthScheduleTableView.separatorStyle = .singleLine
             
             if indexPath.row ==
                 lckMonthScheduleList.count - 1 ||  lckMonthScheduleList[indexPath.row].homeTeam != lckMonthScheduleList[indexPath.row + 1].homeTeam {

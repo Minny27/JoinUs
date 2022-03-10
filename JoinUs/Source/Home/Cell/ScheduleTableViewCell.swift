@@ -17,7 +17,7 @@ final class ScheduleTableViewCell: UITableViewCell {
     let leagueScheduleTableView: UITableView = {
         let tableView = UITableView()
         tableView.separatorInset = .zero
-        tableView.separatorColor = .clear
+        tableView.separatorStyle = .none
         tableView.showsVerticalScrollIndicator = false
         
         if #available(iOS 15.0, *) {
@@ -114,7 +114,7 @@ extension ScheduleTableViewCell: UITableViewDataSource {
     ) -> UITableViewCell {
         if let leagueType = leagueType {
             customActivityIndicatorView.loadingView.stopAnimating()
-            leagueScheduleTableView.separatorColor = .systemGray3
+            leagueScheduleTableView.separatorStyle = .singleLine
             let leagueScheduleTableViewSectionType = LeagueScheduleTableViewSectionType(rawValue: leagueType)!
             
             switch leagueScheduleTableViewSectionType {

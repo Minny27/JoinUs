@@ -23,17 +23,18 @@ class NewsDetailViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        setupUI()
+        view.backgroundColor = .white
+        
+        setupNewsDetailView()
+        loadWebView(newsDetailUrlString: newsDetailUrlString)
     }
     
-    func setupUI() {
+    func setupNewsDetailView() {
         view.addSubview(newsDetailView)
         newsDetailView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor).isActive = true
-        newsDetailView.leftAnchor.constraint(equalTo: view.leftAnchor).isActive = true
+        newsDetailView.leftAnchor.constraint(equalTo: view.leftAnchor, constant: 16).isActive = true
         newsDetailView.bottomAnchor.constraint(equalTo: view.bottomAnchor).isActive = true
-        newsDetailView.rightAnchor.constraint(equalTo: view.rightAnchor).isActive = true
-        
-        loadWebView(newsDetailUrlString: newsDetailUrlString)
+        newsDetailView.rightAnchor.constraint(equalTo: view.rightAnchor, constant: -16).isActive = true
     }
     
     func loadWebView(newsDetailUrlString: String) {
