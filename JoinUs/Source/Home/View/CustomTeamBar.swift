@@ -8,11 +8,10 @@
 import UIKit
 
 final class CustomTeamBar: UIView {
-    
     let teamBarViewmodel = TeamTabbarViewModel()
     let teamBarCellWidth = [55, 60, 85, 70, 60, 75, 60, 55, 85, 85]
     
-    var customTabBarDelegate: CustomTabBarDelegate?
+    weak var customTabBarDelegate: CustomTabBarDelegate?
     var selectedTeamIndexPath = IndexPath(item: 0, section: 0)
     var indicatorViewLaftConstraint: NSLayoutConstraint!
     var indicatorViewWidthConstraint: NSLayoutConstraint!
