@@ -30,6 +30,18 @@ class TabBarController: UITabBarController {
         ]
     }
     
+    func setupStatusBarBackgroundView(statusBarHeight: CGFloat) {
+        let statusBarBackgroundView = UIView()
+        statusBarBackgroundView.backgroundColor = .white
+        statusBarBackgroundView.translatesAutoresizingMaskIntoConstraints = false
+
+        view.addSubview(statusBarBackgroundView)
+        statusBarBackgroundView.topAnchor.constraint(equalTo: view.topAnchor).isActive = true
+        statusBarBackgroundView.leftAnchor.constraint(equalTo: view.leftAnchor).isActive = true
+        statusBarBackgroundView.rightAnchor.constraint(equalTo: view.rightAnchor).isActive = true
+        statusBarBackgroundView.heightAnchor.constraint(equalToConstant: statusBarHeight).isActive = true
+    }
+    
     func createTabBarItem(
         title: String,
         image: String,
@@ -39,6 +51,8 @@ class TabBarController: UITabBarController {
         navigationController.tabBarItem.title = title
         navigationController.tabBarItem.image = UIImage(systemName: image)
         
+        navigationController.view.backgroundColor = .white
+        navigationController.navigationBar.backgroundColor = .white
         navigationController.navigationBar.prefersLargeTitles = true
         navigationController.navigationBar.tintColor = .lightGray
         navigationController.navigationBar.barTintColor = .white
@@ -53,7 +67,6 @@ extension TabBarController: UITabBarControllerDelegate {
     func tabBarController(_ tabBarController: UITabBarController, animationControllerForTransitionFrom fromVC: UIViewController, to toVC: UIViewController) -> UIViewControllerAnimatedTransitioning? {
         return CustomTabBarTransition(viewControllers: tabBarController.viewControllers)
     }
-    
 }
 
 class CustomTabBarTransition: NSObject, UIViewControllerAnimatedTransitioning {
