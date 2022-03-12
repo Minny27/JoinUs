@@ -1,14 +1,12 @@
 <img src=https://img.shields.io/badge/platform-iOS-blue>  <img src = https://img.shields.io/badge/Swift-5.5-orange.svg>
 
 ## Join Us
-- LCK 팬들을 위한 LCK 일정, 순위, 뉴스, 그리고 각 팀 선수들에 대한 정보 제공 플랫폼
+- LCK 리그 일정, 선수 정보, 순위, 뉴스 제공 앱
 
-<img src="https://user-images.githubusercontent.com/68800789/146727581-becfc15c-8035-47a6-904a-57086e294408.gif" width="25%">
-
-<img src="https://user-images.githubusercontent.com/68800789/147533594-df98897b-b09d-4196-b983-ca3c1f42b510.png" width="18%"> <img src="https://user-images.githubusercontent.com/68800789/147533598-5ad9f9ee-d5d4-4ca8-bde0-767353eb75d1.png" width="18%"> <img src="https://user-images.githubusercontent.com/68800789/147533602-6c7107a9-d2b3-4c32-9fb5-f1f3d850c3e0.png" width="18%"> <img src="https://user-images.githubusercontent.com/68800789/147533604-8b2040fa-e5df-4f48-aba9-6b02952647a0.png" width="18%"> <img src="https://user-images.githubusercontent.com/68800789/147533607-a04eb74d-d563-49d4-a9fa-0235e0fcee73.png" width="18%">
+<img src="https://user-images.githubusercontent.com/68800789/158004216-ef09fddf-3e10-4c0a-b55a-c7ebd85ed1b6.png" width=18%> <img src="https://user-images.githubusercontent.com/68800789/158004219-587a64ea-d023-4ecb-ae83-5ebd5eaac760.png" width=18%> <img src="https://user-images.githubusercontent.com/68800789/158004220-2da00f87-ae74-488b-ab6e-df6de824330a.png" width=18%> <img src="https://user-images.githubusercontent.com/68800789/158004223-ae38e378-4027-4ee6-93ce-b82be5bad033.png" width=18%> <img src="https://user-images.githubusercontent.com/68800789/158004224-9e89c59c-93bc-40bc-b272-92168dfbb2d9.png" width=18%>
 
 ## 기간
-- 2021.10 ~ 2021.12 (약 2개월)
+- 2021.10 ~ 2021.2
 
 ## 소속
 - 개인 프로젝트
