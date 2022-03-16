@@ -187,6 +187,9 @@ final class LeagueScheduleTableViewCell: UITableViewCell {
         if leagueScheduleInfo.date == todayDate {
             timeLabel.textColor = .black
             statusLabel.font = .boldSystemFont(ofSize: 13)
+        } else {
+            timeLabel.textColor = .lightGray
+            statusLabel.font = .systemFont(ofSize: 13)
         }
     }
     

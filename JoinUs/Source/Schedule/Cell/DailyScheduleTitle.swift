@@ -33,6 +33,9 @@ class DailyScheduleTitle: UITableViewCell {
         if leagueScheduleInfo.date == todayDate {
             contentView.layer.borderWidth = 2
             contentView.layer.borderColor = UIColor.purple.cgColor
+        } else {
+            contentView.layer.borderWidth = 0
+            contentView.layer.borderColor = UIColor.clear.cgColor
         }
     }
 }
