@@ -21,16 +21,18 @@ class DailyScheduleTitle: UITableViewCell {
     func configureCell() {
         contentView.backgroundColor = .systemGray6
         contentView.addSubview(titleLabel)
-        
-        NSLayoutConstraint.activate([
-            titleLabel.topAnchor.constraint(equalTo: contentView.topAnchor),
-            titleLabel.leftAnchor.constraint(equalTo: contentView.leftAnchor, constant: 12),
-            titleLabel.bottomAnchor.constraint(equalTo: contentView.bottomAnchor),
-            titleLabel.rightAnchor.constraint(equalTo: contentView.rightAnchor, constant: -12),
-        ])
+        titleLabel.topAnchor.constraint(equalTo: contentView.topAnchor).isActive = true
+        titleLabel.leftAnchor.constraint(equalTo: contentView.leftAnchor, constant: 12).isActive = true
+        titleLabel.bottomAnchor.constraint(equalTo: contentView.bottomAnchor).isActive = true
+        titleLabel.rightAnchor.constraint(equalTo: contentView.rightAnchor, constant: -12).isActive = true
     }
 
-    func update(schedule: LeagueScheduleTableViewCellModel) {
-        titleLabel.text = schedule.date.replacingOccurrences(of: "-", with: "월 ") + "일"
+    func update(leagueScheduleInfo: LeagueScheduleTableViewCellModel) {
+        titleLabel.text = leagueScheduleInfo.date.replacingOccurrences(of: "-", with: "월 ") + "일"
+        let todayDate = DateFormatter().dateToString(date: Date(), dateFormat: .date)
+        if leagueScheduleInfo.date == todayDate {
+            contentView.layer.borderWidth = 2
+            contentView.layer.borderColor = UIColor.purple.cgColor
+        }
     }
 }
