@@ -114,7 +114,7 @@ extension SchedulePageCollectionViewCell: UITableViewDataSource {
                 
                 cell.selectionStyle = .none
                 cell.configureCell()
-                cell.update(schedule: leagueScheduleInfo)
+                cell.update(leagueScheduleInfo: leagueScheduleInfo)
                 return cell
             }
         }
