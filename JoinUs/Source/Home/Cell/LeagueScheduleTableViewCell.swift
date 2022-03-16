@@ -22,7 +22,7 @@ final class LeagueScheduleTableViewCell: UITableViewCell {
     
     let statusLabel: UILabel = {
         let label = UILabel()
-        label.font = .boldSystemFont(ofSize: 13)
+        label.font = .systemFont(ofSize: 13)
         label.textAlignment = .center
         label.layer.borderWidth = 0.3
         label.layer.cornerRadius = 5
@@ -147,9 +147,11 @@ final class LeagueScheduleTableViewCell: UITableViewCell {
     
     func update(leagueScheduleInfo: LeagueScheduleTableViewCellModel) {
         timeLabel.text = leagueScheduleInfo.time
-        statusLabel.text = MatchStatusType(rawValue: leagueScheduleInfo.status)!.convertKorean()
-        statusLabel.textColor = MatchStatusType(rawValue: leagueScheduleInfo.status)!.statusColor()
-        statusLabel.layer.borderColor = MatchStatusType(rawValue: leagueScheduleInfo.status)!.statusColor().cgColor
+        if let status = MatchStatusType(rawValue: leagueScheduleInfo.status) {
+            statusLabel.text = status.convertKorean()
+            statusLabel.textColor = status.statusColor()
+            statusLabel.layer.borderColor = status.statusColor().cgColor
+        } else { statusLabel.text = "취소" }
         versusLabel.text = leagueScheduleInfo.versus
         homeTeam.text = leagueScheduleInfo.homeTeam
         setTeamImage(
@@ -163,17 +165,28 @@ final class LeagueScheduleTableViewCell: UITableViewCell {
             teamImageView: awayTeamImageView
         )
         awayTeamWins.text = leagueScheduleInfo.status == "not_started" ? "" : String(leagueScheduleInfo.awayTeamWinCount)
-        
         if let winnerId = leagueScheduleInfo.winnerId {
             if winnerId == leagueScheduleInfo.homeTeamId {
                 homeTeamWins.textColor = .black
                 awayTeamWins.textColor = .darkGray
-            }
-            
-            else {
+                
+                if statusLabel.text == "취소" {
+                    homeTeamWins.text = "2"
+                }
+            } else {
                 awayTeamWins.textColor = .black
                 homeTeamWins.textColor = .darkGray
+                
+                if statusLabel.text == "취소" {
+                    awayTeamWins.text = "2"
+                }
             }
+        }
+        
+        let todayDate = DateFormatter().dateToString(date: Date(), dateFormat: .date)
+        if leagueScheduleInfo.date == todayDate {
+            timeLabel.textColor = .black
+            statusLabel.font = .boldSystemFont(ofSize: 13)
         }
     }
     
