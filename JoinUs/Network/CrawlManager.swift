@@ -92,6 +92,7 @@ struct CrawlManager {
                     let imageUrl = newsPortalBaseUrl + imageRelativePath
                     let photo = URL(string: imageUrl)!
                     let title = try element.select("p.tit").text()
+                    if hasContainsCOVID(title: title) { continue }
                     let etc = try element.select("p.etc").text()
                     let detailRelativePath = try element.select("p.tit").select("a").attr("href")
                     let detailUrlString = newsPortalBaseUrl + detailRelativePath
@@ -105,9 +106,7 @@ struct CrawlManager {
                         )
                     )
                 }
-                
                 completion(newsList)
-                
             } catch {
                 print(NetworkError.parsingError)
             }
@@ -134,8 +133,18 @@ struct CrawlManager {
         standingsTextData.append(String(intDataList[2]))
         standingsTextData.append(stringDataList[hipenIndex + 1])
         standingsTextData.append(String(intDataList[intDataList.count - 1]))
-                
         return standingsTextData
+    }
+    
+    func hasContainsCOVID(title: String) -> Bool {
+        let keywords = ["코로나", "COVID"]
+        
+        for keyword in keywords {
+            if title.contains(keyword) {
+                return true
+            }
+        }
+        return false
     }
 }
 
