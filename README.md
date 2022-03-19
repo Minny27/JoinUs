@@ -12,10 +12,11 @@
 - 개인 프로젝트
 
 ## 기술
-- **Auto Layout Programmatically**
-- **MVVM Pattern**
-- **Alamofire**
-- **SwiftSoup**
+- MVVM
+- AutoLayout Programmatically
+- URLSession을 이용한 API 연동
+- Alamofire, SwiftSoup을 이용한 웹 크롤링
+- Kingfisher를 이용한 이미지 캐싱
 
 ## 출처
 - 나무위키
