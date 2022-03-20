@@ -28,12 +28,16 @@ class DailyScheduleTitle: UITableViewCell {
     }
 
     func update(leagueScheduleInfo: LeagueScheduleTableViewCellModel) {
-        titleLabel.text = leagueScheduleInfo.date.replacingOccurrences(of: "-", with: "월 ") + "일"
+        let dayTitle = leagueScheduleInfo.date.replacingOccurrences(of: "-", with: "월 ") + "일"
         let todayDate = DateFormatter().dateToString(date: Date(), dateFormat: .date)
         if leagueScheduleInfo.date == todayDate {
+            titleLabel.text! += " 오늘"
+            titleLabel.textColor = .purple
             contentView.layer.borderWidth = 2
             contentView.layer.borderColor = UIColor.purple.cgColor
         } else {
+            titleLabel.text = dayTitle
+            titleLabel.textColor = .black
             contentView.layer.borderWidth = 0
             contentView.layer.borderColor = UIColor.clear.cgColor
         }
