@@ -89,7 +89,7 @@ extension SchedulePageCollectionViewCell: UITableViewDataSource {
             monthScheduleTableView.separatorStyle = .singleLine
             
             if indexPath.row ==
-                lckMonthScheduleList.count - 1 ||  lckMonthScheduleList[indexPath.row].homeTeam != lckMonthScheduleList[indexPath.row + 1].homeTeam {
+                lckMonthScheduleList.count - 1 || lckMonthScheduleList[indexPath.row].matchId != lckMonthScheduleList[indexPath.row + 1].matchId {
                 
                 let cell = tableView.dequeueReusableCell(
                     withIdentifier: LeagueScheduleTableViewCell.identifier,
