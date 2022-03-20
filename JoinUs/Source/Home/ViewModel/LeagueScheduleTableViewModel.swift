@@ -61,16 +61,13 @@ final class LeagueScheduleTableViewModel {
                     if self.thisYear != schedule.year {
                         continue
                     }
-                    
                     let month = Int(schedule.month)!
                     
                     if !self.monthlySetOfDate[month].contains(schedule.date) {
                         self.monthlySetOfDate[month].insert(schedule.date)
                         self.monthlyScheduleList.value?[month].append(schedule)
                         self.monthlyScheduleList.value?[month].append(schedule)
-                    }
-                    
-                    else {
+                    } else {
                         self.monthlyScheduleList.value?[month].append(schedule)
                     }
                 }
@@ -85,8 +82,9 @@ final class LeagueScheduleTableViewModel {
     }
     
     func extractScehduleData(schedule: ReceivedScheduleModel) -> LeagueScheduleTableViewCellModel? {
-        guard let leagueImage = schedule.league?.imageUrl else { return nil }
-        guard let league = schedule.league?.name else { return nil }
+        let matchId = schedule.id
+        let leagueImage = schedule.league?.imageUrl
+        let league = schedule.league?.name
         let year = dateFormatter.dateToString(
             date: schedule.originalScheduledAt,
             dateFormat: .year
@@ -103,25 +101,39 @@ final class LeagueScheduleTableViewModel {
             date: schedule.originalScheduledAt,
             dateFormat: .time
         ).replacingOccurrences(of: "-", with: ":")
-        guard let status = schedule.status else { return nil }
-        let versus = status == "not_started" ? "vs" :":"
-        guard let opponents = schedule.opponents else { return nil }; if opponents.count < 2 { return nil }
-        let homeTeamId = opponents[0].opponent.id
-        guard let homeTeam = getTeam(totalName: schedule.name)?.homeTeam else { return nil }
-        guard let homeTeamImageUrlString = schedule.opponents?[0].opponent.imageUrl else { return nil }
-        guard let homeTeamImageUrl = URL(string: homeTeamImageUrlString) else { return nil }
-        let awayTeamId = opponents[1].opponent.id
-        guard let awayTeam = getTeam(totalName: schedule.name)?.awayTeam else { return nil }
-        guard let awayTeamImageUrlString = schedule.opponents?[1].opponent.imageUrl else { return nil }
-        guard let awayTeamImageUrl = URL(string: awayTeamImageUrlString) else { return nil }
+        let status = schedule.status
+        let versus = status == "not_started" ? "vs" : ":"
+        let opponents = schedule.opponents
+        let homeTeam = getTeam(totalName: schedule.name)?.homeTeam
+        let awayTeam = getTeam(totalName: schedule.name)?.awayTeam
         let winnerId = schedule.winnerId
+        var homeTeamId: Int?
+        var awayTeamId: Int?
+        var homeTeamImageUrl: URL?
+        var awayTeamImageUrl: URL?
         var homeTeamWinCount = 0
         var awayTeamWinCount = 0
         
-        // status: - finished, running, not_started
-        if status != "not_started" {
-            for index in 0..<schedule.games.count {
-                if let winner = schedule.games[index].winner {
+        if let opponents = opponents {
+            if opponents.count > 0 {
+                homeTeamId = opponents[0].opponent?.id
+                if let homeTeamImageUrlString = opponents[0].opponent?.imageUrl {
+                    homeTeamImageUrl = URL(string: homeTeamImageUrlString)
+                }
+            }
+            
+            if opponents.count > 1 {
+                awayTeamId = opponents[1].opponent?.id
+                if let awayTeamImageUrlString = opponents[1].opponent?.imageUrl {
+                   awayTeamImageUrl = URL(string: awayTeamImageUrlString)
+                }
+            }
+        }
+        
+        // status: - finished, running, not_started, canceled
+        if let games = schedule.games {
+            for index in 0..<games.count  {
+                if let winner = games[index].winner {
                     if let winnerId = winner.id {
                         if homeTeamId == winnerId {
                             homeTeamWinCount += 1
@@ -136,6 +148,7 @@ final class LeagueScheduleTableViewModel {
         }
         
         let scheduleTableViewCellModel = LeagueScheduleTableViewCellModel(
+            matchId: matchId,
             leagueImage: leagueImage,
             league: league,
             year: year,
@@ -154,7 +167,6 @@ final class LeagueScheduleTableViewModel {
             awayTeamWinCount: awayTeamWinCount,
             winnerId: winnerId
         )
-        
         return scheduleTableViewCellModel
     }
     
