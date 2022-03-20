@@ -147,37 +147,43 @@ final class LeagueScheduleTableViewCell: UITableViewCell {
     
     func update(leagueScheduleInfo: LeagueScheduleTableViewCellModel) {
         timeLabel.text = leagueScheduleInfo.time
-        if let status = MatchStatusType(rawValue: leagueScheduleInfo.status) {
-            statusLabel.text = status.convertKorean()
-            statusLabel.textColor = status.statusColor()
-            statusLabel.layer.borderColor = status.statusColor().cgColor
-        } else { statusLabel.text = "취소" }
+        let statusType = MatchStatusType(rawValue: leagueScheduleInfo.status)!
+        statusLabel.text = statusType.convertKorean()
+        statusLabel.textColor = statusType.statusColor()
+        statusLabel.layer.borderColor = statusType.statusColor().cgColor
         versusLabel.text = leagueScheduleInfo.versus
         homeTeam.text = leagueScheduleInfo.homeTeam
-        setTeamImage(
-            teamImageUrl: leagueScheduleInfo.homeTeamImageUrl,
-            teamImageView: homeTeamImageView
-        )
         homeTeamWins.text = leagueScheduleInfo.status == "not_started" ? "" : String(leagueScheduleInfo.homeTeamWinCount)
         awayTeam.text = leagueScheduleInfo.awayTeam
-        setTeamImage(
-            teamImageUrl: leagueScheduleInfo.awayTeamImageUrl,
-            teamImageView: awayTeamImageView
-        )
         awayTeamWins.text = leagueScheduleInfo.status == "not_started" ? "" : String(leagueScheduleInfo.awayTeamWinCount)
+        
+        if let homeTeamImageUrl = leagueScheduleInfo.homeTeamImageUrl {
+            setTeamImage(
+                teamImageUrl: homeTeamImageUrl,
+                teamImageView: homeTeamImageView
+            )
+        } else { homeTeamImageView.image = nil }
+        
+        if let awayTeamImageUrl = leagueScheduleInfo.awayTeamImageUrl {
+            setTeamImage(
+                teamImageUrl: awayTeamImageUrl,
+                teamImageView: awayTeamImageView
+            )
+        } else { awayTeamImageView.image = nil }
+        
         if let winnerId = leagueScheduleInfo.winnerId {
             if winnerId == leagueScheduleInfo.homeTeamId {
                 homeTeamWins.textColor = .black
                 awayTeamWins.textColor = .darkGray
                 
-                if statusLabel.text == "취소" {
+                if statusType == .canceled {
                     homeTeamWins.text = "2"
                 }
             } else {
                 awayTeamWins.textColor = .black
                 homeTeamWins.textColor = .darkGray
                 
-                if statusLabel.text == "취소" {
+                if statusType == .canceled {
                     awayTeamWins.text = "2"
                 }
             }

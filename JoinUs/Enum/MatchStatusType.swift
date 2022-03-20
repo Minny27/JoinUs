@@ -12,6 +12,7 @@ enum MatchStatusType: String {
     case finished = "finished"
     case running = "running"
     case notStarted = "not_started"
+    case canceled = "canceled"
     
     func convertKorean() -> String {
         switch self {
@@ -21,6 +22,8 @@ enum MatchStatusType: String {
             return "LIVE"
         case .notStarted:
             return "예정"
+        case .canceled:
+            return "취소"
         }
     }
     
@@ -31,6 +34,8 @@ enum MatchStatusType: String {
         case .running:
             return .red
         case .notStarted:
+            return .systemGray
+        case .canceled:
             return .systemGray
         }
     }
