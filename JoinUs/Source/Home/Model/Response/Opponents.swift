@@ -8,5 +8,5 @@
 import Foundation
 
 struct Opponents: Codable {
-    var opponent: Opponent
+    var opponent: Opponent?
 }

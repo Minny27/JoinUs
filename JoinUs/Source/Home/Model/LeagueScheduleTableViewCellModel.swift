@@ -8,13 +8,14 @@
 import Foundation
 
 struct LeagueScheduleTableViewCellModel {
+    let matchId: Int?
     let leagueImage: String?
     let league: String?
-    let year: String?
-    let month: String?
-    let date: String?
-    let time: String?
-    let status: String?
+    let year: String
+    let month: String
+    let date: String
+    let time: String
+    let status: String
     let versus: String?
     let homeTeamId: Int?
     let homeTeam: String?
@@ -22,7 +23,7 @@ struct LeagueScheduleTableViewCellModel {
     let awayTeamId: Int?
     let awayTeam: String?
     let awayTeamImageUrl: URL?
-    let homeTeamWinCount: Int?
-    let awayTeamWinCount: Int?
+    let homeTeamWinCount: Int
+    let awayTeamWinCount: Int
     let winnerId: Int?
 }

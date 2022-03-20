@@ -8,7 +8,7 @@
 import Foundation
 
 struct Opponent: Codable {
-    var id: Int
-    var imageUrl: String
-    var name: String
+    var id: Int?
+    var imageUrl: String?
+    var name: String?
 }
