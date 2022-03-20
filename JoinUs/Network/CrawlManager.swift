@@ -137,7 +137,7 @@ struct CrawlManager {
     }
     
     func hasContainsCOVID(title: String) -> Bool {
-        let keywords = ["코로나", "COVID"]
+        let keywords = ["코로나", "COVID", "PCR", "항원"]
         
         for keyword in keywords {
             if title.contains(keyword) {
