@@ -1,4 +1,4 @@
-<img src=https://img.shields.io/badge/platform-iOS-blue>  <img src=https://img.shields.io/badge/Swift-5.5-orange.svg>
+<img src=https://img.shields.io/badge/Swift-5.5-orange.svg> <img src=https://img.shields.io/badge/iOS-13.0+-blue>
 
 ## [Join Us](https://apps.apple.com/us/app/join-us/id1613902519)
 - LCK 리그 일정, 선수 정보, 순위, 뉴스 제공 앱
