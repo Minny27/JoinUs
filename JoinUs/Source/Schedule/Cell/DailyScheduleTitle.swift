@@ -31,7 +31,7 @@ class DailyScheduleTitle: UITableViewCell {
         let dayTitle = leagueScheduleInfo.date.replacingOccurrences(of: "-", with: "월 ") + "일"
         let todayDate = DateFormatter().dateToString(date: Date(), dateFormat: .date)
         if leagueScheduleInfo.date == todayDate {
-            titleLabel.text! += " 오늘"
+            titleLabel.text! = dayTitle + " 오늘"
             titleLabel.textColor = .purple
             contentView.layer.borderWidth = 2
             contentView.layer.borderColor = UIColor.purple.cgColor
