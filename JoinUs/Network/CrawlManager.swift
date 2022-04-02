@@ -88,8 +88,7 @@ struct CrawlManager {
                 let elements: Elements = try document.select(Strings.newsSelector)
                                 
                 for element in elements {
-                    let imageRelativePath = try element.select("img").attr("src")
-                    let imageUrl = newsPortalBaseUrl + imageRelativePath
+                    let imageUrl = try element.select("img").attr("src")
                     let photo = URL(string: imageUrl)!
                     let title = try element.select("p.tit").text()
                     if hasContainsCOVID(title: title) { continue }
