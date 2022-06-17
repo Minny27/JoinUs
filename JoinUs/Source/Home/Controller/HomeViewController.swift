@@ -23,7 +23,11 @@ class HomeViewController: UIViewController {
     }()
     
     var homeTableView: UITableView = {
-        let tableView = UITableView()
+        let tableView = UITableView(frame: CGRect(x: 0,
+                                                  y: 0,
+                                                  width: 0,
+                                                  height: 0),
+                                    style: .grouped)
         tableView.separatorStyle = .none
         tableView.allowsSelection = false
         tableView.showsVerticalScrollIndicator = false
