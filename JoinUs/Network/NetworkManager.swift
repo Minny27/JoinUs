@@ -33,7 +33,7 @@ final class NetworkManager {
         urlSession.dataTask(
             with: request as URLRequest,
             completionHandler: { (data, response, error) -> Void in
-                guard let responseStatus = response as? HTTPURLResponse, responseStatus.statusCode == 200 else {
+                guard let responseStatus = response as? HTTPURLResponse,  (200..<300).contains(responseStatus.statusCode) else {
                     print(NetworkError.invalidResponse)
                     return
                 }
