@@ -31,9 +31,8 @@ final class NetworkManager {
         
         let urlSession = URLSession.shared
         urlSession.dataTask(
-            with: request as URLRequest,
-            completionHandler: { (data, response, error) -> Void in
-                guard let responseStatus = response as? HTTPURLResponse, responseStatus.statusCode == 200 else {
+            with: request as URLRequest) { (data, response, error) -> Void in
+                guard let responseStatus = response as? HTTPURLResponse,  (200..<300).contains(responseStatus.statusCode) else {
                     print(NetworkError.invalidResponse)
                     return
                 }
@@ -56,8 +55,7 @@ final class NetworkManager {
                 } catch {
                     print(NetworkError.decodingError)
                 }
-            }
-        ).resume()
+            }.resume()
     }
     
     func getMonthSchedule(
