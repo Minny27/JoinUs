@@ -46,7 +46,7 @@ final class StandingsTableViewCell: UITableViewCell {
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()
-        
+    
     let losesLabel: UILabel = {
         let label = UILabel()
         label.font = .boldSystemFont(ofSize: 17)
@@ -70,7 +70,7 @@ final class StandingsTableViewCell: UITableViewCell {
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()
-
+    
     func setupCell() {
         let contentViewWidth = contentView.frame.width - 40 - 5
         
@@ -136,27 +136,29 @@ final class StandingsTableViewCell: UITableViewCell {
         pointLabel.text = standingsInfo.point
     }
     
-    func setTeamImage(teamImageUrl: URL, teamImageView: UIImageView) {
-        let processor = DownsamplingImageProcessor(size: CGSize(width: 20, height: 20))
-        teamImageView.kf.indicatorType = .activity
-        teamImageView.kf.setImage(
-            with: teamImageUrl,
-            placeholder: UIImage(named: "placeholderImage"),
-            options: [
-                .processor(processor),
-                .scaleFactor(UIScreen.main.scale),
-                .transition(.fade(1)),
-                .cacheOriginalImage
-            ]
-        )
-//        {
-//            result in
-//            switch result {
-//            case .success(let value):
-//                print("Task done for: \(value.source.url?.absoluteString ?? "")")
-//            case .failure(let error):
-//                print("Job failed: \(error.localizedDescription)")
-//            }
-//        }
+    func setTeamImage(teamImageUrl: URL?, teamImageView: UIImageView) {
+        if let teamImageUrl = teamImageUrl {
+            let processor = DownsamplingImageProcessor(size: CGSize(width: 20, height: 20))
+            teamImageView.kf.indicatorType = .activity
+            teamImageView.kf.setImage(
+                with: teamImageUrl,
+                placeholder: UIImage(named: "placeholderImage"),
+                options: [
+                    .processor(processor),
+                    .scaleFactor(UIScreen.main.scale),
+                    .transition(.fade(1)),
+                    .cacheOriginalImage
+                ]
+            )
+        }
+        //        {
+        //            result in
+        //            switch result {
+        //            case .success(let value):
+        //                print("Task done for: \(value.source.url?.absoluteString ?? "")")
+        //            case .failure(let error):
+        //                print("Job failed: \(error.localizedDescription)")
+        //            }
+        //        }
     }
 }

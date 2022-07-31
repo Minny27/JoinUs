@@ -14,6 +14,8 @@ struct CrawlManager {
         urlString: String,
         completion: @escaping (([Standings]) -> Void)
     ) {
+        print("CrawlManager urlString - \(urlString)")
+        
         var standingsList: [Standings] = []
         
         AF.request(urlString).responseString { response in
@@ -35,18 +37,17 @@ struct CrawlManager {
             do {
                 let document: Document = try SwiftSoup.parse(html)
                 let elements: Elements = try document.select(Strings.leagueStandingsSelector)
-
                 let standingsDataList = elements.array()
                 
                 for index in 2..<standingsDataList.count {
                     let standingsTextData = standingsStringDataParsing(try standingsDataList[index].text())
-
-                    let standingsTeamImageString = try standingsDataList[index].select("img").attr("data-src")
-
+                    let standingsTeamImageString = try standingsDataList[index].select("img").attr("src")
+                    let standingsTeamImageUrl = URL(string: standingsTeamImageString)
+                    
                     standingsList.append(
                         Standings(
                             ranking: standingsTextData[0],
-                            teamImageUrl: URL(string: standingsTeamImageString)!,
+                            teamImageUrl: standingsTeamImageUrl,
                             team: standingsTextData[1],
                             wins: standingsTextData[2],
                             loses: standingsTextData[3],
@@ -86,7 +87,7 @@ struct CrawlManager {
             do {
                 let document: Document = try SwiftSoup.parse(html)
                 let elements: Elements = try document.select(Strings.newsSelector)
-                                
+                
                 for element in elements {
                     let imageUrl = try element.select("img").attr("src")
                     let photo = URL(string: imageUrl)!
@@ -95,7 +96,7 @@ struct CrawlManager {
                     let etc = try element.select("p.etc").text()
                     let detailRelativePath = try element.select("p.tit").select("a").attr("href")
                     let detailUrlString = newsPortalBaseUrl + detailRelativePath
-                                        
+                    
                     newsList.append(
                         News(
                             photo: photo,
