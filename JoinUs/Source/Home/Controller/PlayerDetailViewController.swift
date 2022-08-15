@@ -67,7 +67,7 @@ class PlayerDetailViewController: UIViewController {
         playerDetailTableView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor).isActive = true
         playerDetailTableView.leftAnchor.constraint(equalTo: view.leftAnchor, constant: 16).isActive = true
         playerDetailTableView.rightAnchor.constraint(equalTo: view.rightAnchor, constant: -16).isActive = true
-
+        
         if view.frame.height > 720 {
             playerDetailTableView.heightAnchor.constraint(equalToConstant: 572).isActive = true
         }
@@ -127,6 +127,7 @@ extension PlayerDetailViewController: UITableViewDataSource {
                 for: indexPath
             ) as! PlayerFrontDataCell
             cell.setupCell()
+            cell.descriptionLabel.textColor = .systemBrown
             cell.update(
                 category: playerDetailCategoryType.category,
                 imageString: playerInfo.role,

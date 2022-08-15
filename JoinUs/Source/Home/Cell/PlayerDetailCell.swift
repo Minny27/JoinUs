@@ -45,6 +45,30 @@ final class PlayerDetailCell: UITableViewCell {
     func update(category: String, description: String, teamColor: UIColor) {
         categoryLabel.text = category
         categoryLabel.backgroundColor = teamColor
-        descriptionLabel.text = description
+        descriptionLabel.text = description + getPlayerAge(age: description)
+    }
+    
+    func getPlayerAge(age: String) -> String {
+        let thisYear = Calendar.current.component(.year, from: Date())
+        let thisMonth = Calendar.current.component(.month, from: Date())
+        let thisDay = Calendar.current.component(.day, from: Date())
+        
+        let ageSplit = age.components(separatedBy: " ")
+        guard let playerYear = getStringRemoveLast(value: ageSplit[0]) else { return ""}
+        guard let playerMonth = getStringRemoveLast(value: ageSplit[1]) else { return ""}
+        guard let playerDay = getStringRemoveLast(value: ageSplit[2]) else { return ""}
+        
+        var resultAge = thisYear - playerYear - 1
+        if thisMonth > playerMonth || thisMonth == playerMonth && thisDay >= playerDay {
+            resultAge += 1
+        }
+        return "(만 \(resultAge)세)"
+    }
+    
+    func getStringRemoveLast(value: String) -> Int? {
+        let startIndex = value.index(value.startIndex, offsetBy: 0)
+        let endIndex = value.index(before: value.endIndex)
+        let intValue = Int(value[startIndex..<endIndex])
+        return intValue
     }
 }
